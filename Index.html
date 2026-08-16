@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SerCerca</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f4f8f6;color:#17332b}
+header{background:#17332b;color:white;padding:25px;text-align:center}
+header span{color:#9ed1bd}
+main{max-width:900px;margin:auto;padding:25px}
+.card{background:white;padding:25px;margin:18px 0;border-radius:18px;box-shadow:0 3px 15px #0001}
+h1{font-size:32px}h2{color:#245548}
+button{background:#2f6f5e;color:white;border:0;border-radius:10px;padding:13px 18px;font-weight:bold;font-size:16px}
+.ok{color:#287258;font-weight:bold}
+.plan{display:inline-block;width:25%;min-width:180px;vertical-align:top;margin:8px;padding:18px;background:#f7faf8;border-radius:15px}
+@media(max-width:700px){.plan{width:auto;display:block}}
+</style>
+</head>
+<body>
+<header>
+<h1>Ser<span>Cerca</span></h1>
+<p>Estar cerca, incluso cuando no puedes estar.</p>
+</header>
+
+<main>
+<div class="card">
+<h2>👋 Tranquilidad para tu familia</h2>
+<p>SerCerca ayuda a las familias a estar pendientes de sus seres queridos, incluso cuando no pueden estar físicamente cerca.</p>
+<button onclick="document.getElementById('piloto').scrollIntoView()">Quiero probar SerCerca</button>
+</div>
+
+<div class="card">
+<h2>¿Cómo funciona?</h2>
+<p>1️⃣ Realizamos un check-in sencillo.</p>
+<p>2️⃣ Registramos la respuesta.</p>
+<p>3️⃣ La familia puede consultar el estado.</p>
+<p>4️⃣ Si algo requiere atención, se sigue el protocolo establecido.</p>
+</div>
+
+<div class="card">
+<h2>✨ SerCerca incluye</h2>
+<p>✓ Check-ins diarios</p>
+<p>✓ Recordatorios</p>
+<p>✓ Historial</p>
+<p>✓ Alertas familiares</p>
+<p>✓ Panel para la familia</p>
+</div>
+
+<div class="card">
+<h2>💚 Planes</h2>
+<div class="plan"><h3>Esencial</h3><h2>19 €/mes</h2><p>Check-ins y seguimiento básico.</p></div>
+<div class="plan"><h3>Familia</h3><h2>39 €/mes</h2><p>Seguimiento y más funciones familiares.</p></div>
+<div class="plan"><h3>Tranquilidad+</h3><h2>69 €/mes</h2><p>Servicio completo y seguimiento avanzado.</p></div>
+</div>
+
+<div class="card" id="piloto">
+<h2>🧪 Únete al piloto</h2>
+<p>Estamos probando SerCerca con las primeras familias.</p>
+<button onclick="alert('¡Gracias por tu interés! El registro estará disponible en la siguiente versión.')">Quiero participar</button>
+</div>
+</main>
+</body>
+  </html>
