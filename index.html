@@ -30,6 +30,53 @@ header span {
 }
 
 main {
+  <section id="perfil" class="page">
+
+  <div class="card">
+
+    <h2>👤 Mi perfil</h2>
+
+    <p>
+      Queremos conocerte un poquito para que
+      SerCerca pueda estar más cerca de ti. 💚
+    </p>
+
+    <label>¿Cómo te llamas?</label>
+    <input id="nombrePerfil" type="text" placeholder="Tu nombre">
+
+    <br><br>
+
+    <label>🎂 Edad (opcional)</label>
+    <input id="edadPerfil" type="number" placeholder="Tu edad">
+
+    <br><br>
+
+    <label>❤️ Persona de confianza</label>
+    <input id="contactoPerfil" type="text" placeholder="Nombre de la persona">
+
+    <br><br>
+
+    <label>📞 Teléfono</label>
+    <input id="telefonoPerfil" type="tel" placeholder="Teléfono">
+
+    <br><br>
+
+    <label>🌷 Algo que quieras que recordemos</label>
+    <textarea id="notaPerfil"
+      placeholder="Por ejemplo: Me gusta que me llamen por la mañana.">
+    </textarea>
+
+    <br><br>
+
+    <button onclick="guardarPerfil()">
+      💚 Guardar mi perfil
+    </button>
+
+    <div id="perfilGuardado" class="message"></div>
+
+  </div>
+
+</section>
   max-width: 650px;
   margin: auto;
   padding: 20px;
