@@ -3,171 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SerCerca 💚</title>
+<title>SerCerca</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f8f6;
+  background: #f3f8f5;
   color: #17332b;
 }
 
 header {
   background: #17332b;
   color: white;
-  padding: 24px 18px;
   text-align: center;
+  padding: 30px 15px;
 }
 
-.logo {
-  font-size: 32px;
-  font-weight: bold;
+header h1 {
+  margin: 0;
+  font-size: 36px;
 }
 
-.logo span {
+header span {
   color: #9ed1bd;
 }
 
-header p {
-  margin-bottom: 0;
-}
-
 main {
-  max-width: 700px;
+  max-width: 650px;
   margin: auto;
   padding: 20px;
 }
 
-.screen {
-  display: none;
-}
-
-.screen.active {
-  display: block;
-}
-
 .card {
   background: white;
-  border-radius: 20px;
   padding: 22px;
   margin-bottom: 18px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-}
-
-h1, h2, h3 {
-  margin-top: 0;
-}
-
-.subtitle {
-  color: #55736a;
-}
-
-.mood-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  border-radius: 20px;
+  box-shadow: 0 3px 15px rgba(0,0,0,.08);
 }
 
 button {
-  border: none;
+  width: 100%;
+  border: 0;
   border-radius: 14px;
-  padding: 15px;
-  font-size: 16px;
+  padding: 17px;
+  margin: 7px 0;
+  font-size: 17px;
   font-weight: bold;
-  cursor: pointer;
   background: #2f6f5e;
   color: white;
 }
 
-button:hover {
-  opacity: 0.9;
-}
-
 .mood {
-  background: #eef6f2;
+  background: #e7f2ed;
   color: #17332b;
-  font-size: 18px;
 }
 
 .help {
-  background: #9b3d3d;
-}
-
-.secondary {
-  background: #e7f0ec;
-  color: #17332b;
+  background: #a33d3d;
 }
 
 .message {
+  display: none;
   background: #edf7f1;
-  border-left: 5px solid #2f6f5e;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 18px;
+  border-radius: 14px;
   margin-top: 15px;
-}
-
-.contact {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #eee;
-  padding: 14px 0;
-}
-
-.contact:last-child {
-  border-bottom: none;
-}
-
-.small-button {
-  padding: 9px 12px;
-  font-size: 14px;
+  line-height: 1.5;
 }
 
 nav {
   position: sticky;
   bottom: 0;
   background: white;
+  padding: 8px;
+  display: flex;
+  gap: 5px;
   border-top: 1px solid #ddd;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  max-width: 700px;
-  margin: auto;
 }
 
 nav button {
+  margin: 0;
+  padding: 10px 5px;
+  font-size: 13px;
   background: white;
   color: #17332b;
-  border-radius: 0;
-  font-size: 13px;
-  padding: 13px 5px;
 }
 
-nav button.active {
-  color: #2f6f5e;
+.page {
+  display: none;
 }
 
-footer {
-  text-align: center;
-  padding: 25px;
-  color: #668078;
+.page.active {
+  display: block;
+}
+
+.small {
   font-size: 14px;
-}
-
-@media (max-width: 450px) {
-  .mood-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .contact {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+  color: #587168;
 }
 </style>
 </head>
@@ -175,20 +109,85 @@ footer {
 <body>
 
 <header>
-  <div class="logo">Ser<span>Cerca</span> 💚</div>
-  <p>No estamos para vigilarte. Estamos para estar cerca.</p>
+  <h1>Ser<span>Cerca</span> 💚</h1>
+  <p>No estamos para vigilarte.<br>Estamos para estar cerca.</p>
 </header>
 
 <main>
 
 <!-- INICIO -->
-<section id="inicio" class="screen active">
+<section id="inicio" class="page active">
 
-  <div class="card">
-    <h1>Buenos días, <span id="userName">María</span> 🌷</h1>
-    <p class="subtitle">Nos alegra tener noticias de ti.</p>
+<div class="card">
+<h2>Buenos días 🌷</h2>
+<p>Nos alegra saber de ti.</p>
 
-    <h2>¿Cómo te encuentras hoy?</h2>
+<h3>¿Cómo te encuentras hoy?</h3>
 
-    <div class="mood-grid">
-      <button class="mood" onclick="setMood('Muy bien','💚')">😊 Muy bien</button
+<button class="mood" onclick="bienestar('Muy bien')">😊 Muy bien</button>
+<button class="mood" onclick="bienestar('Bien')">🙂 Bien</button>
+<button class="mood" onclick="bienestar('Regular')">😐 Regular</button>
+<button class="mood" onclick="bienestar('No muy bien')">😔 No muy bien</button>
+<button class="mood" onclick="bienestar('Necesito hablar')">😟 Necesito hablar</button>
+
+<div id="respuesta" class="message"></div>
+</div>
+
+<div class="card">
+<h3>💚 Tu check-in</h3>
+<p id="estado">Todavía no has hecho el check-in de hoy.</p>
+
+<button onclick="estoyBien()">
+✅ ESTOY BIEN
+</button>
+</div>
+
+<div class="card">
+<button class="help" onclick="necesitoAyuda()">
+🆘 NECESITO AYUDA
+</button>
+
+<div id="ayudaMensaje" class="message"></div>
+</div>
+
+</section>
+
+
+<!-- BIENESTAR -->
+<section id="bienestar" class="page">
+
+<div class="card">
+<h2>🌷 Mi bienestar</h2>
+
+<p>
+Aquí puedes decir cómo te encuentras.
+No tienes que estar bien todos los días.
+</p>
+
+<button onclick="mensaje('💚 Tómate tu tiempo. Cuidarte también es importante.')">
+🌿 Quiero tranquilidad
+</button>
+
+<button onclick="mensaje('🫂 No tienes que pasar por todo sola. Siempre hay alguien que quiere acompañarte.')">
+🫂 Quiero sentirme acompañada
+</button>
+
+<button onclick="mensaje('❤️ Pedir ayuda también es una forma de cuidarse.')">
+💬 Quiero hablar
+</button>
+
+<div id="mensajeBienestar" class="message"></div>
+
+</div>
+
+</section>
+
+
+<!-- MI DÍA -->
+<section id="dia" class="page">
+
+<div class="card">
+
+<h2>📅 Mi día</h2>
+
+<p>☀️ <b>Esta
