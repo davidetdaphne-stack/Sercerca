@@ -3,62 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SerCerca</title>
+<title>SerCerca 💚</title>
+
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f4f8f6;color:#17332b}
-header{background:#17332b;color:white;padding:25px;text-align:center}
-header span{color:#9ed1bd}
-main{max-width:900px;margin:auto;padding:25px}
-.card{background:white;padding:25px;margin:18px 0;border-radius:18px;box-shadow:0 3px 15px #0001}
-h1{font-size:32px}h2{color:#245548}
-button{background:#2f6f5e;color:white;border:0;border-radius:10px;padding:13px 18px;font-weight:bold;font-size:16px}
-.ok{color:#287258;font-weight:bold}
-.plan{display:inline-block;width:25%;min-width:180px;vertical-align:top;margin:8px;padding:18px;background:#f7faf8;border-radius:15px}
-@media(max-width:700px){.plan{width:auto;display:block}}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f8f6;
+  color: #17332b;
+}
+
+header {
+  background: #17332b;
+  color: white;
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #9ed1bd;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+main {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+.subtitle {
+  color: #55736a;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #2f6f5e;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.mood {
+  background: #eef6f2;
+  color: #17332b;
+  font-size: 18px;
+}
+
+.help {
+  background: #9b3d3d;
+}
+
+.secondary {
+  background: #e7f0ec;
+  color: #17332b;
+}
+
+.message {
+  background: #edf7f1;
+  border-left: 5px solid #2f6f5e;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+  padding: 14px 0;
+}
+
+.contact:last-child {
+  border-bottom: none;
+}
+
+.small-button {
+  padding: 9px 12px;
+  font-size: 14px;
+}
+
+nav {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  border-top: 1px solid #ddd;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 700px;
+  margin: auto;
+}
+
+nav button {
+  background: white;
+  color: #17332b;
+  border-radius: 0;
+  font-size: 13px;
+  padding: 13px 5px;
+}
+
+nav button.active {
+  color: #2f6f5e;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #668078;
+  font-size: 14px;
+}
+
+@media (max-width: 450px) {
+  .mood-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>Ser<span>Cerca</span></h1>
-<p>Estar cerca, incluso cuando no puedes estar.</p>
+  <div class="logo">Ser<span>Cerca</span> 💚</div>
+  <p>No estamos para vigilarte. Estamos para estar cerca.</p>
 </header>
 
 <main>
-<div class="card">
-<h2>👋 Tranquilidad para tu familia</h2>
-<p>SerCerca ayuda a las familias a estar pendientes de sus seres queridos, incluso cuando no pueden estar físicamente cerca.</p>
-<button onclick="document.getElementById('piloto').scrollIntoView()">Quiero probar SerCerca</button>
-</div>
 
-<div class="card">
-<h2>¿Cómo funciona?</h2>
-<p>1️⃣ Realizamos un check-in sencillo.</p>
-<p>2️⃣ Registramos la respuesta.</p>
-<p>3️⃣ La familia puede consultar el estado.</p>
-<p>4️⃣ Si algo requiere atención, se sigue el protocolo establecido.</p>
-</div>
+<!-- INICIO -->
+<section id="inicio" class="screen active">
 
-<div class="card">
-<h2>✨ SerCerca incluye</h2>
-<p>✓ Check-ins diarios</p>
-<p>✓ Recordatorios</p>
-<p>✓ Historial</p>
-<p>✓ Alertas familiares</p>
-<p>✓ Panel para la familia</p>
-</div>
+  <div class="card">
+    <h1>Buenos días, <span id="userName">María</span> 🌷</h1>
+    <p class="subtitle">Nos alegra tener noticias de ti.</p>
 
-<div class="card">
-<h2>💚 Planes</h2>
-<div class="plan"><h3>Esencial</h3><h2>19 €/mes</h2><p>Check-ins y seguimiento básico.</p></div>
-<div class="plan"><h3>Familia</h3><h2>39 €/mes</h2><p>Seguimiento y más funciones familiares.</p></div>
-<div class="plan"><h3>Tranquilidad+</h3><h2>69 €/mes</h2><p>Servicio completo y seguimiento avanzado.</p></div>
-</div>
+    <h2>¿Cómo te encuentras hoy?</h2>
 
-<div class="card" id="piloto">
-<h2>🧪 Únete al piloto</h2>
-<p>Estamos probando SerCerca con las primeras familias.</p>
-<button onclick="alert('¡Gracias por tu interés! El registro estará disponible en la siguiente versión.')">Quiero participar</button>
-</div>
-</main>
-</body>
-  </html>
+    <div class="mood-grid">
+      <button class="mood" onclick="setMood('Muy bien','💚')">😊 Muy bien</button
