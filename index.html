@@ -269,6 +269,30 @@ function bienestar(como) {
   else if (como === "Necesito hablar") {
     alert("❤️ Gracias por confiar en SerCerca. Hay personas que te quieren y que están dispuestas a escucharte.");
   }
+function guardarPerfil() {
 
+  var nombre = document.getElementById("nombrePerfil").value;
+  var edad = document.getElementById("edadPerfil").value;
+  var contacto = document.getElementById("contactoPerfil").value;
+  var telefono = document.getElementById("telefonoPerfil").value;
+  var nota = document.getElementById("notaPerfil").value;
+
+  if (nombre.trim() === "") {
+    alert("💚 Escribe tu nombre para poder guardar el perfil.");
+    return;
+  }
+
+  localStorage.setItem("sercerca_nombre", nombre);
+  localStorage.setItem("sercerca_edad", edad);
+  localStorage.setItem("sercerca_contacto", contacto);
+  localStorage.setItem("sercerca_telefono", telefono);
+  localStorage.setItem("sercerca_nota", nota);
+
+  document.getElementById("perfilGuardado").style.display = "block";
+
+  document.getElementById("perfilGuardado").innerHTML =
+    "💚 ¡Perfil guardado, " + nombre + "!<br><br>" +
+    "SerCerca ya te conoce un poquito mejor. ❤️";
+  }
 }
 </script>
