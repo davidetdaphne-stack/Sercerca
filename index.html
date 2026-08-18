@@ -1,49 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SerCerca 💚</title>
 
 <style>
 
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
   background: #f3f8f5;
   color: #17332b;
-  padding-bottom: 90px;
 }
-
-button,
-input,
-textarea,
-select {
-  font-family: inherit;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 header {
   background: #17332b;
@@ -62,19 +36,15 @@ header h1 span {
 }
 
 header p {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   line-height: 1.5;
 }
-
-
-/* =========================================================
-   MAIN
-========================================================= */
 
 main {
   max-width: 720px;
   margin: auto;
   padding: 18px;
+  padding-bottom: 100px;
 }
 
 .page {
@@ -85,11 +55,6 @@ main {
   display: block;
 }
 
-
-/* =========================================================
-   CARDS
-========================================================= */
-
 .card {
   background: white;
   padding: 23px;
@@ -98,20 +63,15 @@ main {
   box-shadow: 0 4px 18px rgba(0,0,0,.08);
 }
 
-.card h1,
-.card h2,
-.card h3 {
+h1,
+h2,
+h3 {
   line-height: 1.3;
 }
 
 p {
   line-height: 1.6;
 }
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
 
 button {
   width: 100%;
@@ -124,16 +84,10 @@ button {
   background: #2f6f5e;
   color: white;
   cursor: pointer;
-  transition: .15s;
 }
 
 button:hover {
-  opacity: .92;
-  transform: translateY(-1px);
-}
-
-button:active {
-  transform: scale(.99);
+  opacity: .9;
 }
 
 .secondary {
@@ -145,10 +99,6 @@ button:active {
   background: #a33d3d;
 }
 
-.dark {
-  background: #17332b;
-}
-
 .gold {
   background: #8a7040;
 }
@@ -157,16 +107,8 @@ button:active {
   background: #b8758d;
 }
 
-
-/* =========================================================
-   FORMS
-========================================================= */
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-top: 12px;
-  margin-bottom: 5px;
+.dark {
+  background: #17332b;
 }
 
 input,
@@ -176,28 +118,21 @@ select {
   padding: 14px;
   border: 1px solid #cbdcd4;
   border-radius: 12px;
-  margin: 5px 0 14px;
+  margin: 7px 0 15px;
   font-size: 16px;
-  background: white;
-  color: #17332b;
+  font-family: Arial, sans-serif;
 }
 
 textarea {
-  min-height: 110px;
+  min-height: 100px;
   resize: vertical;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 3px solid rgba(47,111,94,.15);
-  border-color: #2f6f5e;
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 8px;
 }
-
-
-/* =========================================================
-   MESSAGES
-========================================================= */
 
 .message {
   display: none;
@@ -205,81 +140,58 @@ select:focus {
   margin-top: 15px;
   border-radius: 15px;
   background: #edf7f1;
-  line-height: 1.6;
-}
-
-.message.show {
-  display: block;
+  line-height: 1.5;
 }
 
 .success {
-  background: #edf7f1;
   border-left: 5px solid #2f6f5e;
+  background: #edf7f1;
   padding: 17px;
   border-radius: 15px;
-  line-height: 1.6;
   margin-top: 15px;
+  line-height: 1.5;
 }
 
 .notice {
   background: #e9f5ff;
   padding: 17px;
   border-radius: 15px;
-  margin: 15px 0;
-  line-height: 1.6;
+  margin-top: 15px;
+  line-height: 1.5;
 }
 
 .warning {
-  background: #fff7e5;
+  background: #fff6df;
   padding: 17px;
   border-radius: 15px;
-  margin: 15px 0;
-  line-height: 1.6;
+  margin-top: 15px;
+  line-height: 1.5;
 }
 
-.hidden {
-  display: none !important;
+.recommendation {
+  background: #f4faf7;
+  border-radius: 16px;
+  padding: 17px;
+  margin: 12px 0;
 }
-
-
-/* =========================================================
-   PERSONAS
-========================================================= */
 
 .persona {
   background: #f3f8f5;
-  padding: 16px;
-  border-radius: 15px;
+  padding: 15px;
+  border-radius: 14px;
   margin: 10px 0;
 }
 
-.persona-actions {
-  display: flex;
-  gap: 8px;
+.persona button {
   margin-top: 10px;
 }
-
-.persona-actions button {
-  margin: 0;
-  padding: 11px;
-  font-size: 13px;
-}
-
-.persona-actions .delete {
-  background: #a33d3d;
-}
-
-
-/* =========================================================
-   PLANES
-========================================================= */
 
 .plan {
   border: 2px solid #d7e7df;
   border-radius: 20px;
   padding: 20px;
   margin: 15px 0;
-  background: white;
+  transition: .2s;
 }
 
 .plan.selected {
@@ -301,6 +213,10 @@ select:focus {
   margin: 9px 0;
 }
 
+.locked {
+  opacity: .55;
+}
+
 .badge {
   display: inline-block;
   padding: 7px 11px;
@@ -311,56 +227,43 @@ select:focus {
   font-size: 13px;
 }
 
+.small {
+  color: #587168;
+  font-size: 14px;
+}
 
-/* =========================================================
-   RECOMENDACIONES
-========================================================= */
+.hidden {
+  display: none !important;
+}
 
-.recommendation {
-  background: #f4faf7;
-  border-radius: 16px;
+.next-button {
+  background: #17332b;
+  margin-top: 15px;
+}
+
+.premium-box {
+  border: 2px dashed #b9d6c8;
   padding: 17px;
-  margin: 12px 0;
+  border-radius: 16px;
+  margin-top: 15px;
 }
-
-.recommendation h3 {
-  margin-top: 0;
-}
-
-
-/* =========================================================
-   CHECK-IN
-========================================================= */
-
-.checkin-question {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 20px;
-}
-
-
-/* =========================================================
-   NAVEGACIÓN
-========================================================= */
 
 nav {
   position: fixed;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  z-index: 100;
+  z-index: 50;
   display: flex;
-  gap: 4px;
+  gap: 5px;
   padding: 8px;
   background: white;
   border-top: 1px solid #ddd;
-  box-shadow: 0 -3px 12px rgba(0,0,0,.06);
 }
 
 nav button {
-  flex: 1;
   margin: 0;
-  padding: 9px 3px;
+  padding: 10px 4px;
   font-size: 11px;
   background: white;
   color: #17332b;
@@ -369,31 +272,6 @@ nav button {
 nav button.active-nav {
   background: #e7f2ed;
 }
-
-
-/* =========================================================
-   PEQUEÑOS
-========================================================= */
-
-.small {
-  color: #587168;
-  font-size: 14px;
-}
-
-.center {
-  text-align: center;
-}
-
-.divider {
-  height: 1px;
-  background: #e0e9e5;
-  margin: 20px 0;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
 
 @media (max-width: 600px) {
 
@@ -416,36 +294,1159 @@ nav button.active-nav {
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     CABECERA
-===================================================== -->
-
 <header>
 
-  <h1>
-    Ser<span>Cerca</span> 💚
-  </h1>
+<h1>
+Ser<span>Cerca</span> 💚
+</h1>
 
-  <p>
-    No estamos para vigilarte.<br>
-    Estamos para estar cerca.
-  </p>
+<p>
+No estamos para vigilarte.<br>
+Estamos para estar cerca.
+</p>
 
 </header>
 
-
 <main>
+
+<section id="bienvenida" class="page active">
+
+<div class="card">
+
+<h1>💚 Bienvenido/a a SerCerca</h1>
+
+<h2>
+Para que quienes te quieren sepan que estás bien.
+</h2>
+
+<p>
+Un pequeño check-in puede hacer que tu familia
+esté tranquila y que tú sientas que no estás solo/a.
+</p>
+
+<p>🫶 Tú nos cuentas cómo estás.</p>
+
+<p>💌 Nosotros avisamos a las personas que tú elijas.</p>
+
+<p>❤️ Y ellos saben que estás bien.</p>
+
+<h3>
+Tu tranquilidad. Su tranquilidad.
+</h3>
+
+<button onclick="mostrar('registro')">
+🌷 Empezar
+</button>
+
+</div>
+
+</section>
+
+<section id="registro" class="page">
+
+<div class="card">
+
+<h2>📝 Crear mi cuenta</h2>
+
+<p>
+Vamos a crear tu espacio en SerCerca. 💚
+</p>
+
+<label>👤 Tu nombre</label>
+
+<input
+id="registroNombre"
+type="text"
+placeholder="Escribe tu nombre"
+>
+
+<label>📧 Tu correo electrónico</label>
+
+<input
+id="registroEmail"
+type="email"
+placeholder="Escribe tu correo"
+>
+
+<label>📱 Tu teléfono</label>
+
+<input
+id="registroTelefono"
+type="tel"
+inputmode="tel"
+placeholder="Escribe tu teléfono"
+>
+
+<label>🔐 Contraseña</label>
+
+<input
+id="registroPassword"
+type="password"
+placeholder="Crea una contraseña"
+>
+
+<button onclick="registrar()">
+💚 Crear mi cuenta
+</button>
+
+<div id="registroMensaje" class="message"></div>
+
+</div>
+
+</section>
+
+<section id="perfil" class="page">
+
+<div class="card">
+
+<h2>👤 Mi perfil</h2>
+
+<p>
+Queremos conocerte un poquito para que
+SerCerca pueda estar más cerca de ti. 💚
+</p>
+
+<label>¿Cómo te llamas?</label>
+
+<input
+id="perfilNombre"
+type="text"
+placeholder="Tu nombre"
+>
+
+<label>🎂 Edad (opcional)</label>
+
+<input
+id="perfilEdad"
+type="number"
+placeholder="Tu edad"
+>
+
+<label>🌷 Algo que quieras que recordemos</label>
+
+<textarea
+id="perfilNota"
+placeholder="Por ejemplo: Me gusta que me llamen por la mañana."
+></textarea>
+
+<button onclick="guardarPerfil()">
+💚 Guardar mi perfil
+</button>
+
+<div id="perfilMensaje" class="message"></div>
+
+</div>
+
+</section>
+
+<section id="confianza" class="page">
+
+<div class="card">
+
+<h2>❤️ Personas de confianza</h2>
+
+<p>
+Añade las personas que quieres que sepan que estás bien.
+</p>
+
+<div class="notice">
+
+💚 Estas son las personas que tú eliges
+para recibir información sobre tus check-ins.
+
+</div>
+
+<div id="personasGuardadas"></div>
+
+<div id="formularioPersona">
+
+<h3>
+Añadir persona de confianza
+</h3>
+
+<label>👤 Nombre</label>
+
+<input
+id="personaNombre"
+type="text"
+placeholder="Por ejemplo: Mamá"
+>
+
+<label>📞 Número de teléfono</label>
+
+<input
+id="personaTelefono"
+type="tel"
+inputmode="tel"
+placeholder="Por ejemplo: 600123456"
+>
+
+<label>📧 Correo electrónico (opcional)</label>
+
+<input
+id="personaEmail"
+type="email"
+placeholder="persona@email.com"
+>
+
+<button onclick="guardarPersona()">
+💚 Guardar persona
+</button>
+
+<div id="personaMensaje" class="message"></div>
+
+<button
+class="secondary"
+onclick="mostrarOtraPersona()">
+
+➕ Añadir otra persona
+
+</button>
+
+<button
+class="next-button"
+onclick="siguientePersonas()">
+
+✅ Siguiente →
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="prueba" class="page">
+
+<div class="card">
+
+<h2>🎁 14 días gratis</h2>
+
+<p>
+Prueba SerCerca durante <b>14 días gratis</b>.
+</p>
+
+<div class="notice">
+
+💚 Puedes conocer las funciones de SerCerca
+antes de decidir qué plan quieres utilizar.
+
+</div>
+
+<button onclick="mostrar('planes')">
+Ver planes →
+</button>
+
+</div>
+
+</section>
+
+<section id="planes" class="page">
+
+<div class="card">
+
+<h2>💚 Elige tu plan</h2>
+
+<p>
+Los planes NO tienen las mismas funciones.
+Cada uno desbloquea diferentes posibilidades.
+</p>
+
+<div id="planBasico" class="plan">
+
+<h3>🌱 Básico</h3>
+
+<div class="price">
+2,99 €
+</div>
+
+<p class="small">
+al mes
+</p>
+
+<div class="feature">
+✓ Check-in diario
+</div>
+
+<div class="feature">
+✓ 1 persona de confianza
+</div>
+
+<div class="feature">
+✓ Mensajes de bienestar
+</div>
+
+<div class="feature">
+✓ Recomendaciones básicas
+</div>
+
+<div class="feature">
+✓ Aviso de check-in
+</div>
+
+<div class="feature locked">
+🔒 Seguimiento avanzado
+</div>
+
+<div class="feature locked">
+🔒 Hasta 5 personas
+</div>
+
+<div class="feature locked">
+🔒 Funciones de acompañamiento
+</div>
+
+<button onclick="elegirPlan('Básico')">
+Elegir Básico
+</button>
+
+</div>
+
+<div id="planFamilia" class="plan">
+
+<h3>👨‍👩‍👧 Familia</h3>
+
+<div class="price">
+6,99 €
+</div>
+
+<p class="small">
+al mes
+</p>
+
+<div class="feature">
+✓ Todo lo del Básico
+</div>
+
+<div class="feature">
+✓ Hasta 5 personas de confianza
+</div>
+
+<div class="feature">
+✓ Check-in más completo
+</div>
+
+<div class="feature">
+✓ Más recomendaciones
+</div>
+
+<div class="feature">
+✓ Más avisos familiares
+</div>
+
+<div class="feature">
+✓ Seguimiento del bienestar
+</div>
+
+<div class="feature locked">
+🔒 Funciones avanzadas de acompañamiento
+</div>
+
+<button onclick="elegirPlan('Familia')">
+Elegir Familia
+</button>
+
+</div>
+
+<div id="planCerca" class="plan">
+
+<h3>💚 Cerca</h3>
+
+<div class="price">
+12,99 €
+</div>
+
+<p class="small">
+al mes
+</p>
+
+<div class="feature">
+✓ Todo lo del Familia
+</div>
+
+<div class="feature">
+✓ Más personas de confianza
+</div>
+
+<div class="feature">
+✓ Check-in completo
+</div>
+
+<div class="feature">
+✓ Recomendaciones avanzadas
+</div>
+
+<div class="feature">
+✓ Más avisos familiares
+</div>
+
+<div class="feature">
+✓ Seguimiento completo del bienestar
+</div>
+
+<div class="feature">
+✓ Opciones de acompañamiento
+</div>
+
+<div class="feature">
+✓ Experiencia completa SerCerca
+</div>
+
+<button onclick="elegirPlan('Cerca')">
+Elegir Cerca
+</button>
+
+</div>
+
+<div id="planMensaje" class="success hidden"></div>
+
+</div>
+
+  </sect<!-- =====================================================
+INICIO
+===================================================== -->
+
+<section id="inicio" class="page">
+
+<div class="card">
+
+<h2>
+Buenos días 🌷
+</h2>
+
+<p id="saludo">
+Nos alegra saber de ti.
+</p>
+
+<div class="status">
+
+💌 <b>Tu familia sabe que estás aquí.</b>
+
+<p>
+Cuando haces un check-in, las personas que tú has elegido
+pueden saber que estás bien.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+🌷 ¿Cómo te encuentras hoy?
+</h2>
+
+<button
+class="secondary"
+onclick="bienestar('Muy bien')">
+
+😊 Muy bien
+
+</button>
+
+<button
+class="secondary"
+onclick="bienestar('Bien')">
+
+🙂 Bien
+
+</button>
+
+<button
+class="secondary"
+onclick="bienestar('Regular')">
+
+😐 Regular
+
+</button>
+
+<button
+class="secondary"
+onclick="bienestar('No muy bien')">
+
+😔 No muy bien
+
+</button>
+
+<button
+class="secondary"
+onclick="bienestar('Necesito hablar')">
+
+🫂 Necesito hablar
+
+</button>
+
+<div id="bienestarMensaje" class="message"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+💚 Tu check-in
+</h2>
+
+<p id="estadoCheckin">
+Todavía no has hecho el check-in de hoy.
+</p>
+
+<button onclick="mostrar('checkin')">
+✅ Hacer mi check-in
+</button>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="danger"
+onclick="ayuda()">
+
+🆘 Necesito ayuda
+
+</button>
+
+<div id="ayudaMensaje" class="message"></div>
+
+</div>
+
+</section>
 
 
 <!-- =====================================================
-     BIENVENIDA
+CHECK-IN
 ===================================================== -->
 
-<section
+<section id="checkin" class="page">
+
+<div class="card">
+
+<h2>
+💚 Tu check-in
+</h2>
+
+<p>
+No es un examen. Solo queremos saber cómo estás.
+</p>
+
+<h3>
+1. ¿Cómo estás hoy?
+</h3>
+
+<select id="checkEstado">
+
+<option value="">
+Elige una opción
+</option>
+
+<option>
+😊 Muy bien
+</option>
+
+<option>
+🙂 Bien
+</option>
+
+<option>
+😐 Regular
+</option>
+
+<option>
+😔 No muy bien
+</option>
+
+<option>
+🫂 Necesito hablar
+</option>
+
+</select>
+
+
+<h3>
+2. ¿Necesitas algo ahora mismo?
+</h3>
+
+<select id="checkNecesidad">
+
+<option value="">
+Elige una opción
+</option>
+
+<option>
+🍽️ Algo de comer
+</option>
+
+<option>
+💧 Algo de beber
+</option>
+
+<option>
+🫂 Compañía/* =====================================================
+   PLANES
+===================================================== */
+
+function elegirPlan(plan) {
+
+  const planesPermitidos = [
+    "Básico",
+    "Familia",
+    "Cerca"
+  ];
+
+
+  if (
+    !planesPermitidos.includes(plan)
+  ) {
+
+    alert(
+      "⚠️ Plan no válido."
+    );
+
+    return;
+
+  }
+
+
+  planElegido = plan;
+
+
+  const guardado =
+    guardarDato(
+      "sercerca_plan",
+      plan
+    );
+
+
+  if (!guardado) {
+
+    alert(
+      "⚠️ No se ha podido guardar el plan."
+    );
+
+    return;
+
+  }
+
+
+  actualizarPlanesVisuales();
+
+  actualizarResumenPlan();
+
+  actualizarFunciones();
+
+
+  const mensaje =
+    document.getElementById(
+      "planMensaje"
+    );
+
+
+  mensaje.classList.remove(
+    "hidden"
+  );
+
+
+  let descripcion = "";
+
+
+  if (plan === "Básico") {
+
+    descripcion =
+
+      "🌱 Tienes acceso al check-in diario, " +
+      "una persona de confianza, mensajes de bienestar, " +
+      "recomendaciones básicas y avisos de check-in.";
+
+  }
+
+
+  if (plan === "Familia") {
+
+    descripcion =
+
+      "👨‍👩‍👧 Tienes todo lo del Básico + hasta 5 personas, " +
+      "más recomendaciones, más avisos y seguimiento " +
+      "del bienestar.";
+
+  }
+
+
+  if (plan === "Cerca") {
+
+    descripcion =
+
+      "💚 Tienes la experiencia completa SerCerca, " +
+      "incluyendo más personas, seguimiento completo " +
+      "y funciones avanzadas de acompañamiento.";
+
+  }
+
+
+  mensaje.innerHTML =
+
+    "💚 <b>Has elegido el plan " +
+    escapar(plan) +
+    ".</b><br><br>" +
+
+    descripcion +
+
+    "<br><br>" +
+
+    "🎁
+</option>
+
+<option>
+📞 Hablar con alguien
+</option>
+
+<option>
+🌿 Tranquilidad
+</option>
+
+<option>
+😊 No necesito nada
+</option>
+
+</select>
+
+
+<h3>
+3. ¿Qué te apetece hacer?
+</h3>
+
+<select id="checkActividad">
+
+<option value="">
+Elige una opción
+</option>
+
+<option>
+🚶 Dar un paseo
+</option>
+
+<option>
+👫 Ver a amigos o vecinos
+</option><!-- =====================================================
+     PARTE 4 — SER CERCa
+     RECOMENDACIONES, MENSAJES, AVISOS Y PERFIL
+===================================================== -->
+
+
+<!-- =====================================================
+     RECOMENDACIONES
+===================================================== -->
+
+<section id="recomendaciones" class="page">
+
+<div class="card">
+
+<h2>
+💡 Recomendaciones
+</h2>
+
+<p>
+Según lo que nos has contado, aquí tienes algunas ideas.
+</p>
+
+<div id="recomendacionesTexto">
+
+<div class="recommendation">
+
+🌷 Haz tu check-in para recibir recomendaciones
+según cómo te encuentres.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MENSAJES
+===================================================== -->
+
+<section id="mensajes" class="page">
+
+<div class="card">
+
+<h2>
+💌 Mensajes
+</h2>
+
+<p>
+Hablar con las personas que quieres también
+es una forma de cuidarte.
+</p>
+
+<div class="notice">
+
+❤️ <b>
+Es muy bonito hablar con tus hijos,
+tu familia o tus amigos.
+</b>
+
+<p>
+Una pequeña conversación puede hacer que
+el día se sienta un poquito mejor.
+</p>
+
+</div>
+
+<button onclick="mensajeBonito()">
+💌 Quiero hablar con alguien
+</button>
+
+<div
+id="mensajeBonito"
+class="success hidden">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AVISOS
+===================================================== -->
+
+<section id="avisos" class="page">
+
+<div class="card">
+
+<h2>
+🔔 Avisos familiares
+</h2>
+
+<div class="notice">
+
+💚 <b>
+Tu familia sabe que estás bien.
+</b>
+
+<p id="avisoFamilia">
+
+Cuando hagas un check-in aparecerá aquí
+que ha sido realizado.
+
+</p>
+
+</div>
+
+<div
+id="historialAvisos">
+</div>
+
+<p class="small">
+
+En esta versión los avisos se muestran
+dentro de la aplicación.
+
+Para enviar SMS, WhatsApp o notificaciones
+reales habría que conectar un servicio externo.
+
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MI PERFIL
+===================================================== -->
+
+<section id="miPerfil" class="page">
+
+<div class="card">
+
+<h2>
+👤 Mi perfil
+</h2>
+
+<p id="resumenPerfil">
+
+Todavía no has completado tu perfil.
+
+</p>
+
+<button onclick="mostrar('perfil')">
+
+✏️ Editar mi perfil
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+💚 Mi plan
+</h2>
+
+<p id="resumenPlan">
+
+Todavía no has elegido un plan.
+
+</p>
+
+<button onclick="mostrar('planes')">
+
+💳 Ver planes
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+❤️ Personas de confianza
+</h2>
+
+<div id="resumenPersonas">
+
+Todavía no has añadido personas.
+
+</div>
+
+<button onclick="mostrar('confianza')">
+
+👥 Gestionar personas
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+⚙️ Configuración
+</h2>
+
+<button
+class="secondary"
+onclick="mostrar('perfil')">
+
+👤 Datos personales
+
+</button>
+
+<button
+class="secondary"
+onclick="mostrar('confianza')">
+
+❤️ Personas de confianza
+
+</button>
+
+<button
+class="secondary"
+onclick="mostrar('planes')">
+
+💳 Mi suscripción
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FUNCIONES DE PLAN
+===================================================== */
+
+function actualizarFuncionesPlan() {
+
+  const plan =
+    planElegido || "Básico";
+
+
+  const caja =
+    document.getElementById(
+      "recomendacionesTexto"
+    );
+
+
+  if (!caja) {
+
+    return;
+
+  }
+
+
+  /*
+   * BÁSICO
+   */
+
+  if (plan === "Básico") {
+
+    caja.innerHTML +=
+
+      '<div class="premium-box">' +
+
+      "<h3>🌱 Tu plan Básico</h3>" +
+
+      "<p>" +
+
+      "Tienes acceso a las funciones esenciales " +
+      "de SerCerca."
+
+      + "</p>" +
+
+      "<p>" +
+
+      "💚 Check-in diario<br>" +
+      "❤️ Una persona de confianza<br>" +
+      "💡 Recomendaciones básicas<br>" +
+      "🔔 Avisos de check-in"
+
+      + "</p>" +
+
+      "</div>";
+
+  }
+
+
+  /*
+   * FAMILIA
+   */
+
+  if (plan === "Familia") {
+
+    caja.innerHTML +=
+
+      '<div class="premium-box">' +
+
+      "<h3>👨‍👩‍👧 Tu plan Familia</h3>" +
+
+      "<p>" +
+
+      "Tienes todas las funciones del Básico " +
+      "y herramientas pensadas para mantener " +
+      "más cerca a tu familia."
+
+      + "</p>" +
+
+      "<p>" +
+
+      "💚 Hasta 5 personas de confianza<br>" +
+      "💡 Recomendaciones ampliadas<br>" +
+      "🔔 Más avisos familiares<br>" +
+      "❤️ Seguimiento del bienestar"
+
+      + "</p>" +
+
+      "</div>";
+
+  }
+
+
+  /*
+   * CERCA
+   */
+
+  if (plan === "Cerca") {
+
+    caja.innerHTML +=
+
+      '<div class="premium-box">' +
+
+      "<h3>💚 Tu plan Cerca</h3>" +
+
+      "<p>" +
+
+      "Has elegido la experiencia completa " +
+      "de SerCerca."
+
+      + "</p>" +
+
+      "<p>" +
+
+      "💚 Más personas de confianza<br>" +
+      "💡 Recomendaciones avanzadas<br>" +
+      "🔔 Avisos ampliados<br>" +
+      "❤️ Seguimiento completo<br>" +
+      "🫂 Funciones de acompañamiento"
+
+      + "</p>" +
+
+      "</div>";
+
+  }
+
+}
+
+
+/* =====================================================
+     COMPROBAR LÍMITE DE PERSONAS
+===================================================== */
+
+function limitePersonas() {
+
+  if (planElegido === "Básico") {
+
+    return 1;
+
+  }
+
+
+  if (planElegido === "Familia") {
+
+    return 5;
+
+  }
+
+
+  if (planElegido === "Cerca") {
+
+    return 10;
+
+  }
+
+
+  return 1;
+
+}
+
+
+/* =====================================================
+     COMPROBAR SI PUEDE AÑADIR PERSONA
+===================================================== */
+
+function puedeAñadirPersona() {
+
+  const limite =
+    limitePersonas();
+
+
+  if (
+    personas.length >= limite
+  ) {
+
+    if (
+      planElegido === "Básico"
+    ) {
+
+      alert(
+
+        "🌱 Tu plan Básico permite " +
+        "1 persona de confianza.\n\n" +
+
+        "Si quieres añadir
