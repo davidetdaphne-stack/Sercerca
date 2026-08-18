@@ -2375,13 +2375,13 @@ ESCAPAR TEXTO
 ===================================================== */
 
 function escapar(texto) {
-
-return String(texto)
-.replace(/&/g, "&")
-.replace(/</g, "<")
-.replace(/>/g, ">")
-.replace(/"/g, """)
-.replace(/'/g, "'");
+  return String(texto)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+             }
 
 }
 
