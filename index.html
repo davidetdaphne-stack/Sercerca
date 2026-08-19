@@ -1,1943 +1,2948 @@
-/* =========================================================
-   NIVEL CHECK-IN
-   ========================================================= */
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#315c9b">
+<title>SerCerca</title>
 
-function calcularNivel(
-  estado,
-  necesidad,
-  ubicacion,
-  rutina
-){
+<style>
+*{box-sizing:border-box}
 
-  if(
-    estado==="No muy bien" ||
-    necesidad==="Ayuda" ||
-    ubicacion==="No" ||
-    rutina==="No"
-  ){
-
-    return "alto";
-  }
-
-  if(
-    estado==="Regular" ||
-    estado==="Necesito hablar" ||
-    rutina==="Más o menos"
-  ){
-
-    return "medio";
-  }
-
-  return "normal";
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fb;
+    color:#1d2939;
 }
 
-/* =========================================================
-   ALERTAS
-   ========================================================= */
-
-function crearAlerta(
-  titulo,
-  nivel,
-  checkin
-){
-
-  alertas.unshift({
-
-    id:Date.now(),
-
-    titulo:titulo,
-
-    nivel:nivel,
-
-    fecha:checkin.fecha,
-
-    hora:checkin.hora,
-
-    checkinId:checkin.id,
-
-    resuelta:false
-
-  });
-
-  guardar(
-    "alertas",
-    alertas
-  );
+button,input,select,textarea{
+    font:inherit;
 }
 
-function resolverAlerta(id){
+button{
+    cursor:pointer;
+}
 
-  alertas =
-    alertas.map(
-      function(alerta){
+.hidden{
+    display:none!important;
+}
 
-        if(alerta.id===id){
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:white;
+    border-bottom:1px solid #dfe5ee;
+}
 
-          alerta.resuelta=true;
+.header{
+    max-width:1150px;
+    margin:auto;
+    padding:10px 15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    background:#315c9b;
+    color:white;
+    display:grid;
+    place-items:center;
+    font-size:23px;
+    font-weight:bold;
+}
+
+.brand{
+    color:#315c9b;
+    font-weight:bold;
+    font-size:21px;
+}
+
+.nav{
+    margin-left:auto;
+    display:flex;
+    gap:6px;
+    overflow:auto;
+}
+
+.nav button{
+    white-space:nowrap;
+    border:0;
+    background:#eef4ff;
+    color:#315c9b;
+    padding:9px 11px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+main{
+    max-width:1150px;
+    margin:auto;
+    padding:30px 16px 70px;
+}
+
+.hero{
+    text-align:center;
+    max-width:850px;
+    margin:70px auto;
+}
+
+.hero h1{
+    font-size:65px;
+    color:#315c9b;
+    margin:15px 0;
+}
+
+.hero p{
+    color:#667085;
+    font-size:20px;
+    line-height:1.55;
+}
+
+.card{
+    background:white;
+    border:1px solid #dfe5ee;
+    border-radius:20px;
+    padding:22px;
+    margin-bottom:18px;
+    box-shadow:0 8px 25px rgba(25,48,80,.06);
+}
+
+h1{
+    margin:0 0 8px;
+    font-size:34px;
+}
+
+h2{
+    margin:0 0 9px;
+}
+
+h3{
+    margin:0 0 7px;
+}
+
+.muted{
+    color:#667085;
+}
+
+.small{
+    font-size:13px;
+}
+
+.badge{
+    display:inline-block;
+    background:#eef4ff;
+    color:#315c9b;
+    padding:7px 12px;
+    border-radius:99px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.btn{
+    border:0;
+    border-radius:12px;
+    padding:13px 17px;
+    font-weight:bold;
+}
+
+.primary{
+    background:#315c9b;
+    color:white;
+}
+
+.secondary{
+    background:#eef4ff;
+    color:#315c9b;
+}
+
+.light{
+    background:white;
+    border:1px solid #dfe5ee;
+}
+
+.success{
+    background:#23865a;
+    color:white;
+}
+
+.danger{
+    background:#c43d3d;
+    color:white;
+}
+
+.block{
+    width:100%;
+}
+
+.actions{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:16px;
+}
+.grid{
+    display:grid;
+    gap:16px;
+}
+
+.g2{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.g3{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.g4{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+@media(max-width:800px){
+    .g2,.g3,.g4{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .nav button:nth-child(n+6){
+        display:none;
+    }
+}
+
+.fg{
+    margin-bottom:15px;
+}
+
+.fg label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.fg input,
+.fg select,
+.fg textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #dfe5ee;
+    border-radius:11px;
+    background:white;
+}
+
+.fg textarea{
+    min-height:100px;
+}
+
+.progress{
+    height:8px;
+    background:#e5eaf1;
+    border-radius:99px;
+    overflow:hidden;
+    margin:15px 0 25px;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:#315c9b;
+}
+
+.choice{
+    width:100%;
+    text-align:left;
+    border:2px solid #dfe5ee;
+    background:white;
+    border-radius:16px;
+    padding:18px;
+    margin:6px 0;
+}
+
+.choice:hover,
+.choice.selected{
+    border-color:#315c9b;
+    background:#eef4ff;
+}
+
+.emoji{
+    display:block;
+    font-size:29px;
+    margin-bottom:7px;
+}
+
+.row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.between{
+    justify-content:space-between;
+}
+
+.wrap{
+    flex-wrap:wrap;
+}
+
+.stat{
+    background:white;
+    border:1px solid #dfe5ee;
+    border-radius:16px;
+    padding:18px;
+}
+
+.stat b{
+    display:block;
+    font-size:25px;
+    margin:5px 0;
+}
+
+.big{
+    width:100%;
+    border:0;
+    border-radius:17px;
+    padding:25px;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.ok{
+    background:#eaf8f0;
+    color:#237b54;
+}
+
+.help{
+    background:#fff0f0;
+    color:#c43d3d;
+}
+
+.alert{
+    padding:14px;
+    border-radius:13px;
+    margin:12px 0;
+}
+
+.alert-ok{
+    background:#eaf8f0;
+    color:#237b54;
+}
+
+.alert-warn{
+    background:#fff8e5;
+    color:#8a6419;
+}
+
+.alert-danger{
+    background:#fff0f0;
+    color:#a82e2e;
+}
+
+.item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    border:1px solid #dfe5ee;
+    border-radius:13px;
+    padding:13px;
+    margin:9px 0;
+    background:white;
+}
+
+.avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:#eef4ff;
+    color:#315c9b;
+    font-weight:bold;
+}
+
+.pill{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:99px;
+    background:#eef4ff;
+    color:#315c9b;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.plan{
+    position:relative;
+}
+
+.plan.current{
+    border:2px solid #315c9b;
+}
+
+.price{
+    font-size:35px;
+    font-weight:bold;
+    color:#315c9b;
+}
+
+.check{
+    color:#23865a;
+    font-weight:bold;
+}
+
+.chat{
+    height:320px;
+    overflow:auto;
+    background:#f8fafc;
+    border:1px solid #dfe5ee;
+    border-radius:15px;
+    padding:12px;
+}
+
+.msg{
+    max-width:80%;
+    padding:11px 13px;
+    border-radius:15px;
+    margin:7px 0;
+}
+
+.me{
+    margin-left:auto;
+    background:#315c9b;
+    color:white;
+}
+
+.them{
+    background:white;
+    border:1px solid #dfe5ee;
+}
+.footer{
+    text-align:center;
+    color:#667085;
+    font-size:13px;
+    padding:25px;
+}
+
+.toast{
+    position:fixed;
+    right:15px;
+    bottom:15px;
+    background:#172033;
+    color:white;
+    padding:14px 17px;
+    border-radius:12px;
+    z-index:1000;
+    max-width:330px;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:grid;
+    place-items:center;
+    padding:16px;
+    z-index:500;
+}
+
+.modal-box{
+    background:white;
+    border-radius:20px;
+    padding:22px;
+    width:min(600px,100%);
+    max-height:90vh;
+    overflow:auto;
+}
+
+.switch{
+    width:52px;
+    height:29px;
+    border:0;
+    border-radius:99px;
+    background:#cbd5e1;
+    position:relative;
+}
+
+.switch:after{
+    content:"";
+    position:absolute;
+    width:23px;
+    height:23px;
+    background:white;
+    border-radius:50%;
+    top:3px;
+    left:3px;
+    transition:.2s;
+}
+
+.switch.on{
+    background:#315c9b;
+}
+
+.switch.on:after{
+    left:26px;
+}
+
+hr{
+    border:0;
+    border-top:1px solid #e1e6ed;
+    margin:22px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+
+/* =========================================================
+   SER CERCA
+   Aplicación completa en un solo archivo.
+   Los datos se guardan en localStorage.
+   ========================================================= */
+
+const STORAGE_KEY="sercerca_completa_v1";
+
+const DEFAULT_DATA={
+    logged:false,
+    onboarding:true,
+    step:1,
+    current:"home",
+
+    user:{
+        name:"",
+        email:"",
+        password:""
+    },
+
+    profile:{
+        name:"",
+        email:"",
+        phone:"",
+        city:"",
+        birth:"",
+        notes:""
+    },
+
+    role:"",
+
+    contacts:[],
+
+    messages:[],
+
+    notifications:[],
+
+    history:[],
+
+    reminders:[],
+
+    wellness:{
+        status:"Sin registrar",
+        last:""
+    },
+
+    plan:"Básico",
+
+    trial:{
+        active:false,
+        start:"",
+        end:""
+    },
+
+    settings:{
+        notifications:true,
+        weekly:true,
+        activity:true,
+        location:false,
+        health:false
+    }
+};
+
+let S=loadData();
+
+
+function clone(obj){
+    return JSON.parse(JSON.stringify(obj));
+}
+
+
+function loadData(){
+
+    try{
+
+        const saved=JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        );
+
+        if(!saved){
+            return clone(DEFAULT_DATA);
         }
 
-        return alerta;
-      }
+        const data=clone(DEFAULT_DATA);
+
+        Object.keys(saved).forEach(key=>{
+
+            if(
+                saved[key] &&
+                typeof saved[key]==="object" &&
+                !Array.isArray(saved[key])
+            ){
+
+                data[key]={
+                    ...data[key],
+                    ...saved[key]
+                };
+
+            }else{
+
+                data[key]=saved[key];
+
+            }
+
+        });
+
+        return data;
+
+    }catch(error){
+
+        return clone(DEFAULT_DATA);
+
+    }
+
+}
+
+
+function saveData(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(S)
     );
 
-  guardar(
-    "alertas",
-    alertas
-  );
+}
+function escapeHTML(value){
 
-  actualizarTodo();
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
 }
 
-/* =========================================================
-   INCIDENCIAS
-   ========================================================= */
 
-function crearIncidencia(){
+function now(){
 
-  const tipo =
-    document.getElementById(
-      "incidenciaTipo"
-    ).value;
-
-  const descripcion =
-    document
-      .getElementById(
-        "incidenciaDescripcion"
-      )
-      .value.trim();
-
-  if(!descripcion){
-
-    alert(
-      "📝 Describe la incidencia."
-    );
-
-    return;
-  }
-
-  incidencias.unshift({
-
-    id:Date.now(),
-
-    tipo:tipo,
-
-    descripcion:descripcion,
-
-    fecha:new Date()
-      .toLocaleDateString(
-        "es-ES"
-      ),
-
-    resuelta:false
-
-  });
-
-  guardar(
-    "incidencias",
-    incidencias
-  );
-
-  document.getElementById(
-    "incidenciaDescripcion"
-  ).value="";
-
-  actualizarTodo();
-}
-
-function crearIncidenciaAutomatica(
-  checkin
-){
-
-  incidencias.unshift({
-
-    id:Date.now(),
-
-    tipo:
-      "Comentario del check-in",
-
-    descripcion:
-      checkin.comentario,
-
-    fecha:
-      checkin.fecha,
-
-    resuelta:false
-
-  });
-
-  guardar(
-    "incidencias",
-    incidencias
-  );
-}
-function resolverIncidencia(id){
-
-  incidencias =
-    incidencias.map(
-      function(inc){
-
-        if(inc.id===id){
-
-          inc.resuelta=true;
+    return new Date().toLocaleString(
+        "es-ES",
+        {
+            dateStyle:"short",
+            timeStyle:"short"
         }
-
-        return inc;
-      }
     );
 
-  guardar(
-    "incidencias",
-    incidencias
-  );
-
-  actualizarTodo();
 }
+
+
+function initials(name){
+
+    return (name || "?")
+        .split(" ")
+        .map(x=>x[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+}
+
+
+function toast(text){
+
+    const element=document.createElement("div");
+
+    element.className="toast";
+
+    element.textContent=text;
+
+    document.body.appendChild(element);
+
+    setTimeout(()=>{
+        element.remove();
+    },2600);
+
+}
+
+
+function addHistory(action,detail=""){
+
+    if(!S.settings.activity){
+        return;
+    }
+
+    S.history.unshift({
+        id:Date.now(),
+        action:action,
+        detail:detail,
+        date:now()
+    });
+
+    S.history=S.history.slice(0,150);
+
+}
+
+
+function addNotification(text,type="info"){
+
+    if(!S.settings.notifications){
+        return;
+    }
+
+    S.notifications.unshift({
+        id:Date.now(),
+        text:text,
+        type:type,
+        date:now(),
+        read:false
+    });
+
+    S.notifications=S.notifications.slice(0,100);
+
+}
+
+
+function go(page){
+
+    S.current=page;
+
+    saveData();
+
+    render();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
 
 /* =========================================================
-   PLANES Y PERMISOS
+   PLANES
    ========================================================= */
 
-function seleccionarPlan(plan){
+function planLevel(){
 
-  const permitidos=[
-    "2.99",
-    "6.99",
-    "12.99"
-  ];
+    return {
+        "Básico":1,
+        "Familia":2,
+        "Cerca":3
+    }[S.plan] || 1;
 
-  if(
-    !permitidos.includes(plan)
-  ){
-
-    return;
-  }
-
-  planActual=plan;
-
-  guardar(
-    "plan",
-    plan
-  );
-
-  document
-    .getElementById("plan299")
-    .classList.remove("selected");
-
-  document
-    .getElementById("plan699")
-    .classList.remove("selected");
-
-  document
-    .getElementById("plan1299")
-    .classList.remove("selected");
-
-  if(plan==="2.99"){
-
-    document
-      .getElementById("plan299")
-      .classList.add("selected");
-  }
-
-  if(plan==="6.99"){
-
-    document
-      .getElementById("plan699")
-      .classList.add("selected");
-  }
-
-  if(plan==="12.99"){
-
-    document
-      .getElementById("plan1299")
-      .classList.add("selected");
-  }
-
-  const mensaje =
-    document.getElementById(
-      "planSeleccionadoMensaje"
-    );
-
-  mensaje.classList.remove(
-    "hidden"
-  );
-
-  mensaje.innerHTML =
-    construirMensajePlan(
-      plan
-    );
-
-  actualizarPlanResumen();
 }
 
-function construirMensajePlan(
-  plan
-){
 
-  if(plan==="2.99"){
+function hasPlan(level){
+
+    return planLevel()>=level || S.trial.active;
+
+}
+
+
+function lockedMessage(plan){
 
     return `
-      💚 <b>Has seleccionado el plan Básico de 2,99 €.</b>
-      <br><br>
-      Con este plan tendrás:
-      <ul>
-        <li>Registro y perfil</li>
-        <li>1 persona de confianza</li>
-        <li>Check-in diario</li>
-        <li>Registro de respuestas</li>
-        <li>Estado de hoy</li>
-        <li>Historial básico</li>
-        <li>Recordatorios básicos</li>
-        <li>Avisos básicos</li>
-      </ul>
+        <div class="alert alert-warn">
+
+            <b>🔒 Función bloqueada</b>
+
+            <br><br>
+
+            Esta función está incluida desde el
+            plan <b>${plan}</b>.
+
+            <div class="actions">
+
+                <button
+                    class="btn primary"
+                    onclick="go('plans')"
+                >
+                    💳 Ver planes
+                </button>
+
+            </div>
+
+        </div>
     `;
-  }
 
-  if(plan==="6.99"){
-
-    return `
-      💚 <b>Has seleccionado el plan Familia de 6,99 €.</b>
-      <br><br>
-      Incluye todo lo del Básico y además:
-      <ul>
-        <li>Hasta 5 familiares</li>
-        <li>Contactos autorizados</li>
-        <li>Historial ampliado</li>
-        <li>Alertas familiares</li>
-        <li>Incidencias</li>
-        <li>Protocolo de incidencias</li>
-        <li>Seguimiento de rutina</li>
-        <li>Próximas citas</li>
-      </ul>
-    `;
-  }
-
-  return `
-    💚 <b>Has seleccionado el plan Cerca de 12,99 €.</b>
-    <br><br>
-    Tendrás la experiencia completa de SerCerca:
-    <ul>
-      <li>Todo lo del plan Familia</li>
-      <li>Seguimiento completo</li>
-      <li>Rutinas completas</li>
-      <li>Alertas avanzadas</li>
-      <li>Incidencias avanzadas</li>
-      <li>Historial completo</li>
-      <li>Acompañamiento ampliado</li>
-      <li>Más configuración</li>
-      <li>Experiencia completa SerCerca</li>
-    </ul>
-  `;
 }
 
-function nivelPlan(){
-
-  if(planActual==="12.99"){
-    return 3;
-  }
-
-  if(planActual==="6.99"){
-    return 2;
-  }
-
-  if(planActual==="2.99"){
-    return 1;
-  }
-
-  return 0;
-}
-function tienePlan(nivel){
-
-  return nivelPlan()>=nivel;
-}
 
 /* =========================================================
-   CÁLCULOS Y SESIÓN
+   RENDER PRINCIPAL
    ========================================================= */
 
-function calcularPendientes(){
+function render(){
 
-  if(checkins.length===0){
-    return 1;
-  }
+    let html="";
 
-  const ultimo=
-    checkins[0];
+    if(!S.logged){
 
-  const hoy=
-    new Date()
-      .toLocaleDateString(
-        "es-ES"
-      );
+        html=welcomeScreen();
 
-  if(
-    ultimo.fecha!==hoy
-  ){
+    }else if(S.onboarding){
 
-    return 1;
-  }
-
-  return 0;
-}
-
-function entrarAplicacion(){
-
-  sesionIniciada=true;
-
-  guardar(
-    "sesion",
-    true
-  );
-
-  mostrar("inicio");
-}
-
-function obtenerEstadoTexto(){
-
-  if(checkins.length===0){
-
-    return "⏳ Pendiente";
-  }
-
-  const ultimo=
-    checkins[0];
-
-  if(
-    ultimo.nivel==="alto"
-  ){
-
-    return "🚨 Requiere revisión";
-  }
-
-  if(
-    ultimo.nivel==="medio"
-  ){
-
-    return "🟡 Revisar";
-  }
-
-  return "💚 Bien";
-}
-
-/* =========================================================
-   UTILIDADES
-   ========================================================= */
-
-function textoNivel(nivel){
-
-  if(nivel==="alto"){
-    return "Requiere atención";
-  }
-
-  if(nivel==="medio"){
-    return "Revisar";
-  }
-
-  return "Normal";
-}
-
-function escapar(texto){
-
-  return String(
-    texto==null
-      ?""
-      :texto
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-}
-
-/* =========================================================
-   PROCESAR CHECK-IN (DOM)
-   ========================================================= */
-
-function procesarResultadoCheckin(
-  checkin
-){
-
-  const resultado =
-    document.getElementById(
-      "resultadoCheckin"
-    );
-
-  if(
-    checkin.nivel==="normal"
-  ){
-
-    resultado.innerHTML =
-      '<div class="success">'+
-      "💚 <b>Check-in registrado.</b><br><br>"+
-      "Todo parece estar dentro de lo habitual."+
-      "</div>";
-
-  }
-
-  else if(
-    checkin.nivel==="medio"
-  ){
-
-    resultado.innerHTML =
-      '<div class="warning-box">'+
-      "🟡 <b>Gracias por contárnoslo.</b><br><br>"+
-      "Tu respuesta es diferente de lo habitual. "+
-      "SerCerca la ha registrado para poder revisarla."+
-      "</div>";
-
-    crearAlerta(
-      "Respuesta diferente de lo habitual",
-      "medio",
-      checkin
-    );
-
-  }
-
-  else{
-
-    resultado.innerHTML =
-      '<div class="alert-box">'+
-      "🔴 <b>Hemos detectado algo que puede necesitar atención.</b><br><br>"+
-      "La situación ha quedado registrada. "+
-      "Revisa los contactos autorizados y el protocolo "+
-      "de incidencias si es necesario."+
-      "</div>";
-
-    crearAlerta(
-      "Situación que requiere revisión",
-      "alto",
-      checkin
-    );
-
-  }
-
-  if(
-    checkin.comentario
-  ){
-
-    crearIncidenciaAutomatica(
-      checkin
-    );
-  }
-}
-/* =========================================================
-   RENDERIZADO DE SECCIONES DE LA UI
-   ========================================================= */
-
-function mostrarAlertas(){
-
-  const contenedor =
-    document.getElementById(
-      "alertasLista"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(alertas.length===0){
-
-    contenedor.innerHTML =
-      '<div class="success">'+
-      "💚 No hay alertas."+
-      "</div>";
-
-    return;
-  }
-
-  let html="";
-
-  alertas.forEach(
-    function(alerta){
-
-      html+=
-        '<div class="alert-item '+
-        (
-          alerta.resuelta
-            ?"resolved"
-            :""
-        )+
-        '">'+
-
-        "<strong>"+
-        (
-          alerta.resuelta
-            ?"✅ "
-            :"🚨 "
-        )+
-        escapar(alerta.titulo)+
-        "</strong>"+
-
-        "<p>"+
-        escapar(alerta.fecha)+
-        " · "+
-        escapar(alerta.hora)+
-        "</p>"+
-
-        "<span class='badge "+
-
-        (
-          alerta.nivel==="alto"
-            ?"red"
-            :"yellow"
-        )+
-        "'>"+
-
-        (
-          alerta.nivel==="alto"
-            ?"Atención"
-            :"Revisar"
-        )+
-
-        "</span>";
-
-      if(!alerta.resuelta){
-
-        html+=
-          '<button class="secondary" '+
-          'onclick="resolverAlerta('+
-          alerta.id+
-          ')">'+
-          "✅ Marcar como revisada"+
-          "</button>";
-      }
-
-      html+="</div>";
-    }
-  );
-
-  contenedor.innerHTML=html;
-}
-
-function mostrarIncidencias(){
-
-  const contenedor =
-    document.getElementById(
-      "incidenciasLista"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(incidencias.length===0){
-
-    contenedor.innerHTML =
-      '<div class="success">'+
-      "💚 No hay incidencias registradas."+
-      "</div>";
-
-    return;
-  }
-
-  let html="";
-
-  incidencias.forEach(
-    function(inc){
-
-      html+=
-        '<div class="list-item">'+
-
-        "<strong>"+
-        (
-          inc.resuelta
-            ?"✅ "
-            :"⚠️ "
-        )+
-        escapar(inc.tipo)+
-        "</strong>"+
-
-        "<p>"+
-        escapar(inc.descripcion)+
-        "</p>"+
-
-        "<small>"+
-        escapar(inc.fecha)+
-        "</small>";
-
-      if(!inc.resuelta){
-
-        html+=
-          '<button class="secondary" '+
-          'onclick="resolverIncidencia('+
-          inc.id+
-          ')">'+
-          "✅ Marcar resuelta"+
-          "</button>";
-      }
-
-      html+="</div>";
-    }
-  );
-
-  contenedor.innerHTML=html;
-}
-
-function mostrarEstadoHoy(){
-
-  const contenedor =
-    document.getElementById(
-      "estadoHoyContenido"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  const ultimo =
-    checkins[0];
-
-  if(!ultimo){
-
-    contenedor.innerHTML =
-      '<div class="warning-box">'+
-      "⏳ Todavía no has realizado el check-in de hoy."+
-      "</div>";
-
-    return;
-  }
-
-  let clase =
-    "status-green";
-
-  let icono="💚";
-
-  if(
-    ultimo.nivel==="medio"
-  ){
-
-    clase="status-yellow";
-
-    icono="🟡";
-  }
-
-  if(
-    ultimo.nivel==="alto"
-  ){
-
-    clase="status-red";
-
-    icono="🔴";
-  }
-  contenedor.innerHTML =
-    '<div class="status-card '+
-    clase+
-    '">'+
-
-    "<h3>"+
-    icono+
-    " "+
-
-    escapar(
-      ultimo.estado
-    )+
-
-    "</h3>"+
-
-    "<p><b>Hora:</b> "+
-    escapar(ultimo.hora)+
-    "</p>"+
-
-    "<p><b>Necesidad:</b> "+
-    escapar(
-      ultimo.necesidad||
-      "No indicada"
-    )+
-    "</p>"+
-
-    "<p><b>Rutina:</b> "+
-    escapar(
-      ultimo.rutina||
-      "No indicada"
-    )+
-    "</p>"+
-
-    (
-      ultimo.comentario
-        ?
-        "<p><b>Comentario:</b> "+
-        escapar(
-          ultimo.comentario
-        )+
-        "</p>"
-        :
-        ""
-    )+
-
-    "</div>";
-}
-
-function mostrarHistorial(){
-
-  const contenedor =
-    document.getElementById(
-      "historialLista"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(checkins.length===0){
-
-    contenedor.innerHTML =
-      '<div class="notice">'+
-      "Todavía no hay check-ins registrados."+
-      "</div>";
-
-    return;
-  }
-
-  let html="";
-
-  checkins.forEach(
-    function(check){
-
-      html+=
-        '<div class="history-item">'+
-
-        "<strong>💚 "+
-        escapar(check.estado)+
-        "</strong>"+
-
-        "<p>"+
-        escapar(check.fecha)+
-        " · "+
-        escapar(check.hora)+
-        "</p>"+
-
-        "<p>"+
-        "Necesidad: "+
-        escapar(
-          check.necesidad||
-          "No indicada"
-        )+
-        "</p>"+
-
-        "<span class='badge "+
-        (
-          check.nivel==="alto"
-            ?"red"
-            :
-          check.nivel==="medio"
-            ?"yellow"
-            :""
-        )+
-        "'>"+
-        textoNivel(check.nivel)+
-        "</span>"+
-
-        "</div>";
-    }
-  );
-
-  contenedor.innerHTML=html;
-}
-
-function mostrarCitas(){
-
-  const lugares=[
-    "citasLista",
-    "citasPagina"
-  ];
-
-  lugares.forEach(
-    function(id){
-
-      const contenedor =
-        document.getElementById(id);
-
-      if(!contenedor){
-        return;
-      }
-
-      if(citas.length===0){
-
-        contenedor.innerHTML =
-          '<div class="notice">'+
-          "No hay próximas citas."+
-          "</div>";
-
-        return;
-      }
-
-      let html="";
-
-      citas.forEach(
-        function(cita){
-
-          html+=
-            '<div class="appointment">'+
-
-            "<h3>📅 "+
-            escapar(cita.nombre)+
-            "</h3>"+
-
-            "<p>"+
-            escapar(cita.fecha)+
-            (
-              cita.hora
-                ?
-                " · "+
-                escapar(cita.hora)
-                :
-                ""
-            )+
-            "</p>"+
-
-            (
-              cita.lugar
-                ?
-                "<p>📍 "+
-                escapar(cita.lugar)+
-                "</p>"
-                :
-                ""
-            )+
-
-            "</div>";
-        }
-      );
-
-      contenedor.innerHTML=html;
-    }
-  );
-}
-
-function mostrarRutina(){
-
-  const contenedor =
-    document.getElementById(
-      "rutinaPagina"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  const rutina =
-    leer("rutina",null);
-
-  if(!rutina){
-
-    contenedor.innerHTML =
-      '<div class="notice">'+
-      "Todavía no has configurado tu rutina."+
-      "</div>";
-
-    return;
-  }
-
-  const datos=[
-
-    ["🌅","Levantarse",rutina.levantarse],
-
-    ["🍳","Desayuno",rutina.desayuno],
-
-    ["🍽️","Comida",rutina.comida],
-
-    ["🚶","Paseo",rutina.paseo],
-
-    ["🍽️","Cena",rutina.cena],
-
-    ["🌙","Dormir",rutina.dormir],
-
-    ["💚","Check-in",rutina.checkin]
-
-  ];
-
-  let html="";
-
-  datos.forEach(
-    function(item){
-
-      if(item[2]){
-
-        html+=
-          '<div class="routine">'+
-
-          "<div class='routine-time'>"+
-          item[0]+
-          " "+
-          escapar(item[2])+
-          "</div>"+
-
-          "<div>"+
-          item[1]+
-          "</div>"+
-
-          "</div>";
-      }
-    }
-  );
-
-  if(rutina.notas){
-
-    html+=
-      '<div class="info-box">'+
-      "📝 "+
-      escapar(rutina.notas)+
-      "</div>";
-  }
-
-  contenedor.innerHTML=
-    html ||
-    '<div class="notice">'+
-    "No hay horarios configurados."+
-    "</div>";
-}
-function mostrarRecordatorios(){
-
-  const contenedor =
-    document.getElementById(
-      "recordatoriosPagina"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(recordatorios.length===0){
-
-    contenedor.innerHTML =
-      "No hay recordatorios.";
-
-    return;
-  }
-
-  let html="";
-
-  recordatorios.forEach(
-    function(r){
-
-      html+=
-        '<div class="list-item">'+
-        "<strong>🔔 "+
-        escapar(r.texto)+
-        "</strong>"+
-        "<span>"+
-        escapar(r.hora||"")+
-        "</span>"+
-        "</div>";
-    }
-  );
-
-  contenedor.innerHTML=html;
-}
-
-function mostrarPerfilPagina(){
-
-  const contenedor =
-    document.getElementById(
-      "perfilPagina"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  const perfil =
-    leer("perfilMayor",null);
-
-  if(!perfil){
-
-    contenedor.innerHTML =
-      "Todavía no has completado el perfil.";
-
-    return;
-  }
-
-  contenedor.innerHTML=
-
-    "<p><b>👤 Nombre:</b> "+
-    escapar(perfil.nombre)+
-    "</p>"+
-
-    "<p><b>🎂 Edad:</b> "+
-    escapar(perfil.edad||"No indicada")+
-    "</p>"+
-
-    "<p><b>📞 Teléfono:</b> "+
-    escapar(perfil.telefono||"No indicado")+
-    "</p>"+
-
-    "<p><b>❤️ Preferencias:</b> "+
-    escapar(perfil.preferencias||"No indicadas")+
-    "</p>";
-}
-
-function mostrarContactos(){
-
-  const contenedor =
-    document.getElementById(
-      "contactosPagina"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(familiares.length===0){
-
-    contenedor.innerHTML =
-      '<div class="notice">'+
-      "No hay contactos autorizados."+
-      "</div>";
-
-    return;
-  }
-
-  let html="";
-
-  familiares.forEach(
-    function(f){
-
-      html+=
-        '<div class="person-card">'+
-
-        "<h3>👤 "+
-        escapar(f.nombre)+
-        "</h3>"+
-
-        "<p>Relación: "+
-        escapar(f.relacion||"Familiar")+
-        "</p>"+
-
-        "<p>Permisos: "+
-        textoPermiso(f.permisos)+
-        "</p>"+
-
-        "</div>";
-    }
-  );
-
-  contenedor.innerHTML=html;
-}
-
-function mostrarFamiliaresPagina(){
-
-  const contenedor =
-    document.getElementById(
-      "familiaresPagina"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(familiares.length===0){
-
-    contenedor.innerHTML=
-      '<div class="notice">'+
-      "Todavía no has añadido familiares."+
-      "</div>";
-
-    return;
-  }
-
-  let html="";
-
-  familiares.forEach(
-    function(f){
-
-      html+=
-        '<div class="person-card">'+
-
-        "<h3>❤️ "+
-        escapar(f.nombre)+
-        "</h3>"+
-
-        "<p>"+
-        escapar(
-          f.relacion||
-          "Familiar"
-        )+
-        "</p>"+
-
-        "<span class='badge'>"+
-        textoPermiso(f.permisos)+
-        "</span>"+
-
-        "</div>";
-    }
-  );
-
-  contenedor.innerHTML=html;
-}
-
-/* =========================================================
-   ACTUALIZACIONES DE PANELES Y ESTADOS
-   ========================================================= */
-
-function actualizarPlanResumen(){
-
-  const contenedor =
-    document.getElementById(
-      "planResumen"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  if(!planActual){
-
-    contenedor.innerHTML =
-      "Todavía no has seleccionado un plan.";
-
-    return;
-  }
-
-  if(planActual==="2.99"){
-
-    contenedor.innerHTML =
-      "🌱 <b>Básico — 2,99 €/mes</b><br>"+
-      "Funciones esenciales.";
-  }
-
-  if(planActual==="6.99"){
-
-    contenedor.innerHTML =
-      "👨‍👩‍👧 <b>Familia — 6,99 €/mes</b><br>"+
-      "Funciones ampliadas para la familia.";
-  }
-
-  if(planActual==="12.99"){
-
-    contenedor.innerHTML =
-      "💚 <b>Cerca — 12,99 €/mes</b><br>"+
-      "Experiencia completa.";
-  }
-}
-function actualizarPanelSerCerca(){
-
-  const panelFamiliares =
-    document.getElementById(
-      "panelFamiliares"
-    );
-
-  const panelPendientes =
-    document.getElementById(
-      "panelPendientes"
-    );
-
-  const panelIncidencias =
-    document.getElementById(
-      "panelIncidencias"
-    );
-
-  if(panelFamiliares){
-
-    panelFamiliares.textContent =
-      familiares.length;
-  }
-
-  if(panelPendientes){
-
-    panelPendientes.textContent =
-      calcularPendientes();
-  }
-
-  if(panelIncidencias){
-
-    panelIncidencias.textContent =
-      incidencias.filter(
-        function(i){
-          return !i.resuelta;
-        }
-      ).length;
-  }
-
-  const persona =
-    document.getElementById(
-      "panelPersonaMayor"
-    );
-
-  if(persona){
-
-    const perfil =
-      leer(
-        "perfilMayor",
-        null
-      );
-
-    if(!perfil){
-
-      persona.innerHTML =
-        "No hay perfil configurado.";
+        html=onboardingScreen();
 
     }else{
 
-      persona.innerHTML=
-        '<div class="person-card">'+
-        "<h3>👵 "+
-        escapar(perfil.nombre)+
-        "</h3>"+
-        "<p>Estado: "+
-        obtenerEstadoTexto()+
-        "</p>"+
-        "</div>";
-    }
-  }
+        html=applicationLayout(
+            applicationRouter()
+        );
 
-  const situaciones =
-    document.getElementById(
-      "panelSituaciones"
+    }
+
+    document.getElementById("app").innerHTML=html;
+
+}
+
+
+/* =========================================================
+   BIENVENIDA
+   ========================================================= */
+
+function welcomeScreen(){
+
+    return `
+
+        <main>
+
+            <section class="hero">
+
+                <span class="badge">
+                    🌷 Tranquilidad y acompañamiento
+                </span>
+
+                <h1>SerCerca</h1>
+
+                <p>
+                    Una aplicación para mantener cerca
+                    a las personas mayores y sus familias,
+                    respetando siempre su autonomía.
+                </p>
+
+                <div
+                    class="actions"
+                    style="justify-content:center"
+                >
+
+                    <button
+                        class="btn primary"
+                        onclick="startRegister()"
+                    >
+                        📝 Crear cuenta
+                    </button>
+
+                    <button
+                        class="btn light"
+                        onclick="startLogin()"
+                    >
+                        🔐 Iniciar sesión
+                    </button>
+
+                </div>
+                <div
+                    class="grid g3"
+                    style="margin-top:45px;text-align:left"
+                >
+
+                    <div class="card">
+
+                        <h3>❤️ Cercanía</h3>
+
+                        <p class="muted">
+                            Mantén el contacto con
+                            las personas importantes.
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>💚 Bienestar</h3>
+
+                        <p class="muted">
+                            Un check-in sencillo para
+                            saber cómo estás.
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+
+                        <h3>🔔 Tranquilidad</h3>
+
+                        <p class="muted">
+                            Avisos cuando algo
+                            necesita atención.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="footer">
+                    SerCerca busca acompañar sin sustituir
+                    servicios de emergencia ni atención profesional.
+                </div>
+
+            </section>
+
+        </main>
+
+    `;
+
+}
+
+
+/* =========================================================
+   MODALES
+   ========================================================= */
+
+function openModal(title,content){
+
+    const html=`
+
+        <div class="modal" id="modal">
+
+            <div class="modal-box">
+
+                <div class="row between">
+
+                    <h2>${title}</h2>
+
+                    <button
+                        class="btn light"
+                        onclick="closeModal()"
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+                <hr>
+
+                ${content}
+
+            </div>
+
+        </div>
+
+    `;
+
+    document.body.insertAdjacentHTML(
+        "beforeend",
+        html
     );
 
-  if(situaciones){
+}
 
-    const activas =
-      alertas.filter(
-        function(a){
-          return !a.resuelta;
+
+function closeModal(){
+
+    const modal=document.getElementById("modal");
+
+    if(modal){
+        modal.remove();
+    }
+
+}
+
+
+/* =========================================================
+   REGISTRO
+   ========================================================= */
+
+function startRegister(){
+
+    openModal(
+        "📝 Crear cuenta",
+        `
+
+        <form onsubmit="createAccount(event)">
+
+            <div class="fg">
+
+                <label>Nombre</label>
+
+                <input
+                    id="registerName"
+                    required
+                    placeholder="Tu nombre"
+                >
+
+            </div>
+
+            <div class="fg">
+
+                <label>Correo electrónico</label>
+
+                <input
+                    id="registerEmail"
+                    type="email"
+                    required
+                    placeholder="correo@ejemplo.com"
+                >
+
+            </div>
+
+            <div class="fg">
+
+                <label>Contraseña</label>
+
+                <input
+                    id="registerPassword"
+                    type="password"
+                    minlength="6"
+                    required
+                    placeholder="Mínimo 6 caracteres"
+                >
+
+            </div>
+
+            <div class="fg">
+
+                <label>
+                    ¿Para quién es SerCerca?
+                </label>
+
+                <button
+                    type="button"
+                    class="choice"
+                    onclick="chooseRole('elder',this)"
+                >
+                    <span class="emoji">👵</span>
+                    <b>Para mí</b>
+                    <br>
+                    <span class="muted small">
+                        Soy la persona que utilizará SerCerca.
+                    </span>
+                </button>
+
+                <button
+                    type="button"
+                    class="choice"
+                    onclick="chooseRole('family',this)"
+                >
+                    <span class="emoji">👨‍👩‍👧</span>
+                    <b>Para mi familiar</b>
+                    <br>
+                    <span class="muted small">
+                        Quiero acompañar a un familiar.
+                    </span>
+                </button>
+
+            </div>
+
+            <label class="small">
+
+                <input
+                    id="terms"
+                    type="checkbox"
+                    required
+                >
+
+                Acepto las condiciones del prototipo.
+
+            </label>
+
+            <div class="actions">
+
+                <button
+                    class="btn primary block"
+                    type="submit"
+                >
+                    Crear cuenta
+                </button>
+
+            </div>
+
+        </form>
+
+        `
+    );
+
+}
+function chooseRole(role,button){
+
+    S.role=role;
+
+    document
+        .querySelectorAll(".choice")
+        .forEach(x=>x.classList.remove("selected"));
+
+    button.classList.add("selected");
+
+}
+
+
+function createAccount(event){
+
+    event.preventDefault();
+
+    if(!S.role){
+
+        toast("Primero selecciona para quién es SerCerca.");
+
+        return;
+
+    }
+
+    S.user={
+        name:document.getElementById("registerName").value.trim(),
+        email:document.getElementById("registerEmail").value.trim(),
+        password:document.getElementById("registerPassword").value
+    };
+
+    S.profile.name=S.user.name;
+    S.profile.email=S.user.email;
+
+    S.logged=true;
+    S.onboarding=true;
+    S.step=1;
+
+    closeModal();
+
+    saveData();
+
+    render();
+
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+function startLogin(){
+
+    openModal(
+        "🔐 Iniciar sesión",
+        `
+
+        <form onsubmit="loginAccount(event)">
+
+            <div class="fg">
+
+                <label>Correo</label>
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    required
+                >
+
+            </div>
+
+            <div class="fg">
+
+                <label>Contraseña</label>
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    required
+                >
+
+            </div>
+
+            <button class="btn primary block">
+                Entrar
+            </button>
+
+            <p class="small muted">
+                Esta versión guarda los datos localmente
+                en este navegador.
+            </p>
+
+        </form>
+
+        `
+    );
+
+}
+
+
+function loginAccount(event){
+
+    event.preventDefault();
+
+    const email=document.getElementById("loginEmail").value;
+    const password=document.getElementById("loginPassword").value;
+
+    if(
+        S.user.email &&
+        (
+            email!==S.user.email ||
+            password!==S.user.password
+        )
+    ){
+
+        toast("El correo o la contraseña no coinciden.");
+
+        return;
+
+    }
+
+    S.logged=true;
+
+    if(!S.profile.name){
+        S.profile.name="Usuario";
+    }
+
+    S.onboarding=false;
+
+    closeModal();
+
+    saveData();
+
+    render();
+
+}
+
+
+/* =========================================================
+   CONFIGURACIÓN INICIAL
+   ========================================================= */
+
+function onboardingScreen(){
+
+    const steps=[
+
+        {
+            title:"🌷 Bienvenida",
+            text:"Bienvenido a SerCerca. Vamos a preparar tu cuenta paso a paso.",
+            content:`
+
+                <div class="alert alert-ok">
+
+                    <b>❤️ Nuestra idea</b>
+
+                    <br><br>
+
+                    Tranquilidad y acompañamiento
+                    manteniendo la autonomía.
+
+                </div>
+
+                <p class="muted">
+                    Solo tienes que pulsar
+                    <b>Continuar</b> y pasarás a la
+                    siguiente pantalla.
+                </p>
+
+            `
+        },
+
+        {
+            title:"👤 Completa tu perfil",
+            text:"Esta información te ayudará a personalizar SerCerca.",
+            content:`
+
+                <div class="fg">
+
+                    <label>Nombre</label>
+
+                    <input
+                        id="profileName"
+                        value="${escapeHTML(S.profile.name)}"
+                    >
+
+                </div>
+
+                <div class="fg">
+
+                    <label>Teléfono</label>
+
+                    <input
+                        id="profilePhone"
+                        value="${escapeHTML(S.profile.phone)}"
+                        placeholder="Opcional"
+                    >
+
+                </div>
+
+                <div class="fg">
+
+                    <label>Ciudad</label>
+
+                    <input
+                        id="profileCity"
+                        value="${escapeHTML(S.profile.city)}"
+                        placeholder="Opcional"
+                    >
+
+                </div>
+
+            `
+        },
+        {
+            title:"❤️ Añade una persona de confianza",
+            text:"Puedes añadir familiares o personas que quieras tener cerca.",
+            content:`
+
+                <div class="fg">
+
+                    <label>Nombre</label>
+
+                    <input
+                        id="contactName"
+                        placeholder="Ej. María"
+                    >
+
+                </div>
+
+                <div class="fg">
+
+                    <label>Correo</label>
+
+                    <input
+                        id="contactEmail"
+                        type="email"
+                        placeholder="Ej. maria@email.com"
+                    >
+
+                </div>
+
+                <div class="fg">
+
+                    <label>Relación</label>
+
+                    <select id="contactRelation">
+
+                        <option>Hija/o</option>
+                        <option>Nieta/o</option>
+                        <option>Pareja</option>
+                        <option>Hermana/o</option>
+                        <option>Otro familiar</option>
+                        <option>Cuidador/a</option>
+
+                    </select>
+
+                </div>
+
+            `
+        },
+
+        {
+            title:"🔗 Vinculación",
+            text:"Ahora puedes vincular la persona de confianza.",
+            content:`
+
+                ${
+                    S.contacts.length
+                    ?
+                    S.contacts.map(c=>`
+
+                        <div class="item">
+
+                            <div class="row">
+
+                                <div class="avatar">
+                                    ${initials(c.name)}
+                                </div>
+
+                                <div>
+
+                                    <b>${escapeHTML(c.name)}</b>
+
+                                    <br>
+
+                                    <span class="muted">
+                                        ${escapeHTML(c.relation)}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <button
+                                class="btn ${c.linked?"success":"secondary"}"
+                                onclick="toggleContactLink(${c.id})"
+                            >
+                                ${c.linked?"🔗 Vinculada":"Vincular"}
+                            </button>
+
+                        </div>
+
+                    `).join("")
+                    :
+                    `
+                        <div class="alert alert-warn">
+                            Todavía no has añadido ninguna persona.
+                            Puedes hacerlo después.
+                        </div>
+                    `
+                }
+
+            `
+        },
+
+        {
+            title:"🔐 Privacidad y permisos",
+            text:"Tú decides qué información comparte SerCerca.",
+            content:`
+
+                ${settingHTML(
+                    "notifications",
+                    "🔔 Avisos",
+                    "Permitir avisos"
+                )}
+
+                ${settingHTML(
+                    "activity",
+                    "📋 Historial",
+                    "Guardar actividad"
+                )}
+
+                ${settingHTML(
+                    "location",
+                    "📍 Ubicación",
+                    "Desactivada por defecto"
+                )}
+
+            `
+        },
+
+        {
+            title:"🎁 Prueba gratuita",
+            text:"Activa tus 14 días de prueba.",
+            content:`
+
+                <div class="alert alert-warn">
+
+                    <b>🎁 14 días gratis</b>
+
+                    <br><br>
+
+                    Durante la prueba podrás probar
+                    las funciones avanzadas de SerCerca.
+
+                </div>
+
+                <button
+                    class="btn secondary block"
+                    onclick="activateTrial()"
+                >
+                    🎁 Activar prueba gratuita
+                </button>
+
+            `
+        },
+
+        {
+            title:"✅ Todo preparado",
+            text:"Ya puedes entrar en SerCerca.",
+            content:`
+
+                <div class="grid g3">
+
+                    <div class="stat">
+                        ❤️
+                        <b>Confianza</b>
+                        <span class="muted">
+                            Tu red de personas.
+                        </span>
+                    </div>
+
+                    <div class="stat">
+                        💚
+                        <b>Bienestar</b>
+                        <span class="muted">
+                            Tu check-in.
+                        </span>
+                    </div>
+
+                    <div class="stat">
+                        🔔
+                        <b>Avisos</b>
+                        <span class="muted">
+                            Información importante.
+                        </span>
+                    </div>
+
+                </div>
+
+            `
         }
-      );
 
-    if(activas.length===0){
+    ];
 
-      situaciones.innerHTML=
-        '<div class="success">'+
-        "💚 No hay situaciones pendientes."+
-        "</div>";
+    const step=steps[S.step-1];
+
+    return `
+
+        <main>
+
+            <div
+                class="card"
+                style="max-width:700px;margin:20px auto"
+            >
+
+                <div class="small">
+                    PASO ${S.step} DE ${steps.length}
+                </div>
+
+                <div class="progress">
+
+                    <span
+                        style="
+                        width:${S.step/steps.length*100}%
+                        "
+                    ></span>
+
+                </div>
+
+                <h1>${step.title}</h1>
+
+                <p class="muted">
+                    ${step.text}
+                </p>
+
+                ${step.content}
+
+                <div class="actions">
+
+                    <button
+                        class="btn light"
+                        onclick="previousSetup()"
+                        ${S.step===1?"disabled":""}
+                    >
+                        ← Atrás
+                    </button>
+
+                    <button
+                        class="btn primary"
+                        onclick="nextSetup()"
+                    >
+                        ${S.step===steps.length
+                            ?"🚀 Entrar en SerCerca"
+                            :"Continuar →"}
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    `;
+
+}
+function nextSetup(){
+
+    if(S.step===2){
+
+        const name=document.getElementById("profileName");
+
+        const phone=document.getElementById("profilePhone");
+
+        const city=document.getElementById("profileCity");
+
+        if(name){
+            S.profile.name=name.value.trim() || S.profile.name;
+        }
+
+        if(phone){
+            S.profile.phone=phone.value.trim();
+        }
+
+        if(city){
+            S.profile.city=city.value.trim();
+        }
+
+        S.user.name=S.profile.name;
+
+        addHistory(
+            "Perfil completado",
+            S.profile.name
+        );
+
+    }
+
+
+    if(S.step===3){
+
+        const name=document.getElementById("contactName");
+
+        if(name && name.value.trim()){
+
+            const contact={
+                id:Date.now(),
+                name:name.value.trim(),
+                email:document.getElementById("contactEmail").value.trim(),
+                relation:document.getElementById("contactRelation").value,
+                linked:false
+            };
+
+            S.contacts.push(contact);
+
+            addHistory(
+                "Persona de confianza añadida",
+                contact.name
+            );
+
+        }
+
+    }
+
+
+    if(S.step===6){
+
+        if(!S.trial.active){
+
+            activateTrial(false);
+
+        }
+
+    }
+
+
+    if(S.step===7){
+
+        S.onboarding=false;
+        S.current="home";
+
+        addHistory(
+            "Configuración inicial terminada",
+            "Entrada en SerCerca"
+        );
+
+        saveData();
+
+        render();
+
+        toast("¡Bienvenido a SerCerca!");
+
+        return;
+
+    }
+
+
+    S.step++;
+
+    saveData();
+
+    render();
+
+}
+
+
+function previousSetup(){
+
+    if(S.step>1){
+
+        S.step--;
+
+        saveData();
+
+        render();
+
+    }
+
+}
+
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+function applicationLayout(content){
+
+    const unread=S.notifications.filter(n=>!n.read).length;
+
+    return `
+
+        <header>
+
+            <div class="header">
+
+                <div class="logo">♥</div>
+
+                <div class="brand">
+                    SerCerca
+                </div>
+
+                <nav class="nav">
+
+                    <button onclick="go('home')">
+                        🏠 Inicio
+                    </button>
+
+                    <button onclick="go('wellness')">
+                        💚 Check-in
+                    </button>
+
+                    <button onclick="go('people')">
+                        ❤️ Confianza
+                    </button>
+
+                    <button onclick="go('messages')">
+                        💌 Mensajes
+                    </button>
+
+                    <button onclick="go('family')">
+                        👨‍👩‍👧 Familia
+                    </button>
+
+                    <button onclick="go('history')">
+                        📋 Historial
+                    </button>
+
+                    <button onclick="go('plans')">
+                        💳 Planes
+                    </button>
+
+                    <button onclick="go('settings')">
+                        ⚙️
+                    </button>
+
+                    <button onclick="go('notifications')">
+                        🔔 ${unread?unread:""}
+                    </button>
+
+                </nav>
+
+                <button
+                    class="btn light"
+                    onclick="logout()"
+                >
+                    Salir
+                </button>
+
+            </div>
+
+        </header>
+
+        <main>
+
+            ${content}
+
+        </main>
+
+    `;
+
+}
+
+
+/* =========================================================
+   ROUTER
+   ========================================================= */
+
+function applicationRouter(){
+
+    switch(S.current){
+
+        case"home":
+            return homeScreen();
+
+        case"wellness":
+            return wellnessScreen();
+
+        case"people":
+            return peopleScreen();
+
+        case"messages":
+            return messagesScreen();
+
+        case"notifications":
+            return notificationsScreen();
+
+        case"family":
+            return familyScreen();
+
+        case"history":
+            return historyScreen();
+
+        case"settings":
+            return settingsScreen();
+
+        case"plans":
+            return plansScreen();
+
+        case"recommendations":
+            return recommendationsScreen();
+
+        case"help":
+            return helpScreen();
+
+        case"reminders":
+            return remindersScreen();
+
+        default:
+            return homeScreen();
+
+    }
+
+}
+/* =========================================================
+   INICIO
+   ========================================================= */
+
+function homeScreen(){
+
+    const unread=S.notifications.filter(n=>!n.read).length;
+
+    return `
+
+        <div class="row between wrap">
+
+            <div>
+
+                <h1>
+                    🏠 Hola,
+                    ${escapeHTML(S.profile.name || "bienvenido")}
+                </h1>
+
+                <p class="muted">
+                    Tu espacio de tranquilidad,
+                    contacto y autonomía.
+                </p>
+
+            </div>
+
+            <span class="pill">
+                Plan ${escapeHTML(S.plan)}
+            </span>
+
+        </div>
+
+
+        <div class="grid g4">
+
+            <div class="stat">
+
+                💚
+
+                <span>Estado</span>
+
+                <b>
+                    ${escapeHTML(S.wellness.status)}
+                </b>
+
+                <span class="muted small">
+                    ${S.wellness.last || "Sin check-in"}
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                ❤️
+
+                <span>Confianza</span>
+
+                <b>
+                    ${S.contacts.length}
+                </b>
+
+                <span class="muted small">
+                    personas
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                🔔
+
+                <span>Avisos</span>
+
+                <b>
+                    ${unread}
+                </b>
+
+                <span class="muted small">
+                    pendientes
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                📋
+
+                <span>Actividad</span>
+
+                <b>
+                    ${S.history.length}
+                </b>
+
+                <span class="muted small">
+                    registros
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="grid g2">
+
+            <div class="card">
+
+                <h2>💚 ¿Cómo estás?</h2>
+
+                <p class="muted">
+                    Haz tu check-in diario.
+                </p>
+
+                <button
+                    class="big ok"
+                    onclick="go('wellness')"
+                >
+                    💚 Hacer check-in
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>🆘 ¿Necesitas ayuda?</h2>
+
+                <p class="muted">
+                    Envía un aviso a tus personas de confianza.
+                </p>
+
+                <button
+                    class="big help"
+                    onclick="requestHelp()"
+                >
+                    🆘 Necesito ayuda
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="grid g3">
+
+            <div class="card">
+
+                <h3>💡 Recomendaciones</h3>
+
+                <p class="muted">
+                    Ideas sencillas para tu día.
+                </p>
+
+                <button
+                    class="btn secondary"
+                    onclick="go('recommendations')"
+                >
+                    Ver recomendaciones
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>💌 Mensajes</h3>
+
+                <p class="muted">
+                    Habla con tu red.
+                </p>
+
+                <button
+                    class="btn secondary"
+                    onclick="go('messages')"
+                >
+                    Abrir mensajes
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🔔 Avisos</h3>
+
+                <p class="muted">
+                    ${unread
+                        ?"Tienes avisos nuevos."
+                        :"No tienes avisos nuevos."}
+                </p>
+
+                <button
+                    class="btn secondary"
+                    onclick="go('notifications')"
+                >
+                    Ver avisos
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>🎁 Prueba gratuita de 14 días</h2>
+
+            ${
+                S.trial.active
+                ?trialInformation()
+                :`
+                    <p class="muted">
+                        Puedes activar una prueba gratuita
+                        de 14 días para probar las funciones
+                        avanzadas.
+                    </p>
+
+                    <button
+                        class="btn primary"
+                        onclick="activateTrial()"
+                    >
+                        🎁 Activar prueba
+                    </button>
+                `
+            }
+
+        </div>
+
+
+        <div class="footer">
+            SerCerca acompaña y conecta.
+            No sustituye servicios de emergencia.
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CHECK-IN
+   ========================================================= */
+
+function wellnessScreen(){
+
+    const options=[
+
+        [
+            "😊",
+            "Estoy bien",
+            "Me encuentro bien hoy."
+        ],
+
+        [
+            "🙂",
+            "Estoy regular",
+            "Hoy estoy un poco regular."
+        ],
+
+        [
+            "😟",
+            "No me encuentro bien",
+            "Quiero que mi red lo sepa."
+        ]
+
+    ];
+
+    return `
+
+        <div class="card">
+
+            <h1>💚 Estado de bienestar</h1>
+
+            <p class="muted">
+                Elige cómo te encuentras.
+            </p>
+
+
+            ${options.map(option=>`
+
+                <button
+                    class="choice"
+                    onclick="setWellness('${option[1]}')"
+                >
+
+                    <span class="emoji">
+                        ${option[0]}
+                    </span>
+
+                    <b>
+                        ${option[1]}
+                    </b>
+
+                    <br>
+
+                    <span class="muted">
+                        ${option[2]}
+                    </span>
+
+                </button>
+
+            `).join("")}
+            <hr>
+
+
+            <h2>💚 Check-in</h2>
+
+            <p class="muted">
+                El check-in avisa a tu red de que
+                has pasado por SerCerca.
+            </p>
+
+            <button
+                class="btn success"
+                onclick="checkin()"
+            >
+                💚 Estoy bien
+            </button>
+
+
+            ${
+                S.wellness.last
+                ?`
+                    <div class="alert alert-ok">
+
+                        Último check-in:
+
+                        <b>
+                            ${escapeHTML(S.wellness.last)}
+                        </b>
+
+                    </div>
+                `
+                :""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function setWellness(status){
+
+    S.wellness.status=status;
+
+    S.wellness.last=now();
+
+    addHistory(
+        "Estado de bienestar",
+        status
+    );
+
+    if(status!=="Estoy bien"){
+
+        addNotification(
+            `🌷 Estado actualizado: ${status}`,
+            "wellness"
+        );
+
+    }
+
+    saveData();
+
+    render();
+
+    toast("Estado actualizado.");
+
+}
+
+
+function checkin(){
+
+    S.wellness.status="Estoy bien";
+
+    S.wellness.last=now();
+
+    addHistory(
+        "Check-in realizado",
+        "Estoy bien"
+    );
+
+    addNotification(
+        `${S.profile.name || "La persona"} ha realizado un check-in.`,
+        "checkin"
+    );
+
+    saveData();
+
+    render();
+
+    toast("💚 Check-in realizado correctamente.");
+
+}
+
+
+function requestHelp(){
+
+    addNotification(
+        `🆘 ${S.profile.name || "La persona"} ha solicitado ayuda.`,
+        "help"
+    );
+
+    addHistory(
+        "Ayuda solicitada",
+        "Aviso enviado a la red de confianza."
+    );
+
+    saveData();
+
+    render();
+
+    toast("🆘 Aviso enviado.");
+
+}
+
+
+/* =========================================================
+   PERSONAS DE CONFIANZA
+   ========================================================= */
+
+function peopleScreen(){
+
+    return `
+
+        <div class="row between wrap">
+
+            <div>
+
+                <h1>❤️ Personas de confianza</h1>
+
+                <p class="muted">
+                    Personas que pueden acompañarte.
+                </p>
+
+            </div>
+
+            <button
+                class="btn primary"
+                onclick="addContactModal()"
+            >
+                ＋ Añadir persona
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            ${
+                S.contacts.length
+                ?
+                S.contacts.map(contact=>`
+
+                    <div class="item">
+
+                        <div class="row">
+
+                            <div class="avatar">
+                                ${initials(contact.name)}
+                            </div>
+
+                            <div>
+
+                                <b>
+                                    ${escapeHTML(contact.name)}
+                                </b>
+
+                                <br>
+
+                                <span class="muted">
+                                    ${escapeHTML(contact.relation)}
+                                    ·
+                                    ${escapeHTML(contact.email || "Sin correo")}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="actions">
+
+                            <span class="pill">
+
+                                ${
+                                    contact.linked
+                                    ?"🔗 Vinculada"
+                                    :"⏳ Pendiente"
+                                }
+
+                            </span>
+
+                            <button
+                                class="btn secondary"
+                                onclick="toggleContactLink(${contact.id})"
+                            >
+
+                                ${
+                                    contact.linked
+                                    ?"Desvincular"
+                                    :"Vincular"
+                                }
+
+                            </button>
+
+                            <button
+                                class="btn light"
+                                onclick="deleteContact(${contact.id})"
+                            >
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `).join("")
+                :
+                `
+                    <div class="alert alert-warn">
+
+                        Todavía no tienes personas de confianza.
+
+                    </div>
+                `
+            }
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>🔗 ¿Cómo funciona la vinculación?</h2>
+
+            <p class="muted">
+                En este prototipo, pulsar “Vincular”
+                conecta la persona directamente.
+                En una versión real se podría enviar
+                una invitación segura por correo o enlace.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+function addContactModal(){
+
+    openModal(
+        "❤️ Añadir persona",
+        `
+
+        <form onsubmit="createContact(event)">
+
+            <div class="fg">
+
+                <label>Nombre</label>
+
+                <input
+                    id="newContactName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="fg">
+
+                <label>Correo</label>
+
+                <input
+                    id="newContactEmail"
+                    type="email"
+                >
+
+            </div>
+
+
+            <div class="fg">
+
+                <label>Relación</label>
+
+                <select id="newContactRelation">
+
+                    <option>Hija/o</option>
+                    <option>Nieta/o</option>
+                    <option>Pareja</option>
+                    <option>Hermana/o</option>
+                    <option>Otro familiar</option>
+                    <option>Cuidador/a</option>
+
+                </select>
+
+            </div>
+
+
+            <button class="btn primary block">
+                Añadir persona
+            </button>
+
+        </form>
+
+        `
+    );
+
+}
+function createContact(event){
+
+    event.preventDefault();
+
+    const contact={
+
+        id:Date.now(),
+
+        name:document.getElementById(
+            "newContactName"
+        ).value.trim(),
+
+        email:document.getElementById(
+            "newContactEmail"
+        ).value.trim(),
+
+        relation:document.getElementById(
+            "newContactRelation"
+        ).value,
+
+        linked:false
+
+    };
+
+    S.contacts.push(contact);
+
+    addHistory(
+        "Persona de confianza añadida",
+        contact.name
+    );
+
+    closeModal();
+
+    saveData();
+
+    render();
+
+    toast("❤️ Persona añadida.");
+
+}
+
+
+function toggleContactLink(id){
+
+    const contact=S.contacts.find(
+        c=>c.id===id
+    );
+
+    if(!contact)return;
+
+    contact.linked=!contact.linked;
+
+    addHistory(
+        contact.linked
+        ?"Persona vinculada"
+        :"Persona desvinculada",
+        contact.name
+    );
+
+    if(contact.linked){
+
+        addNotification(
+            `🔗 ${contact.name} ha sido vinculada.`,
+            "link"
+        );
+
+    }
+
+    saveData();
+
+    render();
+
+    toast(
+        contact.linked
+        ?"🔗 Persona vinculada."
+        :"Persona desvinculada."
+    );
+
+}
+
+
+function deleteContact(id){
+
+    if(!confirm("¿Eliminar esta persona?")){
+        return;
+    }
+
+    const contact=S.contacts.find(
+        c=>c.id===id
+    );
+
+    S.contacts=S.contacts.filter(
+        c=>c.id!==id
+    );
+
+    addHistory(
+        "Persona eliminada",
+        contact?.name || ""
+    );
+
+    saveData();
+
+    render();
+
+}
+
+
+/* =========================================================
+   MENSAJES
+   ========================================================= */
+
+function messagesScreen(){
+
+    const linked=S.contacts.filter(
+        c=>c.linked
+    );
+
+    if(!linked.length){
+
+        return `
+
+            <div class="card">
+
+                <h1>💌 Mensajes</h1>
+
+                <p class="muted">
+                    Primero debes vincular una persona
+                    de confianza.
+                </p>
+
+                <button
+                    class="btn primary"
+                    onclick="go('people')"
+                >
+                    ❤️ Gestionar personas
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="card">
+
+            <div class="row between wrap">
+
+                <div>
+
+                    <h1>💌 Mensajes</h1>
+
+                    <p class="muted">
+                        Contacta con tu red.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn primary"
+                    onclick="newMessageModal()"
+                >
+                    ＋ Nuevo mensaje
+                </button>
+
+            </div>
+
+
+            <div class="chat">
+
+                ${
+                    S.messages.length
+                    ?
+                    S.messages.map(message=>`
+
+                        <div
+                            class="msg ${
+                                message.me
+                                ?"me"
+                                :"them"
+                            }"
+                        >
+
+                            ${escapeHTML(message.text)}
+
+                            <div class="small">
+                                ${escapeHTML(message.to)}
+                                ·
+                                ${escapeHTML(message.date)}
+                            </div>
+
+                        </div>
+
+                    `).join("")
+                    :
+                    `
+                        <div
+                            style="
+                            text-align:center;
+                            padding:100px 10px;
+                            "
+                            class="muted"
+                        >
+                            Todavía no hay mensajes.
+                        </div>
+                    `
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function newMessageModal(){
+
+    const contacts=S.contacts.filter(
+        c=>c.linked
+    );
+
+    openModal(
+        "💌 Nuevo mensaje",
+        `
+
+        <form onsubmit="sendMessage(event)">
+
+            <div class="fg">
+
+                <label>Persona</label>
+
+                <select id="messageTo">
+
+                    ${
+                        contacts.map(c=>
+                            `<option>
+                                ${escapeHTML(c.name)}
+                            </option>`
+                        ).join("")
+                    }
+
+                </select>
+
+            </div>
+
+
+            <div class="fg">
+
+                <label>Mensaje</label>
+
+                <textarea
+                    id="messageText"
+                    required
+                    placeholder="Escribe tu mensaje..."
+                ></textarea>
+
+            </div>
+
+
+            <button class="btn primary block">
+                💌 Enviar
+            </button>
+
+        </form>
+
+        `
+    );
+
+}
+function sendMessage(event){
+
+    event.preventDefault();
+
+    const message={
+
+        id:Date.now(),
+
+        me:true,
+
+        to:document.getElementById(
+            "messageTo"
+        ).value,
+
+        text:document.getElementById(
+            "messageText"
+        ).value,
+
+        date:now()
+
+    };
+
+    S.messages.push(message);
+
+    addHistory(
+        "Mensaje enviado",
+        "A "+message.to
+    );
+
+    addNotification(
+        `💌 Mensaje enviado a ${message.to}.`,
+        "message"
+    );
+
+    closeModal();
+
+    saveData();
+
+    render();
+
+    toast("💌 Mensaje enviado.");
+
+}
+
+
+/* =========================================================
+   AVISOS
+   ========================================================= */
+
+function notificationsScreen(){
+
+    return `
+
+        <div class="row between wrap">
+
+            <div>
+
+                <h1>🔔 Avisos</h1>
+
+                <p class="muted">
+                    Información importante de SerCerca.
+                </p>
+
+            </div>
+
+            <button
+                class="btn light"
+                onclick="readNotifications()"
+            >
+                Marcar todo leído
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            ${
+                S.notifications.length
+                ?
+                S.notifications.map(n=>`
+
+                    <div class="item">
+
+                        <div>
+
+                            <b>
+                                ${
+                                    n.type==="help"
+                                    ?"🆘"
+                                    :
+                                    n.type==="checkin"
+                                    ?"💚"
+                                    :
+                                    n.type==="wellness"
+                                    ?"🌷"
+                                    :"🔔"
+                                }
+
+                                ${escapeHTML(n.text)}
+                            </b>
+
+                            <br>
+
+                            <span class="muted small">
+                                ${escapeHTML(n.date)}
+                            </span>
+
+                        </div>
+
+                        <span class="pill">
+                            ${n.read?"Leído":"Nuevo"}
+                        </span>
+
+                    </div>
+
+                `).join("")
+                :
+                `
+                    <div
+                        class="muted"
+                        style="text-align:center;padding:60px"
+                    >
+                        No tienes avisos.
+                    </div>
+                `
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function readNotifications(){
+
+    S.notifications.forEach(
+        n=>n.read=true
+    );
+
+    saveData();
+
+    render();
+
+}
+
+
+/* =========================================================
+   RECOMENDACIONES
+   ========================================================= */
+
+function recommendationsScreen(){
+
+    const status=S.wellness.status;
+
+    let recommendations=[];
+
+    if(status==="Estoy regular"){
+
+        recommendations=[
+
+            ["🌿","Descansa un poco",
+             "Busca un momento tranquilo."],
+
+            ["💌","Habla con alguien",
+             "Envía un mensaje a una persona de confianza."],
+
+            ["🚶","Muévete",
+             "Si puedes hacerlo con seguridad, da un pequeño paseo."]
+
+        ];
+
+    }else if(status==="No me encuentro bien"){
+
+        recommendations=[
+
+            ["❤️","Contacta con tu familia",
+             "Cuenta cómo te encuentras."],
+
+            ["🆘","Pide ayuda",
+             "Utiliza el botón de ayuda si lo necesitas."],
+
+            ["🛋️","Descansa",
+             "Quédate en un lugar cómodo y seguro."]
+
+        ];
 
     }else{
 
-      let html="";
+        recommendations=[
 
-      activas.forEach(
-        function(a){
+            ["🌞","Empieza el día con calma",
+             "Haz algo que te guste."],
 
-          html+=
-            '<div class="alert-item">'+
-            "🚨 <b>"+
-            escapar(a.titulo)+
-            "</b>"+
-            "<br>"+
-            escapar(a.fecha)+
-            "</div>";
-        }
-      );
+            ["💌","Contacta con alguien",
+             "Manda un mensaje a tu familia."],
 
-      situaciones.innerHTML=html;
-    }
-  }
-}
+            ["🧩","Haz una actividad",
+             "Lee, dibuja, cocina, escucha música o cuida plantas."]
 
-function actualizarResumenDia(){
+        ];
 
-  const contenedor =
-    document.getElementById(
-      "resumenDia"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  const rutina =
-    leer(
-      "rutina",
-      null
-    );
-
-  let html="";
-
-  if(rutina){
-
-    if(rutina.desayuno){
-
-      html+=
-        '<div class="list-item">'+
-        "🍳 Desayuno: "+
-        escapar(
-          rutina.desayuno
-        )+
-        "</div>";
     }
 
-    if(rutina.comida){
 
-      html+=
-        '<div class="list-item">'+
-        "🍽️ Comida: "+
-        escapar(
-          rutina.comida
-        )+
-        "</div>";
-    }
+    return `
 
-    if(rutina.paseo){
+        <div class="card">
 
-      html+=
-        '<div class="list-item">'+
-        "🚶 Paseo: "+
-        escapar(
-          rutina.paseo
-        )+
-        "</div>";
-    }
+            <h1>💡 Recomendaciones</h1>
 
-    if(rutina.checkin){
+            <p class="muted">
+                Ideas sencillas para acompañarte.
+            </p>
 
-      html+=
-        '<div class="list-item">'+
-        "💚 Check-in: "+
-        escapar(
-          rutina.checkin
-        )+
-        "</div>";
-    }
 
-  }
+            <div class="grid g3">
 
-  if(!html){
+                ${recommendations.map(r=>`
 
-    html=
-      '<div class="notice">'+
-      "🌷 Configura tu rutina para ver aquí "+
-      "las actividades del día."+
-      "</div>";
-  }
+                    <div class="card">
 
-  contenedor.innerHTML=html;
+                        <div class="emoji">
+                            ${r[0]}
+                        </div>
+
+                        <h3>
+                            ${r[1]}
+                        </h3>
+
+                        <p class="muted">
+                            ${r[2]}
+                        </p>
+
+                        <button
+                            class="btn secondary"
+                            onclick="completeRecommendation('${r[1]}')"
+                        >
+                            ✓ Hecho
+                        </button>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+
+        </div>
+
+    `;
+
 }
 
-function actualizarEstadoPrincipal(){
 
-  const texto =
-    document.getElementById(
-      "estadoPrincipalTexto"
+function completeRecommendation(name){
+
+    addHistory(
+        "Recomendación realizada",
+        name
     );
 
-  const caja =
-    document.getElementById(
-      "estadoPrincipal"
-    );
+    saveData();
 
-  if(!texto || !caja){
-    return;
-  }
+    toast("💡 Guardado en tu actividad.");
 
-  const ultimo=
-    checkins[0];
-
-  caja.className=
-    "status-card";
-
-  if(!ultimo){
-
-    caja.classList.add(
-      "status-yellow"
-    );
-
-    texto.innerHTML=
-      "⏳ Todavía no has hecho el check-in de hoy.";
-
-    return;
-  }
-  if(
-    ultimo.nivel==="alto"
-  ){
-
-    caja.classList.add(
-      "status-red"
-    );
-
-    texto.innerHTML=
-      "🚨 Tu último check-in requiere revisión.";
-
-    return;
-  }
-
-  if(
-    ultimo.nivel==="medio"
-  ){
-
-    caja.classList.add(
-      "status-yellow"
-    );
-
-    texto.innerHTML=
-      "🟡 Tu último check-in ha indicado algo diferente de lo habitual.";
-
-    return;
-  }
-
-  caja.classList.add(
-    "status-green"
-  );
-
-  texto.innerHTML=
-    "💚 Tu último check-in está registrado y todo parece estar dentro de lo habitual.";
 }
-
-function actualizarSaludo(){
-
-  const perfil =
-    leer(
-      "perfilMayor",
-      null
-    );
-
-  const titulo =
-    document.getElementById(
-      "saludoInicio"
-    );
-
-  const texto =
-    document.getElementById(
-      "saludoTexto"
-    );
-
-  if(!titulo || !texto){
-    return;
-  }
-
-  const hora =
-    new Date()
-      .getHours();
-
-  let saludo="Buenos días";
-
-  if(hora>=14 && hora<20){
-
-    saludo="Buenas tardes";
-  }
-
-  if(hora>=20){
-
-    saludo="Buenas noches";
-  }
-
-  titulo.innerHTML=
-    saludo+
-    " 🌷";
-
-  if(perfil){
-
-    texto.innerHTML=
-      "Nos alegra saber de ti, <b>"+
-      escapar(perfil.nombre)+
-      "</b>. 💚";
-
-  }else{
-
-    texto.innerHTML=
-      "Nos alegra saber de ti.";
-  }
-}
-
-function actualizarResumenAlertas(){
-
-  const contenedor =
-    document.getElementById(
-      "resumenAlertas"
-    );
-
-  if(!contenedor){
-    return;
-  }
-
-  const activas =
-    alertas.filter(
-      function(a){
-        return !a.resuelta;
-      }
-    );
-
-  if(activas.length===0){
-
-    contenedor.innerHTML=
-      '<div class="success">'+
-      "💚 No hay alertas pendientes."+
-      "</div>";
-
-    return;
-  }
-
-  contenedor.innerHTML=
-    '<div class="alert-box">'+
-    "🚨 Hay <b>"+
-    activas.length+
-    "</b> alerta(s) pendiente(s)."+
-    "<br><br>"+
-    '<button class="danger" '+
-    'onclick="mostrar(\'alertas\')">'+
-    "Ver alertas"+
-    "</button>"+
-    "</div>";
-}
-
-function actualizarContadores(){
-
-  const familiaresElemento =
-    document.getElementById(
-      "contadorFamiliares"
-    );
-
-  const checkinsElemento =
-    document.getElementById(
-      "contadorCheckins"
-    );
-
-  const alertasElemento =
-    document.getElementById(
-      "contadorAlertas"
-    );
-
-  const citasElemento =
-    document.getElementById(
-      "contadorCitas"
-    );
-
-  if(familiaresElemento){
-
-    familiaresElemento.textContent=
-      familiares.length;
-  }
-
-  if(checkinsElemento){
-
-    checkinsElemento.textContent=
-      checkins.length;
-  }
-
-  if(alertasElemento){
-
-    alertasElemento.textContent=
-      alertas.filter(
-        function(a){
-          return !a.resuelta;
-        }
-      ).length;
-  }
-
-  if(citasElemento){
-
-    citasElemento.textContent=
-      citas.length;
-  }
-}
-
-function actualizarTodo(){
-
-  mostrarFamiliares();
-
-  mostrarFamiliaresPagina();
-
-  mostrarContactos();
-
-  mostrarHistorial();
-
-  mostrarAlertas();
-
-  mostrarIncidencias();
-
-  mostrarCitas();
-
-  mostrarRutina();
-
-  mostrarRecordatorios();
-
-  mostrarPerfilPagina();
-
-  mostrarEstadoHoy();
-
-  actualizarResumenDia();
-
-  actualizarEstadoPrincipal();
-
-  actualizarSaludo();
-
-  actualizarResumenAlertas();
-
-  actualizarContadores();
-
-  actualizarPanelSerCerca();
-
-  actualizarPlanResumen();
-}
-
-/* =========================================================
-   EMERGENCIA Y MODAL
-   ========================================================= */
-
-function mostrarConfirmacionEmergencia(){
-
-  abrirModal(`
-
-    <h2>🆘 Situación urgente</h2>
-
-    <div class="alert-box">
-
-      <b>SerCerca no sustituye a los servicios
-      de emergencia.</b>
-
-      <p>
-        Si existe un peligro inmediato o una emergencia,
-        contacta con el servicio de emergencias de tu país.
-      </p>
-
-    </div>
-
-    <p>
-      También puedes contactar con una persona
-      de confianza autorizada.
-    </p>
-
-  `);
-}
-
-function abrirModal(html){
-
-  const modal =
-    document.getElementById(
-      "modal"
-    );
-
-  const contenido =
-    document.getElementById(
-      "modalContenido"
-    );
-
-  contenido.innerHTML=html;
-
-  modal.classList.add(
-    "open"
-  );
-}
-
-function cerrarModal(){
-
-  document
-    .getElementById("modal")
-    .classList.remove(
-      "open"
-    );
-}
-
-/* =========================================================
-   CARGAR DATOS E INICIALIZACIÓN
-   ========================================================= */
-
-function cargarDatos(){
-
-  familiares=
-    leer(
-      "familiares",
-      []
-    );
-
-  checkins=
-    leer(
-      "checkins",
-      []
-    );
-
-  alertas=
-    leer(
-      "alertas",
-      []
-    );
-
-  incidencias=
-    leer(
-      "incidencias",
-      []
-    );
-
-  citas=
-    leer(
-      "citas",
-      []
-    );
-
-  recordatorios=
-    leer(
-      "recordatorios",
-      []
-    );
-
-  planActual=
-    leer(
-      "plan",
-      ""
-    );
-
-  usuarioRegistrado=
-    leer(
-      "cuentaCreada",
-      false
-    );
-
-  sesionIniciada=
-    leer(
-      "sesion",
-      false
-    );
-
-  const usuario=
-    leer(
-      "usuario",
-      null
-    );
-
-  if(usuario){
-
-    const registroNombre =
-      document.getElementById(
-        "registroNombre"
-      );
-
-    const registroEmail =
-      document.getElementById(
-        "registroEmail"
-      );
-
-    const registroTelefono =
-      document.getElementById(
-        "registroTelefono"
-      );
-
-    if(registroNombre){
-
-      registroNombre.value=
-        usuario.nombre||"";
-    }
-
-    if(registroEmail){
-
-      registroEmail.value=
-        usuario.email||"";
-    }
-
-    if(registroTelefono){
-
-      registroTelefono.value=
-        usuario.telefono||"";
-    }
-  }
-
-  const perfil=
-    leer(
-      "perfilMayor",
-      null
-    );
-
-  if(perfil){
-
-    document.getElementById(
-      "mayorNombre"
-    ).value=
-      perfil.nombre||"";
-
-    document.getElementById(
-      "mayorEdad"
-    ).value=
-      perfil.edad||"";
-
-    document.getElementById(
-      "mayorTelefono"
-    ).value=
-      perfil.telefono||"";
-
-    document.getElementById(
-      "mayorDireccion"
-    ).value=
-      perfil.direccion||"";
-
-    document.getElementById(
-      "mayorPreferencias"
-    ).value=
-      perfil.preferencias||"";
-
-    document.getElementById(
-      "mayorNotas"
-    ).value=
-      perfil.notas||"";
-  }
-
-  const rutina=
-    leer(
-      "rutina",
-      null
-    );
-
-  if(rutina){
-
-    document.getElementById(
-      "rutinaLevantarse"
-    ).value=
-      rutina.levantarse||"";
-
-    document.getElementById(
-      "rutinaDesayuno"
-    ).value=
-      rutina.desayuno||"";
-
-    document.getElementById(
-      "rutinaComida"
-    ).value=
-      rutina.comida||"";
-
-    document.getElementById(
-      "rutinaPaseo"
-    ).value=
-      rutina.paseo||"";
-
-    document.getElementById(
-      "rutinaCena"
-    ).value=
-      rutina.cena||"";
-
-    document.getElementById(
-      "rutinaDormir"
-    ).value=
-      rutina.dormir||"";
-
-    document.getElementById(
-      "rutinaCheckin"
-    ).value=
-      rutina.checkin||"";
-
-    document.getElementById(
-      "rutinaNotas"
-    ).value=
-      rutina.notas||"";
-  }
-}
-
-window.addEventListener(
-  "load",
-  function(){
-
-    cargarDatos();
-
-    actualizarTodo();
-
-    /*
-      Siempre empezamos en la bienvenida cuando
-      se abre la aplicación desde cero.
-    */
-
-    mostrar("bienvenida");
-
-  }
-);
 
