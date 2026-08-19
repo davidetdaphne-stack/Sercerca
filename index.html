@@ -3,10 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SerCerca 💚</title>
+<title>SerCerca 💚 - Estar cerca, incluso cuando no puedes estar</title>
 
 <style>
+
+/* =========================================================
+   SER CERCA - SISTEMA COMPLETO Y MÓDULOS DE PROTOTIPO
+   ========================================================= */
+
+:root {
+  --verde-oscuro: #17332b;
+  --verde: #2f6f5e;
+  --verde-claro: #e7f2ed;
+  --verde-suave: #f3f8f5;
+  --rosa: #b8758d;
+  --rosa-claro: #fff5f8;
+  --dorado: #8a7040;
+  --azul: #477a9e;
+  --rojo: #a33d3d;
+  --amarillo-alerta: #e67e22;
+  --gris-texto: #587168;
+  --blanco: #ffffff;
+  --borde: #cbdcd4;
+}
 
 * {
   box-sizing: border-box;
@@ -18,303 +37,17 @@ html {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f3f8f5;
-  color: #17332b;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--verde-suave);
+  color: var(--verde-oscuro);
 }
 
-header {
-  background: #17332b;
-  color: white;
-  text-align: center;
-  padding: 32px 18px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 43px;
-}
-
-header h1 span {
-  color: #9ed1bd;
-}
-
-header p {
-  margin: 10px auto 0;
-  max-width: 600px;
-  line-height: 1.5;
-  font-size: 17px;
-}
-
-main {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  padding-bottom: 100px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.card {
-  background: white;
-  padding: 26px;
-  margin-bottom: 18px;
-  border-radius: 24px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.07);
-}
-
-.card h1,
-.card h2,
-.card h3 {
-  line-height: 1.3;
-}
-
-p {
-  line-height: 1.6;
+button, input, textarea, select {
+  font-family: inherit;
 }
 
 button {
-  width: 100%;
-  border: none;
-  border-radius: 16px;
-  padding: 16px;
-  margin: 7px 0;
-  font-size: 16px;
-  font-weight: bold;
-  background: #2f6f5e;
-  color: white;
   cursor: pointer;
-  transition: .2s;
-}
-
-button:hover {
-  opacity: .9;
-  transform: translateY(-1px);
-}
-
-button:active {
-  transform: scale(.98);
-}
-
-.secondary {
-  background: #e7f2ed;
-  color: #17332b;
-}
-
-.danger {
-  background: #a33d3d;
-}
-
-.pink {
-  background: #b8758d;
-}
-
-.dark {
-  background: #17332b;
-}
-
-.support-button {
-  background: #b8758d;
-}
-
-.start-button {
-  background: #2f6f5e;
-}
-
-.next-button {
-  background: #17332b;
-}
-
-.plan-button {
-  margin-top: 15px;
-}
-
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #cbdcd4;
-  border-radius: 12px;
-  margin: 7px 0 15px;
-  font-size: 16px;
-  font-family: Arial, sans-serif;
-  background: white;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-top: 8px;
-}
-
-.message {
-  display: none;
-  padding: 17px;
-  margin-top: 15px;
-  border-radius: 15px;
-  background: #edf7f1;
-  line-height: 1.5;
-}
-
-.success {
-  border-left: 5px solid #2f6f5e;
-  background: #edf7f1;
-  padding: 17px;
-  border-radius: 15px;
-  margin-top: 15px;
-  line-height: 1.5;
-}
-
-.notice {
-  background: #e9f5ff;
-  padding: 17px;
-  border-radius: 15px;
-  margin-top: 15px;
-  line-height: 1.5;
-}
-
-.warning {
-  background: #fff6df;
-  padding: 17px;
-  border-radius: 15px;
-  margin-top: 15px;
-  line-height: 1.5;
-}
-.welcome-title {
-  font-size: 36px;
-  margin-top: 0;
-}
-
-.welcome-subtitle {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.welcome-line {
-  font-size: 17px;
-  margin: 16px 0;
-}
-
-.welcome-buttons {
-  margin-top: 28px;
-}
-
-.support-box {
-  background: #fff7fa;
-  border: 2px solid #f0d5df;
-  border-radius: 20px;
-  padding: 20px;
-  margin: 15px 0;
-}
-
-.support-icon {
-  font-size: 44px;
-}
-
-.support-title {
-  font-size: 28px;
-  margin-top: 8px;
-}
-
-.recommendation {
-  background: #f4faf7;
-  border-radius: 16px;
-  padding: 17px;
-  margin: 12px 0;
-}
-
-.persona {
-  background: #f3f8f5;
-  padding: 15px;
-  border-radius: 14px;
-  margin: 10px 0;
-}
-
-.plan {
-  border: 2px solid #d7e7df;
-  border-radius: 20px;
-  padding: 21px;
-  margin: 15px 0;
-  background: white;
-  transition: .2s;
-}
-
-.plan.selected {
-  border-color: #2f6f5e;
-  background: #f1f8f4;
-  box-shadow: 0 0 0 3px rgba(47,111,94,.08);
-}
-
-.plan.recommended {
-  border-color: #b8758d;
-}
-
-.plan h3 {
-  margin-top: 0;
-  font-size: 23px;
-}
-
-.price {
-  font-size: 31px;
-  font-weight: bold;
-  margin: 8px 0;
-}
-
-.small {
-  color: #587168;
-  font-size: 14px;
-}
-
-.feature {
-  margin: 10px 0;
-  line-height: 1.4;
-}
-
-.feature.locked {
-  color: #999;
-}
-
-.badge {
-  display: inline-block;
-  padding: 7px 11px;
-  border-radius: 20px;
-  background: #dceee6;
-  color: #17332b;
-  font-weight: bold;
-  font-size: 13px;
-}
-
-.premium-box {
-  border: 2px dashed #b9d6c8;
-  padding: 17px;
-  border-radius: 16px;
-  margin-top: 15px;
-}
-
-.plan-summary {
-  background: #edf7f1;
-  border-radius: 18px;
-  padding: 18px;
-  margin-top: 18px;
-}
-
-.status {
-  background: #edf7f1;
-  border-radius: 18px;
-  padding: 18px;
-  margin-top: 18px;
 }
 
 .hidden {
@@ -325,264 +58,622 @@ label {
   text-align: center;
 }
 
-.big-check {
-  font-size: 65px;
+/* CABECERA CON IDENTIDAD DE MARCA */
+header {
+  background: var(--verde-oscuro);
+  color: white;
   text-align: center;
+  padding: 24px 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 38px;
+  letter-spacing: -0.5px;
+}
+
+header h1 span {
+  color: #9ed1bd;
+}
+
+header .slogan {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: #dceee6;
+  font-style: italic;
+}
+
+/* CONTENEDOR PRINCIPAL */
+main {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px 15px 110px;
+}
+
+/* PANTALLAS */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* TARJETAS */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.05);
+  border: 1px solid rgba(215, 231, 223, 0.5);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 22px;
+  color: var(--verde-oscuro);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h3 {
+  margin-top: 15px;
+  font-size: 18px;
+  color: var(--verde);
+}
+
+p {
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+/* BOTONES */
+button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  margin: 6px 0;
+  font-size: 15px;
+  font-weight: bold;
+  background: var(--verde);
+  color: white;
+  transition: all .2s ease;
+}
+
+button:hover {
+  opacity: .92;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+.secondary { background: var(--verde-claro); color: var(--verde-oscuro); }
+.dark { background: var(--verde-oscuro); }
+.support-button { background: var(--rosa); }
+.danger { background: var(--rojo); }
+.warning-btn { background: var(--amarillo-alerta); }
+
+/* SECTOR DE CHAT INTERACTIVO (CHECK-IN) */
+.chat-container {
+  background: #f8faf9;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 15px;
+  max-height: 380px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.chat-bubble {
+  max-width: 82%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  font-size: 15px;
+}
+
+.chat-bubble.bot {
+  background: var(--verde-claro);
+  color: var(--verde-oscuro);
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+}
+
+.chat-bubble.user {
+  background: var(--verde);
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* INDICADORES DE ESTADO EN EL PANEL */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.status-ok { background: #e2f5ec; color: #1e7e51; }
+.status-alert { background: #fde8e8; color: #b91c1c; }
+.status-pending { background: #fef3c7; color: #b45309; }
+
+.status-list {
+  list-style: none;
+  padding: 0;
   margin: 15px 0;
 }
 
-.hero {
-  text-align: center;
-  padding: 20px 0;
-}
-
-.hero-icon {
-  font-size: 60px;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.feature-card {
-  background: #f4faf7;
-  padding: 18px;
-  border-radius: 17px;
-}
-
-.feature-card strong {
-  display: block;
-  margin-bottom: 6px;
-}
-
-.lock-overlay {
-  background: #f5f5f5;
-  color: #777;
-  border-radius: 16px;
-  padding: 17px;
-  margin-top: 15px;
-}
-
-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  gap: 5px;
-  padding: 8px;
-  background: white;
-  border-top: 1px solid #ddd;
-}
-
-nav.visible {
+.status-list li {
+  padding: 12px;
+  border-bottom: 1px solid var(--verde-claro);
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* PROTOCOLO DE ALERTAS SIMULADO */
+.alert-step {
+  border-left: 4px solid var(--borde);
+  padding-left: 15px;
+  margin: 12px 0;
+  position: relative;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.alert-step.active-step {
+  opacity: 1;
+  border-left-color: var(--amarillo-alerta);
+}
+
+.alert-step.triggered {
+  opacity: 1;
+  border-left-color: var(--rojo);
+}
+
+.alert-step h4 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+}
+
+/* NAVEGACIÓN INFERIOR FIJA */
+nav {
+  display: flex;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  background: white;
+  border-top: 1px solid var(--borde);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
 nav button {
+  flex: 1;
   margin: 0;
-  padding: 10px 4px;
+  padding: 12px 4px;
   font-size: 11px;
+  border-radius: 0;
   background: white;
-  color: #17332b;
+  color: var(--gris-texto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-right: 1px solid #f0f0f0;
 }
 
 nav button.active-nav {
-  background: #e7f2ed;
+  background: var(--verde-claro);
+  color: var(--verde-oscuro);
+  font-weight: bold;
+}
+
+nav button span {
+  font-size: 18px;
 }
 
 @media (max-width: 600px) {
-
-  header h1 {
-    font-size: 32px;
-  }
-
-  main {
-    padding: 12px;
-    padding-bottom: 100px;
-  }
-
-  .card {
-    padding: 18px;
-  }
-
-  .welcome-title {
-    font-size: 30px;
-  }
-
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-
-  nav button {
-    font-size: 10px;
-  }
+  header h1 { font-size: 30px; }
+  main { padding-bottom: 100px; }
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-
-  <h1>
-    Ser<span>Cerca</span> 💚
-  </h1>
-
-  <p>
-    No estamos para vigilarte.<br>
-    Estamos para estar cerca.
-  </p>
-
+  <h1>Ser<span>Cerca</span> 💚</h1>
+  <div class="slogan">“Estar cerca, incluso cuando no puedes estar.”</div>
 </header>
 
 <main>
 
 <!-- =====================================================
-     BIENVENIDA
+     1. PANEL FAMILIAR (PANEL PRINCIPAL)
 ===================================================== -->
-
-<section id="bienvenida" class="page active">
-
+<section id="panel" class="page active">
   <div class="card">
+    <h2>👵 Estado de Carmen (Hoy)</h2>
+    <p><strong>Ubicación:</strong> Valencia | <strong>Edad:</strong> 81 años</p>
+    
+    <div style="margin: 15px 0;">
+      <span id="pill-estado-general" class="status-pill status-ok">
+        🟢 Todo en orden
+      </span>
+    </div>
 
-    <div class="hero">
+    <ul class="status-list">
+      <li>
+        <span>🟢 Check-in matutino</span>
+        <strong id="dash-checkin">Realizado (09:15)</strong>
+      </li>
+      <li>
+        <span>🟢 Medicación desayuno</span>
+        <strong id="dash-meds">Confirmada</strong>
+      </li>
+      <li>
+        <span>🟢 Desayuno declarado</span>
+        <strong id="dash-desayuno">Completado</strong>
+      </li>
+      <li>
+        <span>📅 Cita médica hoy</span>
+        <strong>Jueves 11:30 (Podólogo)</strong>
+      </li>
+      <li>
+        <span>💬 Estado percibido</span>
+        <strong id="dash-animo">Se encuentra bien</strong>
+      </li>
+    </ul>
 
-      <div class="hero-icon">
-        💚
-      </div>
-
-      <h1 class="welcome-title">
-        SerCerca
-      </h1>
-
-      <p class="welcome-subtitle">
-        Para que quienes te quieren sepan que estás bien.
+    <div class="card" style="background: var(--verde-suave); margin-top: 15px; border: none;">
+      <h3>🤖 Resumen IA del día para la familia</h3>
+      <p id="resumen-ia-texto">
+        "Carmen ha completado su rutina matutina sin incidencias. Ha desayunado correctamente y ha confirmado tomar su medicación. Recuerda que tiene cita en el podólogo a las 11:30."
       </p>
-
     </div>
-
-    <p>
-      SerCerca nace para acompañar a las personas
-      sin quitarles su autonomía.
-    </p>
-
-    <p>
-      Un pequeño gesto puede hacer que tu familia
-      esté tranquila y que tú sientas que nunca estás solo/a.
-    </p>
-
-    <p class="welcome-line">
-      🫶 Tú decides cómo quieres ser acompañado/a.
-    </p>
-
-    <p class="welcome-line">
-      💌 Las personas que tú elijas pueden saber que estás bien.
-    </p>
-
-    <p class="welcome-line">
-      ❤️ Tú mantienes siempre el control.
-    </p>
-
-    <h3>
-      Tu tranquilidad. Su tranquilidad.
-    </h3>
-
-    <div class="welcome-buttons">
-
-      <button
-        class="support-button"
-        onclick="mostrar('apoyar')">
-
-        ❤️ Apoyar a alguien
-
-      </button>
-
-      <button
-        class="start-button"
-        onclick="mostrar('registro')">
-
-        🌷 Empezar
-
-      </button>
-
-    </div>
-
   </div>
 
   <div class="card">
-
-    <h2>
-      🌷 ¿Qué es SerCerca?
-    </h2>
-
-    <div class="feature-grid">
-
-      <div class="feature-card">
-        <strong>💚 Acompañamiento</strong>
-        Pequeños momentos para sentirte acompañado/a.
-      </div>
-
-      <div class="feature-card">
-        <strong>❤️ Autonomía</strong>
-        Tú decides qué compartir y con quién.
-      </div>
-
-      <div class="feature-card">
-        <strong>💌 Familia</strong>
-        Mantén cerca a las personas que quieres.
-      </div>
-
-      <div class="feature-card">
-        <strong>🌷 Bienestar</strong>
-        Cuéntanos cómo estás y recibe ideas.
-      </div>
-
+    <h2>📜 Historial Reciente de Check-ins</h2>
+    <div id="historial-lista">
+      <p><strong>Ayer:</strong> 🟢 Check-in realizado (09:05) - Sin novedades.</p>
+      <p><strong>Hace 2 días:</strong> 🟢 Check-in realizado (09:20) - Mencionó paseo en el parque.</p>
+      <p><strong>Hace 3 días:</strong> 🟠 Retraso de 15 min en el check-in (Resuelto en Nivel 1).</p>
     </div>
-
   </div>
-
 </section>
+
 <!-- =====================================================
-     APOYAR
+     2. CHECK-IN INTERACTIVO (SIMULADOR PERSONA MAYOR)
 ===================================================== -->
-
-<section id="apoyar" class="page">
-
+<section id="checkin" class="page">
   <div class="card">
-
-    <div class="support-box">
-
-      <div class="support-icon">
-        ❤️
-      </div>
-
-      <h2 class="support-title">
-        Quiero apoyar a alguien
-      </h2>
-
-      <p>
-        SerCerca también está pensado para las personas
-        que quieren estar cerca de alguien que quieren.
-      </p>
-
-      <p>
-        Puedes acompañar, recibir información sobre sus
-        check-ins y estar disponible cuando te necesite.
-      </p>
-
+    <h2>🧪 Simulador: Check-in Diario de Carmen</h2>
+    <p class="small">Así es como la plataforma interactúa de forma sencilla con Carmen vía WhatsApp/Llamada/Mensaje.</p>
+    
+    <div class="chat-container" id="chat-box">
+      <!-- Los mensajes se generan con JS -->
     </div>
 
-  </div>
+    <div class="chat-options" id="chat-controls">
+      <!-- Opciones dinámicas -->
+    </div>
 
+    <button class="secondary" onclick="reiniciarCheckIn()" style="margin-top: 15px;">🔄 Reiniciar Simulación de Check-in</button>
+  </div>
+</section>
+
+<!-- =====================================================
+     3. SISTEMA DE ALERTAS (PROTOCOLO SIMULADO)
+===================================================== -->
+<section id="alertas" class="page">
+  <div class="card">
+    <h2>⚠️ Protocolo de Alertas en Escalada</h2>
+    <p>Simula qué sucede cuando Carmen **no responde** a su horario habitual de seguimiento.</p>
+    
+    <button class="warning-btn" onclick="iniciarSimulacionAlerta()">🚨 Simular: Carmen no responde al Check-in</button>
+    <button class="secondary" onclick="resetProtocolo()">🟢 Restablecer Estado Normal</button>
+
+    <div style="margin-top: 20px;">
+      <div id="step-1" class="alert-step">
+        <h4>Nivel 1: Primer reintento automático</h4>
+        <p>Llamada / WhatsApp de seguimiento a los 10 minutos de margen.</p>
+      </div>
+
+      <div id="step-2" class="alert-step">
+        <h4>Nivel 2: Reintento por canal alternativo</h4>
+        <p>Envío de mensaje prioritario a la aplicación de la persona mayor.</p>
+      </div>
+      <div id="step-3" class="alert-step">
+        <h4>Nivel 3: Aviso a la familia contratante</h4>
+        <p>Notificación Push / SMS a la hija (Madrid) informando de la falta de respuesta.</p>
+      </div>
+
+      <div id="step-4" class="alert-step">
+        <h4>Nivel 4: Intervención humana SerCerca</h4>
+        <p>Un gestor especializado realiza una llamada directa o gestiona la verificación previa a emergencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     4. MEDICACIÓN Y CITAS
+===================================================== -->
+<section id="agenda" class="page">
+  <div class="card">
+    <h2>💊 Medicación y Citas Programadas</h2>
+    
+    <h3>Medicamentos diarios</h3>
+    <ul class="status-list">
+      <li>
+        <span>Omeprazol (8:30)</span>
+        <button class="secondary" style="width: auto; padding: 6px 12px; margin:0;">Editar</button>
+      </li>
+      <li>
+        <span>Enalapril (09:00)</span>
+        <button class="secondary" style="width: auto; padding: 6px 12px; margin:0;">Editar</button>
+      </li>
+      <li>
+        <span>Sintrom (20:00)</span>
+        <button class="secondary" style="width: auto; padding: 6px 12px; margin:0;">Editar</button>
+      </li>
+    </ul>
+
+    <h3>Próximas Citas y Recordatorios</h3>
+    <div class="card" style="background:#f9fafb; border: 1px solid var(--borde);">
+      <p>📅 <strong>Podólogo:</strong> Hoy a las 11:30</p>
+      <p>📅 <strong>Analítica de sangre:</strong> Próximo Martes 08:30</p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     5. PERFIL DE CARMEN
+===================================================== -->
+<section id="perfil" class="page">
+  <div class="card">
+    <h2>👵 Perfil de la Persona Mayor</h2>
+    <p><strong>Nombre:</strong> Carmen R.</p>
+    <p><strong>Edad:</strong> 81 años</p>
+    <p><strong>Dirección:</strong> Calle Colón, Valencia</p>
+    <p><strong>Horario habitual de check-in:</strong> 09:00 AM</p>
+    
+    <h3>👨‍👩‍👧 Contactos de Familiares</h3>
+    <p><strong>1er Contacto:</strong> Lucía (Hija) - Madrid (+34 612 345 678)</p>
+    <p><strong>2º Contacto:</strong> Carlos (Hijo) - Valencia (+34 600 111 222)</p>
+
+    <h3>📋 Preferencias de Acompañamiento</h3>
+    <p>• Canal preferido: WhatsApp de voz y mensajes breves.</p>
+    <p>• Notificar inmediatamente a la familia si declara malestar físico.</p>
+  </div>
 </section>
 
 </main>
+
+<!-- =====================================================
+     NAVEGACIÓN INFERIOR
+===================================================== -->
+<nav id="menu-navegacion">
+  <button id="nav-panel" class="active-nav" onclick="mostrar('panel')">
+    <span>🏠</span> Panel
+  </button>
+  <button id="nav-checkin" onclick="mostrar('checkin')">
+    <span>🧪</span> Check-in
+  </button>
+  <button id="nav-alertas" onclick="mostrar('alertas')">
+    <span>⚠️</span> Alertas
+  </button>
+  <button id="nav-agenda" onclick="mostrar('agenda')">
+    <span>💊</span> Rutinas
+  </button>
+  <button id="nav-perfil" onclick="mostrar('perfil')">
+    <span>👵</span> Perfil
+  </button>
+</nav>
+
+<!-- =====================================================
+     JAVASCRIPT DEL PROTOTIPO INTEGRADO
+===================================================== -->
+<script>
+// Estado Global del Prototipo
+const estadoApp = {
+  checkInCompletado: true,
+  medicacionConfirmada: true,
+  desayunoConfirmado: true,
+  necesitaAviso: false,
+  animo: "Bien",
+  pasoChat: 0
+};
+
+// Navegación entre pestañas
+function mostrar(idPagina) {
+  const paginas = document.querySelectorAll('.page');
+  paginas.forEach(p => p.classList.remove('active'));
+
+  const destino = document.getElementById(idPagina);
+  if (destino) {
+    destino.classList.add('active');
+  }
+
+  const navButtons = document.querySelectorAll('nav button');
+  navButtons.forEach(b => b.classList.remove('active-nav'));
+  const btnActivo = document.getElementById('nav-' + idPagina);
+  if (btnActivo) {
+    btnActivo.classList.add('active-nav');
+  }
+}
+
+// -----------------------------------------------------
+// LÓGICA DEL CHAT DE CHECK-IN INTERACTIVO
+// -----------------------------------------------------
+const preguntasCheckIn = [
+  {
+    bot: "Buenos días, Carmen. Soy SerCerca. 💚 ¿Cómo te encuentras esta mañana?",
+    opciones: [
+      { texto: "😊 Me encuentro bien", animo: "Bien", proximo: 1 },
+      { texto: "😐 Regular / Un poco cansada", animo: "Regular", proximo: 1 },
+      { texto: "🙁 No me encuentro muy bien", animo: "Mal", proximo: 1 }
+    ]
+  },
+  {
+    bot: "¿Has desayunado ya y tomado tu medicación de la mañana?",
+    opciones: [
+      { texto: "🥣 Sí, todo listo", meds: true, desayuno: true, proximo: 2 },
+      { texto: "💊 He tomado las pastillas pero no he desayunado", meds: true, desayuno: false, proximo: 2 },
+      { texto: "❌ Todavía no", meds: false, desayuno: false, proximo: 2 }
+    ]
+  },
+  {
+    bot: "Perfecto. Recuerda que hoy tienes cita en el podólogo a las 11:30. ¿Necesitas que le avise de algo a tu hija Lucía?",
+    opciones: [
+      { texto: "👍 No hace falta, todo en orden", aviso: false, proximo: 3 },
+      { texto: "💌 Sí, dile que me llame cuando pueda", aviso: true, proximo: 3 }
+    ]
+  }
+];
+
+function iniciarChat() {
+  const chatBox = document.getElementById('chat-box');
+  chatBox.innerHTML = '';
+  estadoApp.pasoChat = 0;
+  desplegarPasoChat();
+}
+
+function desplegarPasoChat() {
+  const chatBox = document.getElementById('chat-box');
+  const chatControls = document.getElementById('chat-controls');
+  
+  if (estadoApp.pasoChat < preguntasCheckIn.length) {
+    const pregunta = preguntasCheckIn[estadoApp.pasoChat];
+    
+    // Agregar mensaje del bot
+    const botMsg = document.createElement('div');
+    botMsg.className = 'chat-bubble bot';
+    botMsg.innerText = pregunta.bot;
+    chatBox.appendChild(botMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Renderizar opciones
+    chatControls.innerHTML = '';
+    pregunta.opciones.forEach(op => {
+      const btn = document.createElement('button');
+      btn.className = 'secondary';
+      btn.innerText = op.texto;
+      btn.onclick = () => responderPaso(op);
+      chatControls.appendChild(btn);
+    });
+  } else {
+    // Fin del check-in
+    const botMsg = document.createElement('div');
+    botMsg.className = 'chat-bubble bot';
+    botMsg.innerText = "¡Muchas gracias, Carmen! He registrado todo. Que tengas un excelente día. 🌿";
+    chatBox.appendChild(botMsg);
+    chatControls.innerHTML = '<p class="center" style="color:var(--verde); font-weight:bold;">✅ Check-in completado e informado al panel familiar.</p>';
+    
+    actualizarPanelFamiliar();
+  }
+}
+
+function responderPaso(opcion) {
+  const chatBox = document.getElementById('chat-box');
+  
+  // Agregar respuesta del usuario
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-bubble user';
+  userMsg.innerText = opcion.texto;
+  chatBox.appendChild(userMsg);
+
+  // Actualizar estado interno
+  if (opcion.animo) estadoApp.animo = opcion.animo;
+  if (opcion.meds !== undefined) estadoApp.medicacionConfirmada = opcion.meds;
+  if (opcion.desayuno !== undefined) estadoApp.desayunoConfirmado = opcion.desayuno;
+  if (opcion.aviso !== undefined) estadoApp.necesitaAviso = opcion.aviso;
+
+  estadoApp.pasoChat++;
+  setTimeout(desplegarPasoChat, 600);
+}
+
+function reiniciarCheckIn() {
+  iniciarChat();
+}
+
+function actualizarPanelFamiliar() {
+  document.getElementById('dash-checkin').innerText = "Realizado (Ahora mismo)";
+  document.getElementById('dash-meds').innerText = estadoApp.medicacionConfirmada ? "Confirmada" : "Pendiente";
+  document.getElementById('dash-desayuno').innerText = estadoApp.desayunoConfirmado ? "Completado" : "Pendiente";
+  document.getElementById('dash-animo').innerText = estadoApp.animo;
+
+  const resumenText = document.getElementById('resumen-ia-texto');
+  let detalleAviso = estadoApp.necesitaAviso ? " Ha solicitado que su hija le llame cuando pueda." : " No ha solicitado ningún aviso especial.";
+  
+  resumenText.innerText = `"Carmen ha completado el check-in interactivo. Declara encontrarse '${estadoApp.animo}'. Medicación: ${estadoApp.medicacionConfirmada ? 'Confirmada' : 'Pendiente'}.${detalleAviso}"`;
+}
+
+// -----------------------------------------------------
+// LÓGICA DEL PROTOCOLO DE ALERTAS SIMULADO
+// -----------------------------------------------------
+let timerAlerta;
+
+function iniciarSimulacionAlerta() {
+  resetProtocolo();
+  
+  // Actualizar indicador general
+  const pill = document.getElementById('pill-estado-general');
+  pill.className = "status-pill status-alert";
+  pill.innerText = "🟠 Incidencia: Sin respuesta";
+
+  document.getElementById('step-1').className = "alert-step active-step";
+
+  timerAlerta = setTimeout(() => {
+    document.getElementById('step-1').className = "alert-step triggered";
+    document.getElementById('step-2').className = "alert-step active-step";
+  }, 2000);
+
+  timerAlerta = setTimeout(() => {
+    document.getElementById('step-2').className = "alert-step triggered";
+    document.getElementById('step-3').className = "alert-step active-step";
+  }, 4000);
+
+  timerAlerta = setTimeout(() => {
+    document.getElementById('step-3').className = "alert-step triggered";
+    document.getElementById('step-4').className = "alert-step active-step";
+  }, 6000);
+}
+
+function resetProtocolo() {
+  clearTimeout(timerAlerta);
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById(`step-${i}`).className = "alert-step";
+  }
+  const pill = document.getElementById('pill-estado-general');
+  pill.className = "status-pill status-ok";
+  pill.innerText = "🟢 Todo en orden";
+}
+
+// Inicialización
+window.onload = () => {
+  iniciarChat();
+};
+
+</script>
 
 </body>
 </html>
