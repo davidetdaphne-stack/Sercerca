@@ -2945,4 +2945,1098 @@ function completeRecommendation(name){
     toast("💡 Guardado en tu actividad.");
 
 }
+/* =========================================================
+   AYUDA
+   ========================================================= */
 
+function helpScreen(){
+
+    return `
+
+        <div class="card">
+
+            <h1>🆘 Ayuda</h1>
+
+            <p class="muted">
+                Envía un aviso a tus personas de confianza.
+            </p>
+
+            <button
+                class="big help"
+                onclick="requestHelp()"
+            >
+                🆘 Necesito ayuda
+            </button>
+
+            <div class="alert alert-warn">
+
+                SerCerca no sustituye a los
+                servicios de emergencia.
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   FAMILIA
+   ========================================================= */
+
+function familyScreen(){
+
+    const linked=S.contacts.filter(
+        c=>c.linked
+    );
+
+    return `
+
+        <div class="row between wrap">
+
+            <div>
+
+                <h1>👨‍👩‍👧 Zona de familiares</h1>
+
+                <p class="muted">
+                    Resumen de la actividad y de la red.
+                </p>
+
+            </div>
+
+            <button
+                class="btn primary"
+                onclick="go('people')"
+            >
+                Gestionar personas
+            </button>
+
+        </div>
+
+
+        <div class="grid g3">
+
+            <div class="stat">
+                ❤️
+                <b>${linked.length}</b>
+                <span class="muted">
+                    personas vinculadas
+                </span>
+            </div>
+
+            <div class="stat">
+                💚
+                <b>
+                    ${escapeHTML(S.wellness.status)}
+                </b>
+                <span class="muted">
+                    estado actual
+                </span>
+            </div>
+
+            <div class="stat">
+                🔔
+                <b>
+                    ${S.notifications.filter(n=>!n.read).length}
+                </b>
+                <span class="muted">
+                    avisos nuevos
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="grid g2">
+
+            <div class="card">
+
+                <h2>❤️ Personas vinculadas</h2>
+
+                ${
+                    linked.length
+                    ?
+                    linked.map(c=>`
+
+                        <div class="item">
+
+                            <div>
+
+                                <b>
+                                    ${escapeHTML(c.name)}
+                                </b>
+
+                                <br>
+
+                                <span class="muted">
+                                    ${escapeHTML(c.relation)}
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="btn secondary"
+                                onclick="go('messages')"
+                            >
+                                💌 Mensajes
+                            </button>
+
+                        </div>
+
+                    `).join("")
+                    :
+                    `<p class="muted">
+                        No hay personas vinculadas.
+                    </p>`
+                }
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>📋 Actividad reciente</h2>
+
+                ${
+                    S.history.slice(0,8).map(h=>`
+
+                        <div class="item">
+
+                            <div>
+
+                                <b>
+                                    ${escapeHTML(h.action)}
+                                </b>
+
+                                <br>
+
+                                <span class="muted">
+                                    ${escapeHTML(h.detail)}
+                                </span>
+
+                            </div>
+
+                            <span class="small muted">
+                                ${escapeHTML(h.date)}
+                            </span>
+
+                        </div>
+
+                    `).join("")
+                    ||
+                    `<p class="muted">
+                        No hay actividad.
+                    </p>`
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   HISTORIAL
+   ========================================================= */
+
+function historyScreen(){
+
+    return `
+
+        <div class="row between wrap">
+
+            <div>
+
+                <h1>📋 Historial</h1>
+
+                <p class="muted">
+                    Actividad y check-ins guardados.
+                </p>
+
+            </div>
+
+            <button
+                class="btn light"
+                onclick="clearHistory()"
+            >
+                Borrar historial
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            ${
+                S.history.length
+                ?
+                S.history.map(h=>`
+
+                    <div class="item">
+
+                        <div>
+
+                            <b>
+                                ${escapeHTML(h.action)}
+                            </b>
+
+                            <br>
+
+                            <span class="muted">
+                                ${escapeHTML(h.detail)}
+                            </span>
+
+                        </div>
+
+                        <span class="small muted">
+                            ${escapeHTML(h.date)}
+                        </span>
+
+                    </div>
+
+                `).join("")
+                :
+                `
+                    <div
+                        class="muted"
+                        style="text-align:center;padding:60px"
+                    >
+                        Todavía no hay actividad.
+                    </div>
+                `
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function clearHistory(){
+
+    if(!confirm("¿Quieres borrar el historial?")){
+        return;
+    }
+
+    S.history=[];
+
+    saveData();
+
+    render();
+
+}
+/* =========================================================
+   PLANES
+   ========================================================= */
+
+function plansScreen(){
+
+    return `
+
+        <div>
+
+            <h1>💳 Planes</h1>
+
+            <p class="muted">
+                El plan elegido cambia las funciones disponibles.
+            </p>
+
+        </div>
+
+
+        ${
+            S.trial.active
+            ?trialInformation()
+            :
+            `
+                <div class="alert alert-warn">
+
+                    🎁 Tienes una prueba gratuita de
+                    <b>14 días</b> disponible.
+
+                    <div class="actions">
+
+                        <button
+                            class="btn secondary"
+                            onclick="activateTrial()"
+                        >
+                            Activar prueba
+                        </button>
+
+                    </div>
+
+                </div>
+            `
+        }
+
+
+        <div class="grid g3">
+
+
+            ${planCard(
+                "Básico",
+                "2,99 €",
+                "1",
+                [
+                    "Perfil y cuenta",
+                    "Personas de confianza",
+                    "Vinculación",
+                    "Check-in",
+                    "Estado de bienestar",
+                    "Avisos básicos",
+                    "Historial"
+                ]
+            )}
+
+
+            ${planCard(
+                "Familia",
+                "6,99 €",
+                "2",
+                [
+                    "Todo lo de Básico",
+                    "Mensajes",
+                    "Recordatorios",
+                    "Zona de familiares",
+                    "Recomendaciones ampliadas",
+                    "Más herramientas familiares"
+                ]
+            )}
+
+
+            ${planCard(
+                "Cerca",
+                "12,99 €",
+                "3",
+                [
+                    "Todo lo de Familia",
+                    "Funciones avanzadas",
+                    "Privacidad avanzada",
+                    "Historial ampliado",
+                    "Funciones futuras",
+                    "Nuevas funciones de SerCerca"
+                ]
+            )}
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>🔓 Desbloqueo</h2>
+
+            <p class="muted">
+                En esta versión, las funciones se comprueban
+                automáticamente según el plan.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+function planCard(
+    name,
+    price,
+    planLevelNumber,
+    features
+){
+
+    const current=S.plan===name;
+
+    return `
+
+        <div
+            class="card plan ${current?"current":""}"
+        >
+
+            ${
+                current
+                ?
+                `<span class="pill">
+                    PLAN ACTUAL
+                </span>`
+                :""
+            }
+
+
+            <h2>${name}</h2>
+
+            <p class="muted">
+                ${
+                    name==="Básico"
+                    ?"Para empezar"
+                    :
+                    name==="Familia"
+                    ?"Para acompañar en familia"
+                    :"La experiencia más completa"
+                }
+            </p>
+
+
+            <div class="price">
+                ${price}
+                <span class="small muted">
+                    / mes
+                </span>
+            </div>
+
+
+            <hr>
+
+
+            ${features.map(feature=>`
+
+                <p>
+                    <span class="check">✓</span>
+                    ${feature}
+                </p>
+
+            `).join("")}
+
+
+            <button
+                class="btn ${
+                    current
+                    ?"light"
+                    :"primary"
+                } block"
+                onclick="selectPlan('${name}')"
+            >
+
+                ${
+                    current
+                    ?"Plan actual"
+                    :"Elegir "+name
+                }
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+function selectPlan(name){
+
+    S.plan=name;
+
+    addHistory(
+        "Plan seleccionado",
+        name
+    );
+
+    saveData();
+
+    render();
+
+    toast(
+        "💳 Plan cambiado a "+name
+    );
+
+}
+
+
+/* =========================================================
+   PRUEBA 14 DÍAS
+   ========================================================= */
+
+function activateTrial(showToast=true){
+
+    if(S.trial.active){
+
+        if(showToast){
+            toast("La prueba ya está activa.");
+        }
+
+        return;
+
+    }
+
+    const start=new Date();
+
+    const end=new Date(
+        start.getTime()+14*24*60*60*1000
+    );
+
+    S.trial={
+        active:true,
+        start:start.toISOString(),
+        end:end.toISOString()
+    };
+
+    addHistory(
+        "Prueba gratuita iniciada",
+        "14 días"
+    );
+
+    saveData();
+
+    render();
+
+    if(showToast){
+        toast("🎁 Prueba de 14 días activada.");
+    }
+
+}
+function trialInformation(){
+
+    const end=new Date(S.trial.end);
+
+    const days=Math.max(
+        0,
+        Math.ceil(
+            (end.getTime()-Date.now())/
+            (24*60*60*1000)
+        )
+    );
+
+    return `
+
+        <div class="alert alert-ok">
+
+            🎁 <b>Prueba gratuita activa</b>
+
+            <br><br>
+
+            Quedan aproximadamente
+            <b>${days} día(s)</b>.
+
+            <br>
+
+            Finaliza el
+            <b>${end.toLocaleDateString("es-ES")}</b>.
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CONFIGURACIÓN
+   ========================================================= */
+
+function settingsScreen(){
+
+    return `
+
+        <div>
+
+            <h1>⚙️ Configuración</h1>
+
+            <p class="muted">
+                Cuenta, privacidad y permisos.
+            </p>
+
+        </div>
+
+
+        <div class="grid g2">
+
+
+            <div class="card">
+
+                <h2>👤 Mi perfil</h2>
+
+
+                <div class="fg">
+
+                    <label>Nombre</label>
+
+                    <input
+                        id="settingsName"
+                        value="${escapeHTML(S.profile.name)}"
+                    >
+
+                </div>
+
+
+                <div class="fg">
+
+                    <label>Correo</label>
+
+                    <input
+                        id="settingsEmail"
+                        type="email"
+                        value="${escapeHTML(S.profile.email)}"
+                    >
+
+                </div>
+
+
+                <div class="fg">
+
+                    <label>Teléfono</label>
+
+                    <input
+                        id="settingsPhone"
+                        value="${escapeHTML(S.profile.phone)}"
+                    >
+
+                </div>
+
+
+                <div class="fg">
+
+                    <label>Ciudad</label>
+
+                    <input
+                        id="settingsCity"
+                        value="${escapeHTML(S.profile.city)}"
+                    >
+
+                </div>
+
+
+                <button
+                    class="btn primary"
+                    onclick="saveProfile()"
+                >
+                    💾 Guardar
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>🔐 Privacidad y permisos</h2>
+
+                ${settingHTML(
+                    "notifications",
+                    "🔔 Avisos",
+                    "Permitir avisos"
+                )}
+
+                ${settingHTML(
+                    "weekly",
+                    "📋 Resumen",
+                    "Resumen de actividad"
+                )}
+
+                ${settingHTML(
+                    "activity",
+                    "📊 Actividad",
+                    "Guardar historial"
+                )}
+
+                ${settingHTML(
+                    "location",
+                    "📍 Ubicación",
+                    "Permiso de ubicación"
+                )}
+
+                ${settingHTML(
+                    "health",
+                    "❤️ Datos de salud",
+                    "Permiso para futuras funciones"
+                )}
+
+                <p class="small muted">
+                    En este prototipo los datos se guardan
+                    localmente en el navegador.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>💾 Datos</h2>
+
+            <p class="muted">
+                Puedes guardar y conservar la información
+                de tu cuenta en este navegador.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn secondary"
+                    onclick="exportData()"
+                >
+                    📥 Exportar datos
+                </button>
+
+                <button
+                    class="btn light"
+                    onclick="resetApplication()"
+                >
+                    Restablecer aplicación
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function settingHTML(key,title,description){
+
+    return `
+
+        <div class="item">
+
+            <div>
+
+                <b>${title}</b>
+
+                <br>
+
+                <span class="muted small">
+                    ${description}
+                </span>
+
+            </div>
+
+            <button
+                class="switch ${
+                    S.settings[key]?"on":""
+                }"
+                onclick="toggleSetting('${key}')"
+            ></button>
+
+        </div>
+
+    `;
+
+}
+
+
+function toggleSetting(key){
+
+    S.settings[key]=!S.settings[key];
+
+    addHistory(
+        "Configuración modificada",
+        key+": "+(
+            S.settings[key]
+            ?"activado"
+            :"desactivado"
+        )
+    );
+
+    saveData();
+
+    render();
+
+}
+
+
+function saveProfile(){
+
+    S.profile.name=document.getElementById(
+        "settingsName"
+    ).value.trim();
+
+    S.profile.email=document.getElementById(
+        "settingsEmail"
+    ).value.trim();
+
+    S.profile.phone=document.getElementById(
+        "settingsPhone"
+    ).value.trim();
+
+    S.profile.city=document.getElementById(
+        "settingsCity"
+    ).value.trim();
+
+    S.user.name=S.profile.name;
+
+    S.user.email=S.profile.email;
+
+    addHistory(
+        "Perfil actualizado",
+        "Datos personales"
+    );
+
+    saveData();
+
+    render();
+
+    toast("💾 Perfil guardado.");
+
+}
+
+
+/* =========================================================
+   RECORDATORIOS
+   ========================================================= */
+
+function remindersScreen(){
+
+    if(!hasPlan(2)){
+
+        return `
+
+            <div class="card">
+
+                <h1>📅 Recordatorios</h1>
+
+                ${lockedMessage("Familia")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="row between wrap">
+
+            <div>
+
+                <h1>📅 Recordatorios</h1>
+
+                <p class="muted">
+                    Organiza actividades importantes.
+                </p>
+
+            </div>
+
+            <button
+                class="btn primary"
+                onclick="addReminderModal()"
+            >
+                ＋ Añadir
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            ${
+                S.reminders.length
+                ?
+                S.reminders.map(r=>`
+
+                    <div class="item">
+
+                        <div>
+
+                            <b>
+                                ${escapeHTML(r.title)}
+                            </b>
+
+                            <br>
+
+                            <span class="muted">
+                                ${escapeHTML(r.date)}
+                            </span>
+
+                        </div>
+
+                        <button
+                            class="btn light"
+                            onclick="deleteReminder(${r.id})"
+                        >
+                            Eliminar
+                        </button>
+
+                    </div>
+
+                `).join("")
+                :
+                `<p class="muted">
+                    No tienes recordatorios.
+                </p>`
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function addReminderModal(){
+
+    openModal(
+        "📅 Nuevo recordatorio",
+        `
+
+        <form onsubmit="createReminder(event)">
+
+            <div class="fg">
+
+                <label>Nombre</label>
+
+                <input
+                    id="reminderTitle"
+                    required
+                    placeholder="Ej. Llamar a María"
+                >
+
+            </div>
+
+
+            <div class="fg">
+
+                <label>Fecha y hora</label>
+
+                <input
+                    id="reminderDate"
+                    type="datetime-local"
+                    required
+                >
+
+            </div>
+
+
+            <button class="btn primary block">
+                Guardar
+            </button>
+
+        </form>
+
+        `
+    );
+
+}
+
+
+function createReminder(event){
+
+    event.preventDefault();
+
+    const reminder={
+
+        id:Date.now(),
+
+        title:document.getElementById(
+            "reminderTitle"
+        ).value,
+
+        date:new Date(
+            document.getElementById(
+                "reminderDate"
+            ).value
+        ).toLocaleString("es-ES")
+
+    };
+
+    S.reminders.push(reminder);
+
+    addHistory(
+        "Recordatorio creado",
+        reminder.title
+    );
+
+    closeModal();
+
+    saveData();
+
+    render();
+
+    toast("📅 Recordatorio guardado.");
+
+}
+
+
+function deleteReminder(id){
+
+    S.reminders=S.reminders.filter(
+        r=>r.id!==id
+    );
+
+    saveData();
+
+    render();
+
+}
+
+
+/* =========================================================
+   EXPORTAR / RESTABLECER
+   ========================================================= */
+
+function exportData(){
+
+    const file=new Blob(
+        [
+            JSON.stringify(S,null,2)
+        ],
+        {
+            type:"application/json"
+        }
+    );
+
+    const url=URL.createObjectURL(file);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+
+    a.download="sercerca-datos.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+function resetApplication(){
+
+    if(!confirm(
+        "¿Seguro que quieres borrar todos los datos de SerCerca?"
+    )){
+        return;
+    }
+
+    localStorage.removeItem(
+        STORAGE_KEY
+    );
+
+    S=clone(DEFAULT_DATA);
+
+    render();
+
+}
+
+
+/* =========================================================
+   CERRAR SESIÓN
+   ========================================================= */
+
+function logout(){
+
+    S.logged=false;
+
+    saveData();
+
+    render();
+
+}
+
+
+/* =========================================================
+   INICIO
+   ========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>
