@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#315c9b">
 <title>SerCerca</title>
 
@@ -10,489 +10,397 @@
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f7fb;
-    color:#1d2939;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+color:#172033
 }
 
-button,input,select,textarea{
-    font:inherit;
-}
+button,input,select,textarea{font:inherit}
 
-button{
-    cursor:pointer;
-}
+button{cursor:pointer}
 
-.hidden{
-    display:none!important;
-}
+.hidden{display:none!important}
 
 header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:white;
-    border-bottom:1px solid #dfe5ee;
+position:sticky;
+top:0;
+z-index:100;
+background:white;
+border-bottom:1px solid #dfe5ee
 }
 
 .header{
-    max-width:1150px;
-    margin:auto;
-    padding:10px 15px;
-    display:flex;
-    align-items:center;
-    gap:12px;
+max-width:1150px;
+margin:auto;
+padding:10px 15px;
+display:flex;
+align-items:center;
+gap:12px
 }
 
 .logo{
-    width:43px;
-    height:43px;
-    border-radius:14px;
-    background:#315c9b;
-    color:white;
-    display:grid;
-    place-items:center;
-    font-size:23px;
-    font-weight:bold;
+width:43px;
+height:43px;
+border-radius:14px;
+background:#315c9b;
+color:white;
+display:grid;
+place-items:center;
+font-size:23px;
+font-weight:bold
 }
 
 .brand{
-    color:#315c9b;
-    font-weight:bold;
-    font-size:21px;
+font-weight:bold;
+font-size:21px;
+color:#315c9b
 }
 
 .nav{
-    margin-left:auto;
-    display:flex;
-    gap:6px;
-    overflow:auto;
+margin-left:auto;
+display:flex;
+gap:6px;
+overflow:auto
 }
 
 .nav button{
-    white-space:nowrap;
-    border:0;
-    background:#eef4ff;
-    color:#315c9b;
-    padding:9px 11px;
-    border-radius:10px;
-    font-weight:bold;
+white-space:nowrap;
+border:0;
+background:#eef4ff;
+color:#315c9b;
+padding:9px 11px;
+border-radius:10px;
+font-weight:bold
 }
 
 main{
-    max-width:1150px;
-    margin:auto;
-    padding:30px 16px 70px;
+max-width:1150px;
+margin:auto;
+padding:30px 16px 70px
 }
 
 .hero{
-    text-align:center;
-    max-width:850px;
-    margin:70px auto;
+max-width:850px;
+margin:70px auto;
+text-align:center
 }
 
 .hero h1{
-    font-size:65px;
-    color:#315c9b;
-    margin:15px 0;
+font-size:65px;
+color:#315c9b;
+margin:15px 0
 }
 
 .hero p{
-    color:#667085;
-    font-size:20px;
-    line-height:1.55;
+font-size:20px;
+line-height:1.55;
+color:#667085
 }
 
 .card{
-    background:white;
-    border:1px solid #dfe5ee;
-    border-radius:20px;
-    padding:22px;
-    margin-bottom:18px;
-    box-shadow:0 8px 25px rgba(25,48,80,.06);
+background:white;
+border:1px solid #dfe5ee;
+border-radius:20px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 8px 25px rgba(25,48,80,.06)
 }
 
-h1{
-    margin:0 0 8px;
-    font-size:34px;
-}
+h1{font-size:34px;margin:0 0 8px}
+h2{margin:0 0 9px}
+h3{margin:0 0 7px}
 
-h2{
-    margin:0 0 9px;
-}
-
-h3{
-    margin:0 0 7px;
-}
-
-.muted{
-    color:#667085;
-}
-
-.small{
-    font-size:13px;
-}
+.muted{color:#667085}
+.small{font-size:13px}
 
 .badge{
-    display:inline-block;
-    background:#eef4ff;
-    color:#315c9b;
-    padding:7px 12px;
-    border-radius:99px;
-    font-weight:bold;
-    font-size:13px;
+display:inline-block;
+background:#eef4ff;
+color:#315c9b;
+padding:7px 12px;
+border-radius:99px;
+font-weight:bold;
+font-size:13px
 }
 
 .btn{
-    border:0;
-    border-radius:12px;
-    padding:13px 17px;
-    font-weight:bold;
+border:0;
+border-radius:12px;
+padding:13px 17px;
+font-weight:bold
 }
 
-.primary{
-    background:#315c9b;
-    color:white;
-}
+.primary{background:#315c9b;color:white}
+.secondary{background:#eef4ff;color:#315c9b}
+.light{background:white;border:1px solid #dfe5ee}
+.success{background:#23865a;color:white}
+.danger{background:#c43d3d;color:white}
 
-.secondary{
-    background:#eef4ff;
-    color:#315c9b;
-}
-
-.light{
-    background:white;
-    border:1px solid #dfe5ee;
-}
-
-.success{
-    background:#23865a;
-    color:white;
-}
-
-.danger{
-    background:#c43d3d;
-    color:white;
-}
-
-.block{
-    width:100%;
-}
+.block{width:100%}
 
 .actions{
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
-    margin-top:16px;
+display:flex;
+gap:9px;
+flex-wrap:wrap;
+margin-top:16px
 }
+
 .grid{
-    display:grid;
-    gap:16px;
+display:grid;
+gap:16px
 }
 
-.g2{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-}
-
-.g3{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-}
-
-.g4{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 
 @media(max-width:800px){
-    .g2,.g3,.g4{
-        grid-template-columns:1fr;
-    }
-
-    .hero h1{
-        font-size:48px;
-    }
-
-    .nav button:nth-child(n+6){
-        display:none;
-    }
+.g2,.g3,.g4{grid-template-columns:1fr}
+.hero h1{font-size:48px}
+.nav button:nth-child(n+7){display:none}
 }
 
-.fg{
-    margin-bottom:15px;
-}
+.fg{margin-bottom:15px}
 
 .fg label{
-    display:block;
-    font-weight:bold;
-    margin-bottom:6px;
+display:block;
+font-weight:bold;
+margin-bottom:6px
 }
 
 .fg input,
 .fg select,
 .fg textarea{
-    width:100%;
-    padding:12px;
-    border:1px solid #dfe5ee;
-    border-radius:11px;
-    background:white;
+width:100%;
+padding:12px;
+border:1px solid #dfe5ee;
+border-radius:11px;
+background:white
 }
 
-.fg textarea{
-    min-height:100px;
-}
+.fg textarea{min-height:100px}
 
 .progress{
-    height:8px;
-    background:#e5eaf1;
-    border-radius:99px;
-    overflow:hidden;
-    margin:15px 0 25px;
+height:8px;
+background:#e5eaf1;
+border-radius:99px;
+overflow:hidden;
+margin:15px 0 25px
 }
 
 .progress span{
-    display:block;
-    height:100%;
-    background:#315c9b;
+display:block;
+height:100%;
+background:#315c9b
 }
 
 .choice{
-    width:100%;
-    text-align:left;
-    border:2px solid #dfe5ee;
-    background:white;
-    border-radius:16px;
-    padding:18px;
-    margin:6px 0;
+width:100%;
+text-align:left;
+border:2px solid #dfe5ee;
+background:white;
+border-radius:16px;
+padding:18px;
+margin:6px 0
 }
-
 .choice:hover,
 .choice.selected{
-    border-color:#315c9b;
-    background:#eef4ff;
+border-color:#315c9b;
+background:#eef4ff
 }
 
 .emoji{
-    display:block;
-    font-size:29px;
-    margin-bottom:7px;
+display:block;
+font-size:30px;
+margin-bottom:7px
 }
 
 .row{
-    display:flex;
-    align-items:center;
-    gap:12px;
+display:flex;
+align-items:center;
+gap:12px
 }
 
-.between{
-    justify-content:space-between;
-}
-
-.wrap{
-    flex-wrap:wrap;
-}
+.between{justify-content:space-between}
+.wrap{flex-wrap:wrap}
 
 .stat{
-    background:white;
-    border:1px solid #dfe5ee;
-    border-radius:16px;
-    padding:18px;
+background:white;
+border:1px solid #dfe5ee;
+border-radius:16px;
+padding:18px
 }
 
 .stat b{
-    display:block;
-    font-size:25px;
-    margin:5px 0;
+display:block;
+font-size:25px;
+margin:5px 0
 }
 
 .big{
-    width:100%;
-    border:0;
-    border-radius:17px;
-    padding:25px;
-    font-size:21px;
-    font-weight:bold;
+width:100%;
+border:0;
+border-radius:17px;
+padding:25px;
+font-size:21px;
+font-weight:bold
 }
 
-.ok{
-    background:#eaf8f0;
-    color:#237b54;
-}
-
-.help{
-    background:#fff0f0;
-    color:#c43d3d;
-}
+.ok{background:#eaf8f0;color:#237b54}
+.help{background:#fff0f0;color:#c43d3d}
 
 .alert{
-    padding:14px;
-    border-radius:13px;
-    margin:12px 0;
+padding:14px;
+border-radius:13px;
+margin:12px 0
 }
 
-.alert-ok{
-    background:#eaf8f0;
-    color:#237b54;
-}
-
-.alert-warn{
-    background:#fff8e5;
-    color:#8a6419;
-}
-
-.alert-danger{
-    background:#fff0f0;
-    color:#a82e2e;
-}
+.alert-ok{background:#eaf8f0;color:#237b54}
+.alert-warn{background:#fff8e5;color:#8a6419}
+.alert-danger{background:#fff0f0;color:#a82e2e}
 
 .item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    border:1px solid #dfe5ee;
-    border-radius:13px;
-    padding:13px;
-    margin:9px 0;
-    background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+border:1px solid #dfe5ee;
+border-radius:13px;
+padding:13px;
+margin:9px 0;
+background:white
 }
 
 .avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    background:#eef4ff;
-    color:#315c9b;
-    font-weight:bold;
+width:48px;
+height:48px;
+border-radius:50%;
+display:grid;
+place-items:center;
+background:#eef4ff;
+color:#315c9b;
+font-weight:bold
 }
 
 .pill{
-    display:inline-block;
-    padding:6px 10px;
-    border-radius:99px;
-    background:#eef4ff;
-    color:#315c9b;
-    font-weight:bold;
-    font-size:12px;
-}
-
-.plan{
-    position:relative;
+display:inline-block;
+padding:6px 10px;
+border-radius:99px;
+background:#eef4ff;
+color:#315c9b;
+font-weight:bold;
+font-size:12px
 }
 
 .plan.current{
-    border:2px solid #315c9b;
+border:2px solid #315c9b
 }
 
 .price{
-    font-size:35px;
-    font-weight:bold;
-    color:#315c9b;
+font-size:35px;
+font-weight:bold;
+color:#315c9b
 }
 
 .check{
-    color:#23865a;
-    font-weight:bold;
+color:#23865a;
+font-weight:bold
 }
 
 .chat{
-    height:320px;
-    overflow:auto;
-    background:#f8fafc;
-    border:1px solid #dfe5ee;
-    border-radius:15px;
-    padding:12px;
+height:320px;
+overflow:auto;
+background:#f8fafc;
+border:1px solid #dfe5ee;
+border-radius:15px;
+padding:12px
 }
 
 .msg{
-    max-width:80%;
-    padding:11px 13px;
-    border-radius:15px;
-    margin:7px 0;
+max-width:80%;
+padding:11px 13px;
+border-radius:15px;
+margin:7px 0
 }
 
 .me{
-    margin-left:auto;
-    background:#315c9b;
-    color:white;
+margin-left:auto;
+background:#315c9b;
+color:white
 }
 
 .them{
-    background:white;
-    border:1px solid #dfe5ee;
+background:white;
+border:1px solid #dfe5ee
 }
+
 .footer{
-    text-align:center;
-    color:#667085;
-    font-size:13px;
-    padding:25px;
+text-align:center;
+color:#667085;
+font-size:13px;
+padding:25px
 }
 
 .toast{
-    position:fixed;
-    right:15px;
-    bottom:15px;
-    background:#172033;
-    color:white;
-    padding:14px 17px;
-    border-radius:12px;
-    z-index:1000;
-    max-width:330px;
+position:fixed;
+right:15px;
+bottom:15px;
+background:#172033;
+color:white;
+padding:14px 17px;
+border-radius:12px;
+z-index:1000;
+max-width:330px
 }
 
 .modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    display:grid;
-    place-items:center;
-    padding:16px;
-    z-index:500;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+display:grid;
+place-items:center;
+padding:16px;
+z-index:500
 }
 
 .modal-box{
-    background:white;
-    border-radius:20px;
-    padding:22px;
-    width:min(600px,100%);
-    max-height:90vh;
-    overflow:auto;
+background:white;
+border-radius:20px;
+padding:22px;
+width:min(600px,100%);
+max-height:90vh;
+overflow:auto
 }
 
 .switch{
-    width:52px;
-    height:29px;
-    border:0;
-    border-radius:99px;
-    background:#cbd5e1;
-    position:relative;
+width:52px;
+height:29px;
+border:0;
+border-radius:99px;
+background:#cbd5e1;
+position:relative
 }
 
 .switch:after{
-    content:"";
-    position:absolute;
-    width:23px;
-    height:23px;
-    background:white;
-    border-radius:50%;
-    top:3px;
-    left:3px;
-    transition:.2s;
+content:"";
+position:absolute;
+width:23px;
+height:23px;
+background:white;
+border-radius:50%;
+top:3px;
+left:3px;
+transition:.2s
 }
 
-.switch.on{
-    background:#315c9b;
-}
-
-.switch.on:after{
-    left:26px;
-}
+.switch.on{background:#315c9b}
+.switch.on:after{left:26px}
 
 hr{
-    border:0;
-    border-top:1px solid #e1e6ed;
-    margin:22px 0;
+border:0;
+border-top:1px solid #e1e6ed;
+margin:22px 0
 }
 </style>
 </head>
@@ -503,3536 +411,2992 @@ hr{
 
 <script>
 
-/* =========================================================
-   SER CERCA
-   Aplicación completa en un solo archivo.
-   Los datos se guardan en localStorage.
-   ========================================================= */
+const KEY="sercerca_v2";
 
-const STORAGE_KEY="sercerca_completa_v1";
+const DEFAULT={
+logged:false,
+onboarding:true,
+step:1,
+page:"home",
 
-const DEFAULT_DATA={
-    logged:false,
-    onboarding:true,
-    step:1,
-    current:"home",
+user:{
+name:"",
+email:"",
+password:""
+},
 
-    user:{
-        name:"",
-        email:"",
-        password:""
-    },
+profile:{
+name:"",
+email:"",
+phone:"",
+city:"",
+notes:""
+},
 
-    profile:{
-        name:"",
-        email:"",
-        phone:"",
-        city:"",
-        birth:"",
-        notes:""
-    },
+role:"",
 
-    role:"",
+contacts:[],
 
-    contacts:[],
+notifications:[],
 
-    messages:[],
+messages:[],
 
-    notifications:[],
+history:[],
 
-    history:[],
+wellness:{
+answers:{},
+status:"",
+activity:"",
+last:""
+},
 
-    reminders:[],
+sharing:{
+checkin:true,
+wellness:true,
+activity:true,
+messages:true
+},
 
-    wellness:{
-        status:"Sin registrar",
-        last:""
-    },
+plan:"Básico",
 
-    plan:"Básico",
+trial:{
+active:false,
+start:"",
+end:""
+},
 
-    trial:{
-        active:false,
-        start:"",
-        end:""
-    },
+settings:{
+notifications:true,
+activity:true,
+location:false
+}
+};
+let S=load();
 
-    settings:{
-        notifications:true,
-        weekly:true,
-        activity:true,
-        location:false,
-        health:false
-    }
+
+function copy(x){
+return JSON.parse(JSON.stringify(x));
+}
+
+
+function load(){
+
+try{
+
+const saved=JSON.parse(
+localStorage.getItem(KEY)
+);
+
+if(!saved)return copy(DEFAULT);
+
+return merge(
+copy(DEFAULT),
+saved
+);
+
+}catch(e){
+
+return copy(DEFAULT);
+
+}
+
+}
+
+
+function merge(base,data){
+
+Object.keys(data).forEach(k=>{
+
+if(
+data[k] &&
+typeof data[k]==="object" &&
+!Array.isArray(data[k])
+){
+
+base[k]={
+...base[k],
+...data[k]
 };
 
-let S=loadData();
+}else{
 
+base[k]=data[k];
 
-function clone(obj){
-    return JSON.parse(JSON.stringify(obj));
 }
 
+});
 
-function loadData(){
-
-    try{
-
-        const saved=JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
-        );
-
-        if(!saved){
-            return clone(DEFAULT_DATA);
-        }
-
-        const data=clone(DEFAULT_DATA);
-
-        Object.keys(saved).forEach(key=>{
-
-            if(
-                saved[key] &&
-                typeof saved[key]==="object" &&
-                !Array.isArray(saved[key])
-            ){
-
-                data[key]={
-                    ...data[key],
-                    ...saved[key]
-                };
-
-            }else{
-
-                data[key]=saved[key];
-
-            }
-
-        });
-
-        return data;
-
-    }catch(error){
-
-        return clone(DEFAULT_DATA);
-
-    }
+return base;
 
 }
 
 
-function saveData(){
+function save(){
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(S)
-    );
-
-}
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+localStorage.setItem(
+KEY,
+JSON.stringify(S)
+);
 
 }
 
 
-function now(){
+function esc(x){
 
-    return new Date().toLocaleString(
-        "es-ES",
-        {
-            dateStyle:"short",
-            timeStyle:"short"
-        }
-    );
+return String(x??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;");
+
+}
+
+
+function time(){
+
+return new Date().toLocaleString(
+"es-ES",
+{
+dateStyle:"short",
+timeStyle:"short"
+}
+);
 
 }
 
 
 function initials(name){
 
-    return (name || "?")
-        .split(" ")
-        .map(x=>x[0])
-        .join("")
-        .substring(0,2)
-        .toUpperCase();
+return (name||"?")
+.split(" ")
+.map(x=>x[0])
+.join("")
+.substring(0,2)
+.toUpperCase();
 
 }
 
 
 function toast(text){
 
-    const element=document.createElement("div");
+const t=document.createElement("div");
 
-    element.className="toast";
+t.className="toast";
 
-    element.textContent=text;
+t.textContent=text;
 
-    document.body.appendChild(element);
+document.body.appendChild(t);
 
-    setTimeout(()=>{
-        element.remove();
-    },2600);
-
-}
-
-
-function addHistory(action,detail=""){
-
-    if(!S.settings.activity){
-        return;
-    }
-
-    S.history.unshift({
-        id:Date.now(),
-        action:action,
-        detail:detail,
-        date:now()
-    });
-
-    S.history=S.history.slice(0,150);
+setTimeout(
+()=>t.remove(),
+2500
+);
 
 }
 
 
-function addNotification(text,type="info"){
+function history(action,detail=""){
 
-    if(!S.settings.notifications){
-        return;
-    }
+S.history.unshift({
+id:Date.now(),
+action,
+detail,
+date:time()
+});
 
-    S.notifications.unshift({
-        id:Date.now(),
-        text:text,
-        type:type,
-        date:now(),
-        read:false
-    });
+S.history=S.history.slice(0,150);
 
-    S.notifications=S.notifications.slice(0,100);
+}
+
+
+function notification(text,type="info"){
+
+if(!S.settings.notifications)return;
+
+S.notifications.unshift({
+id:Date.now(),
+text,
+type,
+date:time(),
+read:false
+});
 
 }
 
 
 function go(page){
 
-    S.current=page;
+S.page=page;
 
-    saveData();
+save();
 
-    render();
+render();
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================================================
-   PLANES
-   ========================================================= */
-
-function planLevel(){
-
-    return {
-        "Básico":1,
-        "Familia":2,
-        "Cerca":3
-    }[S.plan] || 1;
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
 
-function hasPlan(level){
-
-    return planLevel()>=level || S.trial.active;
-
-}
-
-
-function lockedMessage(plan){
-
-    return `
-        <div class="alert alert-warn">
-
-            <b>🔒 Función bloqueada</b>
-
-            <br><br>
-
-            Esta función está incluida desde el
-            plan <b>${plan}</b>.
-
-            <div class="actions">
-
-                <button
-                    class="btn primary"
-                    onclick="go('plans')"
-                >
-                    💳 Ver planes
-                </button>
-
-            </div>
-
-        </div>
-    `;
-
-}
-
-
-/* =========================================================
-   RENDER PRINCIPAL
-   ========================================================= */
-
-function render(){
-
-    let html="";
-
-    if(!S.logged){
-
-        html=welcomeScreen();
-
-    }else if(S.onboarding){
-
-        html=onboardingScreen();
-
-    }else{
-
-        html=applicationLayout(
-            applicationRouter()
-        );
-
-    }
-
-    document.getElementById("app").innerHTML=html;
-
-}
-
-
-/* =========================================================
+/* =========================
    BIENVENIDA
-   ========================================================= */
+========================= */
 
-function welcomeScreen(){
+function welcome(){
 
-    return `
+return `
 
-        <main>
+<main>
 
-            <section class="hero">
+<section class="hero">
 
-                <span class="badge">
-                    🌷 Tranquilidad y acompañamiento
-                </span>
+<span class="badge">
+🌷 Tranquilidad y acompañamiento
+</span>
 
-                <h1>SerCerca</h1>
+<h1>SerCerca</h1>
 
-                <p>
-                    Una aplicación para mantener cerca
-                    a las personas mayores y sus familias,
-                    respetando siempre su autonomía.
-                </p>
+<p>
+Una aplicación para mantener cerca
+a las personas que quieres,
+respetando su autonomía.
+</p>
 
-                <div
-                    class="actions"
-                    style="justify-content:center"
-                >
+<div class="actions"
+style="justify-content:center">
 
-                    <button
-                        class="btn primary"
-                        onclick="startRegister()"
-                    >
-                        📝 Crear cuenta
-                    </button>
+<button
+class="btn primary"
+onclick="register()">
+📝 Crear cuenta
+</button>
 
-                    <button
-                        class="btn light"
-                        onclick="startLogin()"
-                    >
-                        🔐 Iniciar sesión
-                    </button>
+<button
+class="btn light"
+onclick="login()">
+🔐 Iniciar sesión
+</button>
 
-                </div>
-                <div
-                    class="grid g3"
-                    style="margin-top:45px;text-align:left"
-                >
+</div>
 
-                    <div class="card">
+</section>
 
-                        <h3>❤️ Cercanía</h3>
+</main>
 
-                        <p class="muted">
-                            Mantén el contacto con
-                            las personas importantes.
-                        </p>
-
-                    </div>
-
-                    <div class="card">
-
-                        <h3>💚 Bienestar</h3>
-
-                        <p class="muted">
-                            Un check-in sencillo para
-                            saber cómo estás.
-                        </p>
-
-                    </div>
-
-                    <div class="card">
-
-                        <h3>🔔 Tranquilidad</h3>
-
-                        <p class="muted">
-                            Avisos cuando algo
-                            necesita atención.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="footer">
-                    SerCerca busca acompañar sin sustituir
-                    servicios de emergencia ni atención profesional.
-                </div>
-
-            </section>
-
-        </main>
-
-    `;
+`;
 
 }
 
 
-/* =========================================================
-   MODALES
-   ========================================================= */
-
-function openModal(title,content){
-
-    const html=`
-
-        <div class="modal" id="modal">
-
-            <div class="modal-box">
-
-                <div class="row between">
-
-                    <h2>${title}</h2>
-
-                    <button
-                        class="btn light"
-                        onclick="closeModal()"
-                    >
-                        ✕
-                    </button>
-
-                </div>
-
-                <hr>
-
-                ${content}
-
-            </div>
-
-        </div>
-
-    `;
-
-    document.body.insertAdjacentHTML(
-        "beforeend",
-        html
-    );
-
-}
-
-
-function closeModal(){
-
-    const modal=document.getElementById("modal");
-
-    if(modal){
-        modal.remove();
-    }
-
-}
-
-
-/* =========================================================
+/* =========================
    REGISTRO
-   ========================================================= */
+========================= */
 
-function startRegister(){
+function register(){
 
-    openModal(
-        "📝 Crear cuenta",
-        `
+modal(
+"📝 Crear cuenta",
 
-        <form onsubmit="createAccount(event)">
+`
 
-            <div class="fg">
+<form onsubmit="create(event)">
 
-                <label>Nombre</label>
+<div class="fg">
+<label>Nombre</label>
+<input id="rname" required>
+</div>
 
-                <input
-                    id="registerName"
-                    required
-                    placeholder="Tu nombre"
-                >
+<div class="fg">
+<label>Correo</label>
+<input id="remail" type="email" required>
+</div>
 
-            </div>
+<div class="fg">
+<label>Contraseña</label>
+<input id="rpass" type="password" minlength="6" required>
+</div>
+<div class="fg">
 
-            <div class="fg">
+<label>¿Para quién es?</label>
 
-                <label>Correo electrónico</label>
+<button
+type="button"
+class="choice"
+onclick="role('elder',this)">
 
-                <input
-                    id="registerEmail"
-                    type="email"
-                    required
-                    placeholder="correo@ejemplo.com"
-                >
+<span class="emoji">👵</span>
 
-            </div>
+<b>Para mí</b>
 
-            <div class="fg">
+<br>
 
-                <label>Contraseña</label>
+<span class="muted">
+Soy la persona que utilizará SerCerca.
+</span>
 
-                <input
-                    id="registerPassword"
-                    type="password"
-                    minlength="6"
-                    required
-                    placeholder="Mínimo 6 caracteres"
-                >
+</button>
 
-            </div>
+<button
+type="button"
+class="choice"
+onclick="role('family',this)">
 
-            <div class="fg">
+<span class="emoji">👨‍👩‍👧</span>
 
-                <label>
-                    ¿Para quién es SerCerca?
-                </label>
+<b>Para mi familiar</b>
 
-                <button
-                    type="button"
-                    class="choice"
-                    onclick="chooseRole('elder',this)"
-                >
-                    <span class="emoji">👵</span>
-                    <b>Para mí</b>
-                    <br>
-                    <span class="muted small">
-                        Soy la persona que utilizará SerCerca.
-                    </span>
-                </button>
+<br>
 
-                <button
-                    type="button"
-                    class="choice"
-                    onclick="chooseRole('family',this)"
-                >
-                    <span class="emoji">👨‍👩‍👧</span>
-                    <b>Para mi familiar</b>
-                    <br>
-                    <span class="muted small">
-                        Quiero acompañar a un familiar.
-                    </span>
-                </button>
+<span class="muted">
+Quiero acompañar a un familiar.
+</span>
 
-            </div>
+</button>
 
-            <label class="small">
+</div>
 
-                <input
-                    id="terms"
-                    type="checkbox"
-                    required
-                >
+<label>
+<input id="terms" type="checkbox" required>
+Acepto las condiciones.
+</label>
 
-                Acepto las condiciones del prototipo.
+<br><br>
 
-            </label>
+<button class="btn primary block">
+Crear cuenta
+</button>
 
-            <div class="actions">
+</form>
 
-                <button
-                    class="btn primary block"
-                    type="submit"
-                >
-                    Crear cuenta
-                </button>
-
-            </div>
-
-        </form>
-
-        `
-    );
-
-}
-function chooseRole(role,button){
-
-    S.role=role;
-
-    document
-        .querySelectorAll(".choice")
-        .forEach(x=>x.classList.remove("selected"));
-
-    button.classList.add("selected");
+`
+);
 
 }
 
 
-function createAccount(event){
+function role(r,b){
 
-    event.preventDefault();
+S.role=r;
 
-    if(!S.role){
+document
+.querySelectorAll(".choice")
+.forEach(x=>x.classList.remove("selected"));
 
-        toast("Primero selecciona para quién es SerCerca.");
-
-        return;
-
-    }
-
-    S.user={
-        name:document.getElementById("registerName").value.trim(),
-        email:document.getElementById("registerEmail").value.trim(),
-        password:document.getElementById("registerPassword").value
-    };
-
-    S.profile.name=S.user.name;
-    S.profile.email=S.user.email;
-
-    S.logged=true;
-    S.onboarding=true;
-    S.step=1;
-
-    closeModal();
-
-    saveData();
-
-    render();
+b.classList.add("selected");
 
 }
 
 
-/* =========================================================
+function create(e){
+
+e.preventDefault();
+
+if(!S.role){
+
+toast("Selecciona una opción.");
+
+return;
+
+}
+
+S.user={
+name:rname.value.trim(),
+email:remail.value.trim(),
+password:rpass.value
+};
+
+S.profile.name=S.user.name;
+S.profile.email=S.user.email;
+
+S.logged=true;
+S.onboarding=true;
+S.step=1;
+
+close();
+
+save();
+render();
+
+}
+
+
+/* =========================
    LOGIN
-   ========================================================= */
+========================= */
 
-function startLogin(){
+function login(){
 
-    openModal(
-        "🔐 Iniciar sesión",
-        `
+modal(
+"🔐 Iniciar sesión",
 
-        <form onsubmit="loginAccount(event)">
+`
 
-            <div class="fg">
+<form onsubmit="enter(event)">
 
-                <label>Correo</label>
+<div class="fg">
+<label>Correo</label>
+<input id="lemail" type="email" required>
+</div>
 
-                <input
-                    id="loginEmail"
-                    type="email"
-                    required
-                >
+<div class="fg">
+<label>Contraseña</label>
+<input id="lpass" type="password" required>
+</div>
 
-            </div>
+<button class="btn primary block">
+Entrar
+</button>
 
-            <div class="fg">
+</form>
 
-                <label>Contraseña</label>
-
-                <input
-                    id="loginPassword"
-                    type="password"
-                    required
-                >
-
-            </div>
-
-            <button class="btn primary block">
-                Entrar
-            </button>
-
-            <p class="small muted">
-                Esta versión guarda los datos localmente
-                en este navegador.
-            </p>
-
-        </form>
-
-        `
-    );
+`
+);
 
 }
 
 
-function loginAccount(event){
+function enter(e){
 
-    event.preventDefault();
+e.preventDefault();
 
-    const email=document.getElementById("loginEmail").value;
-    const password=document.getElementById("loginPassword").value;
+if(
+S.user.email &&
+(
+lemail.value!==S.user.email ||
+lpass.value!==S.user.password
+)
+){
 
-    if(
-        S.user.email &&
-        (
-            email!==S.user.email ||
-            password!==S.user.password
-        )
-    ){
+toast("Datos incorrectos.");
 
-        toast("El correo o la contraseña no coinciden.");
+return;
 
-        return;
+}
 
-    }
+S.logged=true;
+S.onboarding=false;
 
-    S.logged=true;
+close();
 
-    if(!S.profile.name){
-        S.profile.name="Usuario";
-    }
-
-    S.onboarding=false;
-
-    closeModal();
-
-    saveData();
-
-    render();
+save();
+render();
 
 }
 
 
-/* =========================================================
-   CONFIGURACIÓN INICIAL
-   ========================================================= */
+/* =========================
+   MODAL
+========================= */
 
-function onboardingScreen(){
+function modal(title,content){
 
-    const steps=[
+document.body.insertAdjacentHTML(
+"beforeend",
 
-        {
-            title:"🌷 Bienvenida",
-            text:"Bienvenido a SerCerca. Vamos a preparar tu cuenta paso a paso.",
-            content:`
+`
 
-                <div class="alert alert-ok">
+<div class="modal" id="modal">
 
-                    <b>❤️ Nuestra idea</b>
+<div class="modal-box">
 
-                    <br><br>
+<div class="row between">
 
-                    Tranquilidad y acompañamiento
-                    manteniendo la autonomía.
+<h2>${title}</h2>
 
-                </div>
+<button
+class="btn light"
+onclick="close()">
+✕
+</button>
 
-                <p class="muted">
-                    Solo tienes que pulsar
-                    <b>Continuar</b> y pasarás a la
-                    siguiente pantalla.
-                </p>
+</div>
 
-            `
-        },
+<hr>
 
-        {
-            title:"👤 Completa tu perfil",
-            text:"Esta información te ayudará a personalizar SerCerca.",
-            content:`
+${content}
 
-                <div class="fg">
+</div>
 
-                    <label>Nombre</label>
+</div>
 
-                    <input
-                        id="profileName"
-                        value="${escapeHTML(S.profile.name)}"
-                    >
-
-                </div>
-
-                <div class="fg">
-
-                    <label>Teléfono</label>
-
-                    <input
-                        id="profilePhone"
-                        value="${escapeHTML(S.profile.phone)}"
-                        placeholder="Opcional"
-                    >
-
-                </div>
-
-                <div class="fg">
-
-                    <label>Ciudad</label>
-
-                    <input
-                        id="profileCity"
-                        value="${escapeHTML(S.profile.city)}"
-                        placeholder="Opcional"
-                    >
-
-                </div>
-
-            `
-        },
-        {
-            title:"❤️ Añade una persona de confianza",
-            text:"Puedes añadir familiares o personas que quieras tener cerca.",
-            content:`
-
-                <div class="fg">
-
-                    <label>Nombre</label>
-
-                    <input
-                        id="contactName"
-                        placeholder="Ej. María"
-                    >
-
-                </div>
-
-                <div class="fg">
-
-                    <label>Correo</label>
-
-                    <input
-                        id="contactEmail"
-                        type="email"
-                        placeholder="Ej. maria@email.com"
-                    >
-
-                </div>
-
-                <div class="fg">
-
-                    <label>Relación</label>
-
-                    <select id="contactRelation">
-
-                        <option>Hija/o</option>
-                        <option>Nieta/o</option>
-                        <option>Pareja</option>
-                        <option>Hermana/o</option>
-                        <option>Otro familiar</option>
-                        <option>Cuidador/a</option>
-
-                    </select>
-
-                </div>
-
-            `
-        },
-
-        {
-            title:"🔗 Vinculación",
-            text:"Ahora puedes vincular la persona de confianza.",
-            content:`
-
-                ${
-                    S.contacts.length
-                    ?
-                    S.contacts.map(c=>`
-
-                        <div class="item">
-
-                            <div class="row">
-
-                                <div class="avatar">
-                                    ${initials(c.name)}
-                                </div>
-
-                                <div>
-
-                                    <b>${escapeHTML(c.name)}</b>
-
-                                    <br>
-
-                                    <span class="muted">
-                                        ${escapeHTML(c.relation)}
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <button
-                                class="btn ${c.linked?"success":"secondary"}"
-                                onclick="toggleContactLink(${c.id})"
-                            >
-                                ${c.linked?"🔗 Vinculada":"Vincular"}
-                            </button>
-
-                        </div>
-
-                    `).join("")
-                    :
-                    `
-                        <div class="alert alert-warn">
-                            Todavía no has añadido ninguna persona.
-                            Puedes hacerlo después.
-                        </div>
-                    `
-                }
-
-            `
-        },
-
-        {
-            title:"🔐 Privacidad y permisos",
-            text:"Tú decides qué información comparte SerCerca.",
-            content:`
-
-                ${settingHTML(
-                    "notifications",
-                    "🔔 Avisos",
-                    "Permitir avisos"
-                )}
-
-                ${settingHTML(
-                    "activity",
-                    "📋 Historial",
-                    "Guardar actividad"
-                )}
-
-                ${settingHTML(
-                    "location",
-                    "📍 Ubicación",
-                    "Desactivada por defecto"
-                )}
-
-            `
-        },
-
-        {
-            title:"🎁 Prueba gratuita",
-            text:"Activa tus 14 días de prueba.",
-            content:`
-
-                <div class="alert alert-warn">
-
-                    <b>🎁 14 días gratis</b>
-
-                    <br><br>
-
-                    Durante la prueba podrás probar
-                    las funciones avanzadas de SerCerca.
-
-                </div>
-
-                <button
-                    class="btn secondary block"
-                    onclick="activateTrial()"
-                >
-                    🎁 Activar prueba gratuita
-                </button>
-
-            `
-        },
-
-        {
-            title:"✅ Todo preparado",
-            text:"Ya puedes entrar en SerCerca.",
-            content:`
-
-                <div class="grid g3">
-
-                    <div class="stat">
-                        ❤️
-                        <b>Confianza</b>
-                        <span class="muted">
-                            Tu red de personas.
-                        </span>
-                    </div>
-
-                    <div class="stat">
-                        💚
-                        <b>Bienestar</b>
-                        <span class="muted">
-                            Tu check-in.
-                        </span>
-                    </div>
-
-                    <div class="stat">
-                        🔔
-                        <b>Avisos</b>
-                        <span class="muted">
-                            Información importante.
-                        </span>
-                    </div>
-
-                </div>
-
-            `
-        }
-
-    ];
-
-    const step=steps[S.step-1];
-
-    return `
-
-        <main>
-
-            <div
-                class="card"
-                style="max-width:700px;margin:20px auto"
-            >
-
-                <div class="small">
-                    PASO ${S.step} DE ${steps.length}
-                </div>
-
-                <div class="progress">
-
-                    <span
-                        style="
-                        width:${S.step/steps.length*100}%
-                        "
-                    ></span>
-
-                </div>
-
-                <h1>${step.title}</h1>
-
-                <p class="muted">
-                    ${step.text}
-                </p>
-
-                ${step.content}
-
-                <div class="actions">
-
-                    <button
-                        class="btn light"
-                        onclick="previousSetup()"
-                        ${S.step===1?"disabled":""}
-                    >
-                        ← Atrás
-                    </button>
-
-                    <button
-                        class="btn primary"
-                        onclick="nextSetup()"
-                    >
-                        ${S.step===steps.length
-                            ?"🚀 Entrar en SerCerca"
-                            :"Continuar →"}
-                    </button>
-
-                </div>
-
-            </div>
-
-        </main>
-
-    `;
+`
+);
 
 }
+
+
+function close(){
+
+document
+.getElementById("modal")
+?.remove();
+
+}
+
+
+/* =========================
+   ONBOARDING
+========================= */
+
+function onboarding(){
+
+const steps=[
+
+{
+title:"🌷 Bienvenida",
+text:"Vamos a preparar SerCerca paso a paso.",
+content:`
+<div class="alert alert-ok">
+<b>❤️ Estar cerca sin quitar autonomía.</b>
+<br><br>
+SerCerca te ayuda a mantener el contacto
+con las personas que tú elijas.
+</div>
+`
+},
+
+{
+title:"👤 Tu perfil",
+text:"Completa tus datos.",
+content:`
+
+<div class="fg">
+<label>Nombre</label>
+<input id="pname"
+value="${esc(S.profile.name)}">
+</div>
+
+<div class="fg">
+<label>Teléfono</label>
+<input id="pphone"
+value="${esc(S.profile.phone)}">
+</div>
+
+<div class="fg">
+<label>Ciudad</label>
+<input id="pcity"
+value="${esc(S.profile.city)}">
+</div>
+
+`
+},
+{
+title:"❤️ Personas de confianza",
+text:"Añade a las personas que quieres tener cerca.",
+content:`
+
+<div class="fg">
+<label>Nombre</label>
+<input id="cname">
+</div>
+
+<div class="fg">
+<label>Correo</label>
+<input id="cemail" type="email">
+</div>
+
+<div class="fg">
+<label>Relación</label>
+<select id="crelation">
+<option>Hija/o</option>
+<option>Nieta/o</option>
+<option>Pareja</option>
+<option>Hermana/o</option>
+<option>Otro familiar</option>
+</select>
+</div>
+
+`
+},
+
+{
+title:"🔗 Vinculación",
+text:"Puedes vincular a la persona.",
+content:`
+
+${
+S.contacts.length
+?
+S.contacts.map(c=>`
+
+<div class="item">
+
+<div class="row">
+
+<div class="avatar">
+${initials(c.name)}
+</div>
+
+<div>
+<b>${esc(c.name)}</b>
+<br>
+<span class="muted">
+${esc(c.relation)}
+</span>
+</div>
+
+</div>
+
+<button
+class="btn secondary"
+onclick="link(${c.id})">
+
+${c.linked?"🔗 Vinculada":"Vincular"}
+
+</button>
+
+</div>
+
+`).join("")
+:
+`
+<div class="alert alert-warn">
+Todavía no has añadido ninguna persona.
+Puedes hacerlo después.
+</div>
+`
+}
+
+`
+},
+
+{
+title:"🔐 Privacidad",
+text:"Tú decides qué compartes.",
+content:`
+
+${setting(
+"checkin",
+"💚 Check-in",
+"Permitir compartir check-ins"
+)}
+
+${setting(
+"wellness",
+"🌷 Bienestar",
+"Permitir compartir estado"
+)}
+
+${setting(
+"activity",
+"🚶 Actividades",
+"Permitir compartir actividades"
+)}
+
+`
+},
+
+{
+title:"🎁 Prueba gratuita",
+text:"Prueba las funciones avanzadas.",
+content:`
+
+<div class="alert alert-warn">
+
+<b>14 días gratis</b>
+
+<br><br>
+
+Puedes probar las funciones
+avanzadas durante 14 días.
+
+</div>
+
+<button
+class="btn secondary block"
+onclick="trial()">
+🎁 Activar prueba
+</button>
+
+`
+},
+
+{
+title:"✅ Todo preparado",
+text:"Ya puedes entrar en SerCerca.",
+content:`
+
+<div class="grid g3">
+
+<div class="stat">
+❤️
+<b>Confianza</b>
+<span class="muted">
+Personas elegidas por ti.
+</span>
+</div>
+
+<div class="stat">
+💚
+<b>Check-in</b>
+<span class="muted">
+Mucho más completo.
+</span>
+</div>
+
+<div class="stat">
+🔐
+<b>Privacidad</b>
+<span class="muted">
+Tú decides qué compartir.
+</span>
+</div>
+
+</div>
+
+`
+}
+
+];
+
+const x=steps[S.step-1];
+
+return `
+
+<main>
+
+<div class="card"
+style="max-width:720px;margin:20px auto">
+
+<div class="small">
+PASO ${S.step} DE ${steps.length}
+</div>
+
+<div class="progress">
+<span style="
+width:${S.step/steps.length*100}%
+"></span>
+</div>
+
+<h1>${x.title}</h1>
+
+<p class="muted">${x.text}</p>
+
+${x.content}
+
+<div class="actions">
+
+<button
+class="btn light"
+onclick="backSetup()">
+← Atrás
+</button>
+
+<button
+class="btn primary"
+onclick="nextSetup()">
+
+${S.step===steps.length
+?"🚀 Entrar"
+:"Continuar →"}
+
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+`;
+
+}
+
+
 function nextSetup(){
 
-    if(S.step===2){
+if(S.step===2){
 
-        const name=document.getElementById("profileName");
+S.profile.name=
+document.getElementById("pname").value.trim();
 
-        const phone=document.getElementById("profilePhone");
+S.profile.phone=
+document.getElementById("pphone").value.trim();
 
-        const city=document.getElementById("profileCity");
+S.profile.city=
+document.getElementById("pcity").value.trim();
 
-        if(name){
-            S.profile.name=name.value.trim() || S.profile.name;
-        }
+}
 
-        if(phone){
-            S.profile.phone=phone.value.trim();
-        }
+if(S.step===3){
 
-        if(city){
-            S.profile.city=city.value.trim();
-        }
+const n=document.getElementById("cname");
 
-        S.user.name=S.profile.name;
+if(n?.value.trim()){
 
-        addHistory(
-            "Perfil completado",
-            S.profile.name
-        );
+S.contacts.push({
+id:Date.now(),
+name:n.value.trim(),
+email:document.getElementById("cemail").value.trim(),
+relation:document.getElementById("crelation").value,
+linked:false
+});
 
-    }
+}
 
+}
 
-    if(S.step===3){
+if(S.step===7){
 
-        const name=document.getElementById("contactName");
+S.onboarding=false;
+S.page="home";
 
-        if(name && name.value.trim()){
+history(
+"Configuración inicial",
+"Completada"
+);
 
-            const contact={
-                id:Date.now(),
-                name:name.value.trim(),
-                email:document.getElementById("contactEmail").value.trim(),
-                relation:document.getElementById("contactRelation").value,
-                linked:false
-            };
+save();
+render();
 
-            S.contacts.push(contact);
+toast("❤️ Bienvenido a SerCerca.");
 
-            addHistory(
-                "Persona de confianza añadida",
-                contact.name
-            );
+return;
 
-        }
+}
 
-    }
+S.step++;
 
+save();
+render();
 
-    if(S.step===6){
+}
+function backSetup(){
 
-        if(!S.trial.active){
+if(S.step>1){
 
-            activateTrial(false);
+S.step--;
 
-        }
+save();
+render();
 
-    }
-
-
-    if(S.step===7){
-
-        S.onboarding=false;
-        S.current="home";
-
-        addHistory(
-            "Configuración inicial terminada",
-            "Entrada en SerCerca"
-        );
-
-        saveData();
-
-        render();
-
-        toast("¡Bienvenido a SerCerca!");
-
-        return;
-
-    }
-
-
-    S.step++;
-
-    saveData();
-
-    render();
+}
 
 }
 
 
-function previousSetup(){
+/* =========================
+   APP
+========================= */
 
-    if(S.step>1){
+function app(){
 
-        S.step--;
+return `
 
-        saveData();
+<header>
 
-        render();
+<div class="header">
 
-    }
+<div class="logo">♥</div>
 
-}
+<div class="brand">SerCerca</div>
 
+<nav class="nav">
 
-/* =========================================================
-   LAYOUT
-   ========================================================= */
+<button onclick="go('home')">
+🏠 Inicio
+</button>
 
-function applicationLayout(content){
+<button onclick="go('checkin')">
+💚 Check-in
+</button>
 
-    const unread=S.notifications.filter(n=>!n.read).length;
+<button onclick="go('people')">
+❤️ Personas
+</button>
 
-    return `
+<button onclick="go('messages')">
+💌 Mensajes
+</button>
 
-        <header>
+<button onclick="go('family')">
+👨‍👩‍👧 Familia
+</button>
 
-            <div class="header">
+<button onclick="go('history')">
+📋 Historial
+</button>
 
-                <div class="logo">♥</div>
+<button onclick="go('plans')">
+💳 Planes
+</button>
 
-                <div class="brand">
-                    SerCerca
-                </div>
+<button onclick="go('settings')">
+⚙️
+</button>
 
-                <nav class="nav">
+</nav>
 
-                    <button onclick="go('home')">
-                        🏠 Inicio
-                    </button>
+<button
+class="btn light"
+onclick="logout()">
+Salir
+</button>
 
-                    <button onclick="go('wellness')">
-                        💚 Check-in
-                    </button>
+</div>
 
-                    <button onclick="go('people')">
-                        ❤️ Confianza
-                    </button>
+</header>
 
-                    <button onclick="go('messages')">
-                        💌 Mensajes
-                    </button>
+<main>
 
-                    <button onclick="go('family')">
-                        👨‍👩‍👧 Familia
-                    </button>
+${router()}
 
-                    <button onclick="go('history')">
-                        📋 Historial
-                    </button>
+</main>
 
-                    <button onclick="go('plans')">
-                        💳 Planes
-                    </button>
-
-                    <button onclick="go('settings')">
-                        ⚙️
-                    </button>
-
-                    <button onclick="go('notifications')">
-                        🔔 ${unread?unread:""}
-                    </button>
-
-                </nav>
-
-                <button
-                    class="btn light"
-                    onclick="logout()"
-                >
-                    Salir
-                </button>
-
-            </div>
-
-        </header>
-
-        <main>
-
-            ${content}
-
-        </main>
-
-    `;
+`;
 
 }
 
 
-/* =========================================================
-   ROUTER
-   ========================================================= */
+function router(){
 
-function applicationRouter(){
+switch(S.page){
 
-    switch(S.current){
+case"checkin":
+return checkin();
 
-        case"home":
-            return homeScreen();
+case"people":
+return people();
 
-        case"wellness":
-            return wellnessScreen();
+case"messages":
+return messages();
 
-        case"people":
-            return peopleScreen();
+case"family":
+return family();
 
-        case"messages":
-            return messagesScreen();
+case"history":
+return historyPage();
 
-        case"notifications":
-            return notificationsScreen();
+case"plans":
+return plans();
 
-        case"family":
-            return familyScreen();
+case"settings":
+return settings();
 
-        case"history":
-            return historyScreen();
-
-        case"settings":
-            return settingsScreen();
-
-        case"plans":
-            return plansScreen();
-
-        case"recommendations":
-            return recommendationsScreen();
-
-        case"help":
-            return helpScreen();
-
-        case"reminders":
-            return remindersScreen();
-
-        default:
-            return homeScreen();
-
-    }
+default:
+return home();
 
 }
-/* =========================================================
-   INICIO
-   ========================================================= */
 
-function homeScreen(){
+}
 
-    const unread=S.notifications.filter(n=>!n.read).length;
 
-    return `
+/* =========================
+   HOME
+========================= */
 
-        <div class="row between wrap">
+function home(){
 
-            <div>
+return `
 
-                <h1>
-                    🏠 Hola,
-                    ${escapeHTML(S.profile.name || "bienvenido")}
-                </h1>
+<div class="row between wrap">
 
-                <p class="muted">
-                    Tu espacio de tranquilidad,
-                    contacto y autonomía.
-                </p>
+<div>
 
-            </div>
+<h1>
+🏠 Hola, ${esc(S.profile.name)}
+</h1>
 
-            <span class="pill">
-                Plan ${escapeHTML(S.plan)}
-            </span>
+<p class="muted">
+¿Cómo va tu día?
+</p>
 
-        </div>
+</div>
 
+<span class="pill">
+${esc(S.plan)}
+</span>
 
-        <div class="grid g4">
+</div>
 
-            <div class="stat">
 
-                💚
+<div class="grid g4">
 
-                <span>Estado</span>
+<div class="stat">
+💚
+<span>Estado</span>
+<b>
+${esc(S.wellness.status||"Sin registrar")}
+</b>
+</div>
 
-                <b>
-                    ${escapeHTML(S.wellness.status)}
-                </b>
+<div class="stat">
+❤️
+<span>Personas</span>
+<b>${S.contacts.length}</b>
+</div>
 
-                <span class="muted small">
-                    ${S.wellness.last || "Sin check-in"}
-                </span>
+<div class="stat">
+📋
+<span>Actividad</span>
+<b>${S.history.length}</b>
+</div>
 
-            </div>
+<div class="stat">
+🔔
+<span>Avisos</span>
+<b>
+${S.notifications.filter(x=>!x.read).length}
+</b>
+</div>
 
+</div>
 
-            <div class="stat">
 
-                ❤️
+<div class="grid g2">
 
-                <span>Confianza</span>
+<div class="card">
 
-                <b>
-                    ${S.contacts.length}
-                </b>
+<h2>💚 ¿Cómo estás?</h2>
 
-                <span class="muted small">
-                    personas
-                </span>
+<p class="muted">
+Haz tu check-in diario.
+</p>
 
-            </div>
+<button
+class="big ok"
+onclick="go('checkin')">
+💚 Empezar check-in
+</button>
 
+</div>
 
-            <div class="stat">
 
-                🔔
+<div class="card">
 
-                <span>Avisos</span>
+<h2>🆘 ¿Necesitas ayuda?</h2>
 
-                <b>
-                    ${unread}
-                </b>
+<p class="muted">
+Envía un aviso a tus personas de confianza.
+</p>
 
-                <span class="muted small">
-                    pendientes
-                </span>
+<button
+class="big help"
+onclick="help()">
+🆘 Necesito ayuda
+</button>
 
-            </div>
+</div>
 
+</div>
 
-            <div class="stat">
 
-                📋
+<div class="card">
 
-                <span>Actividad</span>
+<h2>🌷 Tu día</h2>
 
-                <b>
-                    ${S.history.length}
-                </b>
+<p class="muted">
+SerCerca también puede ayudarte a encontrar
+algo que te apetezca hacer.
+</p>
 
-                <span class="muted small">
-                    registros
-                </span>
+<button
+class="btn secondary"
+onclick="go('checkin')">
+🌷 ¿Qué me apetece hoy?
+</button>
 
-            </div>
+</div>
 
-        </div>
-
-
-        <div class="grid g2">
-
-            <div class="card">
-
-                <h2>💚 ¿Cómo estás?</h2>
-
-                <p class="muted">
-                    Haz tu check-in diario.
-                </p>
-
-                <button
-                    class="big ok"
-                    onclick="go('wellness')"
-                >
-                    💚 Hacer check-in
-                </button>
-
-            </div>
-
-
-            <div class="card">
-
-                <h2>🆘 ¿Necesitas ayuda?</h2>
-
-                <p class="muted">
-                    Envía un aviso a tus personas de confianza.
-                </p>
-
-                <button
-                    class="big help"
-                    onclick="requestHelp()"
-                >
-                    🆘 Necesito ayuda
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="grid g3">
-
-            <div class="card">
-
-                <h3>💡 Recomendaciones</h3>
-
-                <p class="muted">
-                    Ideas sencillas para tu día.
-                </p>
-
-                <button
-                    class="btn secondary"
-                    onclick="go('recommendations')"
-                >
-                    Ver recomendaciones
-                </button>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>💌 Mensajes</h3>
-
-                <p class="muted">
-                    Habla con tu red.
-                </p>
-
-                <button
-                    class="btn secondary"
-                    onclick="go('messages')"
-                >
-                    Abrir mensajes
-                </button>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>🔔 Avisos</h3>
-
-                <p class="muted">
-                    ${unread
-                        ?"Tienes avisos nuevos."
-                        :"No tienes avisos nuevos."}
-                </p>
-
-                <button
-                    class="btn secondary"
-                    onclick="go('notifications')"
-                >
-                    Ver avisos
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>🎁 Prueba gratuita de 14 días</h2>
-
-            ${
-                S.trial.active
-                ?trialInformation()
-                :`
-                    <p class="muted">
-                        Puedes activar una prueba gratuita
-                        de 14 días para probar las funciones
-                        avanzadas.
-                    </p>
-
-                    <button
-                        class="btn primary"
-                        onclick="activateTrial()"
-                    >
-                        🎁 Activar prueba
-                    </button>
-                `
-            }
-
-        </div>
-
-
-        <div class="footer">
-            SerCerca acompaña y conecta.
-            No sustituye servicios de emergencia.
-        </div>
-
-    `;
+`;
 
 }
 
 
 /* =========================================================
-   CHECK-IN
-   ========================================================= */
+   NUEVO CHECK-IN
+========================================================= */
 
-function wellnessScreen(){
+const QUESTIONS=[
 
-    const options=[
+{
+id:"mood",
+title:"😊 ¿Cómo te encuentras hoy?",
+options:[
+["😊","Muy bien"],
+["🙂","Bien"],
+["😐","Regular"],
+["😟","Mal"],
+["😢","Muy mal"]
+]
+},
 
-        [
-            "😊",
-            "Estoy bien",
-            "Me encuentro bien hoy."
-        ],
+{
+id:"sleep",
+title:"😴 ¿Cómo has dormido?",
+options:[
+["😴","Muy bien"],
+["🙂","Bien"],
+["😐","Regular"],
+["😟","Mal"]
+]
+},
 
-        [
-            "🙂",
-            "Estoy regular",
-            "Hoy estoy un poco regular."
-        ],
+{
+id:"food",
+title:"🍽️ ¿Has comido hoy?",
+options:[
+["🍽️","Sí, bien"],
+["🙂","Más o menos"],
+["⚠️","Poco"],
+["❌","No"]
+]
+},
 
-        [
-            "😟",
-            "No me encuentro bien",
-            "Quiero que mi red lo sepa."
-        ]
+{
+id:"water",
+title:"💧 ¿Has bebido agua?",
+options:[
+["💧","Sí"],
+["🙂","Más o menos"],
+["⚠️","Creo que no"]
+]
+},
+{
+id:"pain",
+title:"❤️ ¿Te duele algo?",
+options:[
+["❤️","No"],
+["🟡","Un poco"],
+["🔴","Sí"]
+]
+},
 
-    ];
+{
+id:"medicine",
+title:"💊 ¿Has tomado tus medicamentos habituales?",
+options:[
+["✅","Sí"],
+["⏰","Todavía no"],
+["❌","No"],
+["🚫","No tomo medicamentos"]
+]
+},
 
-    return `
+{
+id:"outside",
+title:"🚶 ¿Has salido de casa hoy?",
+options:[
+["🚶","Sí"],
+["🏠","No"],
+["🕐","Todavía no"]
+]
+},
 
-        <div class="card">
+{
+id:"social",
+title:"💌 ¿Has hablado con alguien hoy?",
+options:[
+["❤️","Sí"],
+["🙂","Un poco"],
+["😔","No"]
+]
+},
 
-            <h1>💚 Estado de bienestar</h1>
+{
+id:"company",
+title:"🤝 ¿Te sientes acompañado/a?",
+options:[
+["❤️","Sí"],
+["😐","Más o menos"],
+["😔","Me siento solo/a"]
+]
+},
 
-            <p class="muted">
-                Elige cómo te encuentras.
-            </p>
+{
+id:"need",
+title:"🌷 ¿Necesitas algo hoy?",
+options:[
+["🛒","Comprar algo"],
+["💌","Hablar con alguien"],
+["🏠","Ayuda en casa"],
+["🩺","Necesito atención"],
+["😊","No necesito nada"]
+]
+},
 
-
-            ${options.map(option=>`
-
-                <button
-                    class="choice"
-                    onclick="setWellness('${option[1]}')"
-                >
-
-                    <span class="emoji">
-                        ${option[0]}
-                    </span>
-
-                    <b>
-                        ${option[1]}
-                    </b>
-
-                    <br>
-
-                    <span class="muted">
-                        ${option[2]}
-                    </span>
-
-                </button>
-
-            `).join("")}
-            <hr>
-
-
-            <h2>💚 Check-in</h2>
-
-            <p class="muted">
-                El check-in avisa a tu red de que
-                has pasado por SerCerca.
-            </p>
-
-            <button
-                class="btn success"
-                onclick="checkin()"
-            >
-                💚 Estoy bien
-            </button>
-
-
-            ${
-                S.wellness.last
-                ?`
-                    <div class="alert alert-ok">
-
-                        Último check-in:
-
-                        <b>
-                            ${escapeHTML(S.wellness.last)}
-                        </b>
-
-                    </div>
-                `
-                :""
-            }
-
-        </div>
-
-    `;
-
+{
+id:"activity",
+title:"🌷 ¿Qué te apetece hacer hoy?",
+options:[
+["🚶","Dar un paseo"],
+["🍳","Cocinar algo"],
+["🌱","Cuidar mis plantas"],
+["🎨","Dibujar o hacer manualidades"],
+["📖","Leer"],
+["🎵","Escuchar música"],
+["☕","Tomarme algo tranquilamente"],
+["💌","Hablar con alguien"],
+["👩‍🦰","Ver a una amiga"],
+["🏠","Hacer algo en casa"],
+["😴","Descansar"],
+["🤷","No sé qué me apetece"]
+]
 }
 
-
-function setWellness(status){
-
-    S.wellness.status=status;
-
-    S.wellness.last=now();
-
-    addHistory(
-        "Estado de bienestar",
-        status
-    );
-
-    if(status!=="Estoy bien"){
-
-        addNotification(
-            `🌷 Estado actualizado: ${status}`,
-            "wellness"
-        );
-
-    }
-
-    saveData();
-
-    render();
-
-    toast("Estado actualizado.");
-
-}
+];
 
 
 function checkin(){
 
-    S.wellness.status="Estoy bien";
+const total=QUESTIONS.length;
 
-    S.wellness.last=now();
+const index=
+S.wellness.questionIndex||0;
 
-    addHistory(
-        "Check-in realizado",
-        "Estoy bien"
-    );
+if(index>=total){
 
-    addNotification(
-        `${S.profile.name || "La persona"} ha realizado un check-in.`,
-        "checkin"
-    );
+return checkinSummary();
 
-    saveData();
+}
 
-    render();
+const q=QUESTIONS[index];
 
-    toast("💚 Check-in realizado correctamente.");
+return `
+
+<div class="card"
+style="max-width:750px;margin:auto">
+
+<div class="small">
+CHECK-IN · ${index+1} DE ${total}
+</div>
+
+<div class="progress">
+<span style="
+width:${(index+1)/total*100}%
+"></span>
+</div>
+
+<h1>${q.title}</h1>
+
+<p class="muted">
+Pulsa una respuesta para continuar.
+</p>
+
+${q.options.map(o=>`
+
+<button
+class="choice"
+onclick="answer(
+'${q.id}',
+'${o[1].replace(/'/g,"\\'")}'
+)">
+
+<span class="emoji">${o[0]}</span>
+
+<b>${o[1]}</b>
+
+</button>
+
+`).join("")}
+
+<div class="actions">
+
+<button
+class="btn light"
+onclick="previousQuestion()">
+← Atrás
+</button>
+
+<button
+class="btn light"
+onclick="cancelCheckin()">
+Salir
+</button>
+
+</div>
+
+</div>
+
+`;
 
 }
 
 
-function requestHelp(){
+function answer(id,value){
 
-    addNotification(
-        `🆘 ${S.profile.name || "La persona"} ha solicitado ayuda.`,
-        "help"
-    );
+S.wellness.answers[id]=value;
 
-    addHistory(
-        "Ayuda solicitada",
-        "Aviso enviado a la red de confianza."
-    );
+if(id==="activity"){
 
-    saveData();
+S.wellness.activity=value;
 
-    render();
+}
 
-    toast("🆘 Aviso enviado.");
+S.wellness.questionIndex=
+(S.wellness.questionIndex||0)+1;
+
+save();
+render();
 
 }
 
 
-/* =========================================================
-   PERSONAS DE CONFIANZA
-   ========================================================= */
+/* =========================
+   CHECK-IN ATRÁS
+========================= */
 
-function peopleScreen(){
+function previousQuestion(){
 
-    return `
-
-        <div class="row between wrap">
-
-            <div>
-
-                <h1>❤️ Personas de confianza</h1>
-
-                <p class="muted">
-                    Personas que pueden acompañarte.
-                </p>
-
-            </div>
-
-            <button
-                class="btn primary"
-                onclick="addContactModal()"
-            >
-                ＋ Añadir persona
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            ${
-                S.contacts.length
-                ?
-                S.contacts.map(contact=>`
-
-                    <div class="item">
-
-                        <div class="row">
-
-                            <div class="avatar">
-                                ${initials(contact.name)}
-                            </div>
-
-                            <div>
-
-                                <b>
-                                    ${escapeHTML(contact.name)}
-                                </b>
-
-                                <br>
-
-                                <span class="muted">
-                                    ${escapeHTML(contact.relation)}
-                                    ·
-                                    ${escapeHTML(contact.email || "Sin correo")}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <span class="pill">
-
-                                ${
-                                    contact.linked
-                                    ?"🔗 Vinculada"
-                                    :"⏳ Pendiente"
-                                }
-
-                            </span>
-
-                            <button
-                                class="btn secondary"
-                                onclick="toggleContactLink(${contact.id})"
-                            >
-
-                                ${
-                                    contact.linked
-                                    ?"Desvincular"
-                                    :"Vincular"
-                                }
-
-                            </button>
-
-                            <button
-                                class="btn light"
-                                onclick="deleteContact(${contact.id})"
-                            >
-                                Eliminar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                `).join("")
-                :
-                `
-                    <div class="alert alert-warn">
-
-                        Todavía no tienes personas de confianza.
-
-                    </div>
-                `
-            }
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>🔗 ¿Cómo funciona la vinculación?</h2>
-
-            <p class="muted">
-                En este prototipo, pulsar “Vincular”
-                conecta la persona directamente.
-                En una versión real se podría enviar
-                una invitación segura por correo o enlace.
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
-function addContactModal(){
-
-    openModal(
-        "❤️ Añadir persona",
-        `
-
-        <form onsubmit="createContact(event)">
-
-            <div class="fg">
-
-                <label>Nombre</label>
-
-                <input
-                    id="newContactName"
-                    required
-                >
-
-            </div>
-
-
-            <div class="fg">
-
-                <label>Correo</label>
-
-                <input
-                    id="newContactEmail"
-                    type="email"
-                >
-
-            </div>
-
-
-            <div class="fg">
-
-                <label>Relación</label>
-
-                <select id="newContactRelation">
-
-                    <option>Hija/o</option>
-                    <option>Nieta/o</option>
-                    <option>Pareja</option>
-                    <option>Hermana/o</option>
-                    <option>Otro familiar</option>
-                    <option>Cuidador/a</option>
-
-                </select>
-
-            </div>
-
-
-            <button class="btn primary block">
-                Añadir persona
-            </button>
-
-        </form>
-
-        `
-    );
-
-}
-function createContact(event){
-
-    event.preventDefault();
-
-    const contact={
-
-        id:Date.now(),
-
-        name:document.getElementById(
-            "newContactName"
-        ).value.trim(),
-
-        email:document.getElementById(
-            "newContactEmail"
-        ).value.trim(),
-
-        relation:document.getElementById(
-            "newContactRelation"
-        ).value,
-
-        linked:false
-
-    };
-
-    S.contacts.push(contact);
-
-    addHistory(
-        "Persona de confianza añadida",
-        contact.name
-    );
-
-    closeModal();
-
-    saveData();
-
-    render();
-
-    toast("❤️ Persona añadida.");
-
-}
-
-
-function toggleContactLink(id){
-
-    const contact=S.contacts.find(
-        c=>c.id===id
-    );
-
-    if(!contact)return;
-
-    contact.linked=!contact.linked;
-
-    addHistory(
-        contact.linked
-        ?"Persona vinculada"
-        :"Persona desvinculada",
-        contact.name
-    );
-
-    if(contact.linked){
-
-        addNotification(
-            `🔗 ${contact.name} ha sido vinculada.`,
-            "link"
-        );
-
-    }
-
-    saveData();
-
-    render();
-
-    toast(
-        contact.linked
-        ?"🔗 Persona vinculada."
-        :"Persona desvinculada."
-    );
-
-}
-
-
-function deleteContact(id){
-
-    if(!confirm("¿Eliminar esta persona?")){
-        return;
-    }
-
-    const contact=S.contacts.find(
-        c=>c.id===id
-    );
-
-    S.contacts=S.contacts.filter(
-        c=>c.id!==id
-    );
-
-    addHistory(
-        "Persona eliminada",
-        contact?.name || ""
-    );
-
-    saveData();
-
-    render();
-
-}
-
-
-/* =========================================================
-   MENSAJES
-   ========================================================= */
-
-function messagesScreen(){
-
-    const linked=S.contacts.filter(
-        c=>c.linked
-    );
-
-    if(!linked.length){
-
-        return `
-
-            <div class="card">
-
-                <h1>💌 Mensajes</h1>
-
-                <p class="muted">
-                    Primero debes vincular una persona
-                    de confianza.
-                </p>
-
-                <button
-                    class="btn primary"
-                    onclick="go('people')"
-                >
-                    ❤️ Gestionar personas
-                </button>
-
-            </div>
-
-        `;
-
-    }
-
-
-    return `
-
-        <div class="card">
-
-            <div class="row between wrap">
-
-                <div>
-
-                    <h1>💌 Mensajes</h1>
-
-                    <p class="muted">
-                        Contacta con tu red.
-                    </p>
-
-                </div>
-
-                <button
-                    class="btn primary"
-                    onclick="newMessageModal()"
-                >
-                    ＋ Nuevo mensaje
-                </button>
-
-            </div>
-
-
-            <div class="chat">
-
-                ${
-                    S.messages.length
-                    ?
-                    S.messages.map(message=>`
-
-                        <div
-                            class="msg ${
-                                message.me
-                                ?"me"
-                                :"them"
-                            }"
-                        >
-
-                            ${escapeHTML(message.text)}
-
-                            <div class="small">
-                                ${escapeHTML(message.to)}
-                                ·
-                                ${escapeHTML(message.date)}
-                            </div>
-
-                        </div>
-
-                    `).join("")
-                    :
-                    `
-                        <div
-                            style="
-                            text-align:center;
-                            padding:100px 10px;
-                            "
-                            class="muted"
-                        >
-                            Todavía no hay mensajes.
-                        </div>
-                    `
-                }
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-function newMessageModal(){
-
-    const contacts=S.contacts.filter(
-        c=>c.linked
-    );
-
-    openModal(
-        "💌 Nuevo mensaje",
-        `
-
-        <form onsubmit="sendMessage(event)">
-
-            <div class="fg">
-
-                <label>Persona</label>
-
-                <select id="messageTo">
-
-                    ${
-                        contacts.map(c=>
-                            `<option>
-                                ${escapeHTML(c.name)}
-                            </option>`
-                        ).join("")
-                    }
-
-                </select>
-
-            </div>
-
-
-            <div class="fg">
-
-                <label>Mensaje</label>
-
-                <textarea
-                    id="messageText"
-                    required
-                    placeholder="Escribe tu mensaje..."
-                ></textarea>
-
-            </div>
-
-
-            <button class="btn primary block">
-                💌 Enviar
-            </button>
-
-        </form>
-
-        `
-    );
-
-}
-function sendMessage(event){
-
-    event.preventDefault();
-
-    const message={
-
-        id:Date.now(),
-
-        me:true,
-
-        to:document.getElementById(
-            "messageTo"
-        ).value,
-
-        text:document.getElementById(
-            "messageText"
-        ).value,
-
-        date:now()
-
-    };
-
-    S.messages.push(message);
-
-    addHistory(
-        "Mensaje enviado",
-        "A "+message.to
-    );
-
-    addNotification(
-        `💌 Mensaje enviado a ${message.to}.`,
-        "message"
-    );
-
-    closeModal();
-
-    saveData();
-
-    render();
-
-    toast("💌 Mensaje enviado.");
-
-}
-
-
-/* =========================================================
-   AVISOS
-   ========================================================= */
-
-function notificationsScreen(){
-
-    return `
-
-        <div class="row between wrap">
-
-            <div>
-
-                <h1>🔔 Avisos</h1>
-
-                <p class="muted">
-                    Información importante de SerCerca.
-                </p>
-
-            </div>
-
-            <button
-                class="btn light"
-                onclick="readNotifications()"
-            >
-                Marcar todo leído
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            ${
-                S.notifications.length
-                ?
-                S.notifications.map(n=>`
-
-                    <div class="item">
-
-                        <div>
-
-                            <b>
-                                ${
-                                    n.type==="help"
-                                    ?"🆘"
-                                    :
-                                    n.type==="checkin"
-                                    ?"💚"
-                                    :
-                                    n.type==="wellness"
-                                    ?"🌷"
-                                    :"🔔"
-                                }
-
-                                ${escapeHTML(n.text)}
-                            </b>
-
-                            <br>
-
-                            <span class="muted small">
-                                ${escapeHTML(n.date)}
-                            </span>
-
-                        </div>
-
-                        <span class="pill">
-                            ${n.read?"Leído":"Nuevo"}
-                        </span>
-
-                    </div>
-
-                `).join("")
-                :
-                `
-                    <div
-                        class="muted"
-                        style="text-align:center;padding:60px"
-                    >
-                        No tienes avisos.
-                    </div>
-                `
-            }
-
-        </div>
-
-    `;
-
-}
-
-
-function readNotifications(){
-
-    S.notifications.forEach(
-        n=>n.read=true
-    );
-
-    saveData();
-
-    render();
-
-}
-
-
-/* =========================================================
-   RECOMENDACIONES
-   ========================================================= */
-
-function recommendationsScreen(){
-
-    const status=S.wellness.status;
-
-    let recommendations=[];
-
-    if(status==="Estoy regular"){
-
-        recommendations=[
-
-            ["🌿","Descansa un poco",
-             "Busca un momento tranquilo."],
-
-            ["💌","Habla con alguien",
-             "Envía un mensaje a una persona de confianza."],
-
-            ["🚶","Muévete",
-             "Si puedes hacerlo con seguridad, da un pequeño paseo."]
-
-        ];
-
-    }else if(status==="No me encuentro bien"){
-
-        recommendations=[
-
-            ["❤️","Contacta con tu familia",
-             "Cuenta cómo te encuentras."],
-
-            ["🆘","Pide ayuda",
-             "Utiliza el botón de ayuda si lo necesitas."],
-
-            ["🛋️","Descansa",
-             "Quédate en un lugar cómodo y seguro."]
-
-        ];
-
-    }else{
-
-        recommendations=[
-
-            ["🌞","Empieza el día con calma",
-             "Haz algo que te guste."],
-
-            ["💌","Contacta con alguien",
-             "Manda un mensaje a tu familia."],
-
-            ["🧩","Haz una actividad",
-             "Lee, dibuja, cocina, escucha música o cuida plantas."]
-
-        ];
-
-    }
-
-
-    return `
-
-        <div class="card">
-
-            <h1>💡 Recomendaciones</h1>
-
-            <p class="muted">
-                Ideas sencillas para acompañarte.
-            </p>
-
-
-            <div class="grid g3">
-
-                ${recommendations.map(r=>`
-
-                    <div class="card">
-
-                        <div class="emoji">
-                            ${r[0]}
-                        </div>
-
-                        <h3>
-                            ${r[1]}
-                        </h3>
-
-                        <p class="muted">
-                            ${r[2]}
-                        </p>
-
-                        <button
-                            class="btn secondary"
-                            onclick="completeRecommendation('${r[1]}')"
-                        >
-                            ✓ Hecho
-                        </button>
-
-                    </div>
-
-                `).join("")}
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-function completeRecommendation(name){
-
-    addHistory(
-        "Recomendación realizada",
-        name
-    );
-
-    saveData();
-
-    toast("💡 Guardado en tu actividad.");
-
-}
-/* =========================================================
-   AYUDA
-   ========================================================= */
-
-function helpScreen(){
-
-    return `
-
-        <div class="card">
-
-            <h1>🆘 Ayuda</h1>
-
-            <p class="muted">
-                Envía un aviso a tus personas de confianza.
-            </p>
-
-            <button
-                class="big help"
-                onclick="requestHelp()"
-            >
-                🆘 Necesito ayuda
-            </button>
-
-            <div class="alert alert-warn">
-
-                SerCerca no sustituye a los
-                servicios de emergencia.
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   FAMILIA
-   ========================================================= */
-
-function familyScreen(){
-
-    const linked=S.contacts.filter(
-        c=>c.linked
-    );
-
-    return `
-
-        <div class="row between wrap">
-
-            <div>
-
-                <h1>👨‍👩‍👧 Zona de familiares</h1>
-
-                <p class="muted">
-                    Resumen de la actividad y de la red.
-                </p>
-
-            </div>
-
-            <button
-                class="btn primary"
-                onclick="go('people')"
-            >
-                Gestionar personas
-            </button>
-
-        </div>
-
-
-        <div class="grid g3">
-
-            <div class="stat">
-                ❤️
-                <b>${linked.length}</b>
-                <span class="muted">
-                    personas vinculadas
-                </span>
-            </div>
-
-            <div class="stat">
-                💚
-                <b>
-                    ${escapeHTML(S.wellness.status)}
-                </b>
-                <span class="muted">
-                    estado actual
-                </span>
-            </div>
-
-            <div class="stat">
-                🔔
-                <b>
-                    ${S.notifications.filter(n=>!n.read).length}
-                </b>
-                <span class="muted">
-                    avisos nuevos
-                </span>
-            </div>
-
-        </div>
-
-
-        <div class="grid g2">
-
-            <div class="card">
-
-                <h2>❤️ Personas vinculadas</h2>
-
-                ${
-                    linked.length
-                    ?
-                    linked.map(c=>`
-
-                        <div class="item">
-
-                            <div>
-
-                                <b>
-                                    ${escapeHTML(c.name)}
-                                </b>
-
-                                <br>
-
-                                <span class="muted">
-                                    ${escapeHTML(c.relation)}
-                                </span>
-
-                            </div>
-
-                            <button
-                                class="btn secondary"
-                                onclick="go('messages')"
-                            >
-                                💌 Mensajes
-                            </button>
-
-                        </div>
-
-                    `).join("")
-                    :
-                    `<p class="muted">
-                        No hay personas vinculadas.
-                    </p>`
-                }
-
-            </div>
-
-
-            <div class="card">
-
-                <h2>📋 Actividad reciente</h2>
-
-                ${
-                    S.history.slice(0,8).map(h=>`
-
-                        <div class="item">
-
-                            <div>
-
-                                <b>
-                                    ${escapeHTML(h.action)}
-                                </b>
-
-                                <br>
-
-                                <span class="muted">
-                                    ${escapeHTML(h.detail)}
-                                </span>
-
-                            </div>
-
-                            <span class="small muted">
-                                ${escapeHTML(h.date)}
-                            </span>
-
-                        </div>
-
-                    `).join("")
-                    ||
-                    `<p class="muted">
-                        No hay actividad.
-                    </p>`
-                }
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   HISTORIAL
-   ========================================================= */
-
-function historyScreen(){
-
-    return `
-
-        <div class="row between wrap">
-
-            <div>
-
-                <h1>📋 Historial</h1>
-
-                <p class="muted">
-                    Actividad y check-ins guardados.
-                </p>
-
-            </div>
-
-            <button
-                class="btn light"
-                onclick="clearHistory()"
-            >
-                Borrar historial
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            ${
-                S.history.length
-                ?
-                S.history.map(h=>`
-
-                    <div class="item">
-
-                        <div>
-
-                            <b>
-                                ${escapeHTML(h.action)}
-                            </b>
-
-                            <br>
-
-                            <span class="muted">
-                                ${escapeHTML(h.detail)}
-                            </span>
-
-                        </div>
-
-                        <span class="small muted">
-                            ${escapeHTML(h.date)}
-                        </span>
-
-                    </div>
-
-                `).join("")
-                :
-                `
-                    <div
-                        class="muted"
-                        style="text-align:center;padding:60px"
-                    >
-                        Todavía no hay actividad.
-                    </div>
-                `
-            }
-
-        </div>
-
-    `;
-
-}
-
-
-function clearHistory(){
-
-    if(!confirm("¿Quieres borrar el historial?")){
-        return;
-    }
-
-    S.history=[];
-
-    saveData();
-
-    render();
-
-}
-/* =========================================================
-   PLANES
-   ========================================================= */
-
-function plansScreen(){
-
-    return `
-
-        <div>
-
-            <h1>💳 Planes</h1>
-
-            <p class="muted">
-                El plan elegido cambia las funciones disponibles.
-            </p>
-
-        </div>
-
-
-        ${
-            S.trial.active
-            ?trialInformation()
-            :
-            `
-                <div class="alert alert-warn">
-
-                    🎁 Tienes una prueba gratuita de
-                    <b>14 días</b> disponible.
-
-                    <div class="actions">
-
-                        <button
-                            class="btn secondary"
-                            onclick="activateTrial()"
-                        >
-                            Activar prueba
-                        </button>
-
-                    </div>
-
-                </div>
-            `
-        }
-
-
-        <div class="grid g3">
-
-
-            ${planCard(
-                "Básico",
-                "2,99 €",
-                "1",
-                [
-                    "Perfil y cuenta",
-                    "Personas de confianza",
-                    "Vinculación",
-                    "Check-in",
-                    "Estado de bienestar",
-                    "Avisos básicos",
-                    "Historial"
-                ]
-            )}
-
-
-            ${planCard(
-                "Familia",
-                "6,99 €",
-                "2",
-                [
-                    "Todo lo de Básico",
-                    "Mensajes",
-                    "Recordatorios",
-                    "Zona de familiares",
-                    "Recomendaciones ampliadas",
-                    "Más herramientas familiares"
-                ]
-            )}
-
-
-            ${planCard(
-                "Cerca",
-                "12,99 €",
-                "3",
-                [
-                    "Todo lo de Familia",
-                    "Funciones avanzadas",
-                    "Privacidad avanzada",
-                    "Historial ampliado",
-                    "Funciones futuras",
-                    "Nuevas funciones de SerCerca"
-                ]
-            )}
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>🔓 Desbloqueo</h2>
-
-            <p class="muted">
-                En esta versión, las funciones se comprueban
-                automáticamente según el plan.
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
-function planCard(
-    name,
-    price,
-    planLevelNumber,
-    features
+if(
+(S.wellness.questionIndex||0)>0
 ){
 
-    const current=S.plan===name;
+S.wellness.questionIndex--;
 
-    return `
+save();
+render();
 
-        <div
-            class="card plan ${current?"current":""}"
-        >
+}else{
 
-            ${
-                current
-                ?
-                `<span class="pill">
-                    PLAN ACTUAL
-                </span>`
-                :""
-            }
+cancelCheckin();
 
-
-            <h2>${name}</h2>
-
-            <p class="muted">
-                ${
-                    name==="Básico"
-                    ?"Para empezar"
-                    :
-                    name==="Familia"
-                    ?"Para acompañar en familia"
-                    :"La experiencia más completa"
-                }
-            </p>
-
-
-            <div class="price">
-                ${price}
-                <span class="small muted">
-                    / mes
-                </span>
-            </div>
-
-
-            <hr>
-
-
-            ${features.map(feature=>`
-
-                <p>
-                    <span class="check">✓</span>
-                    ${feature}
-                </p>
-
-            `).join("")}
-
-
-            <button
-                class="btn ${
-                    current
-                    ?"light"
-                    :"primary"
-                } block"
-                onclick="selectPlan('${name}')"
-            >
-
-                ${
-                    current
-                    ?"Plan actual"
-                    :"Elegir "+name
-                }
-
-            </button>
-
-        </div>
-
-    `;
+}
 
 }
 
 
-function selectPlan(name){
+function cancelCheckin(){
 
-    S.plan=name;
+S.wellness.questionIndex=0;
+S.wellness.answers={};
 
-    addHistory(
-        "Plan seleccionado",
-        name
-    );
+save();
 
-    saveData();
-
-    render();
-
-    toast(
-        "💳 Plan cambiado a "+name
-    );
+go("home");
 
 }
 
 
-/* =========================================================
-   PRUEBA 14 DÍAS
-   ========================================================= */
+/* =========================
+   RESUMEN
+========================= */
 
-function activateTrial(showToast=true){
+function checkinSummary(){
 
-    if(S.trial.active){
+const a=S.wellness.answers;
 
-        if(showToast){
-            toast("La prueba ya está activa.");
-        }
+const recommendations=
+getRecommendations(a);
 
-        return;
 
-    }
+return `
 
-    const start=new Date();
+<div class="card"
+style="max-width:800px;margin:auto">
 
-    const end=new Date(
-        start.getTime()+14*24*60*60*1000
-    );
+<span class="badge">
+📋 RESUMEN
+</span>
 
-    S.trial={
-        active:true,
-        start:start.toISOString(),
-        end:end.toISOString()
-    };
+<h1>
+💚 Tu check-in está listo
+</h1>
 
-    addHistory(
-        "Prueba gratuita iniciada",
-        "14 días"
-    );
+<p class="muted">
+Antes de terminar, revisa tus respuestas.
+</p>
 
-    saveData();
 
-    render();
+<div class="grid g2">
 
-    if(showToast){
-        toast("🎁 Prueba de 14 días activada.");
-    }
+${Object.entries(a).map(
+([key,value])=>`
+
+<div class="item">
+
+<div>
+<b>
+${questionName(key)}
+</b>
+
+<br>
+
+<span class="muted">
+${esc(value)}
+</span>
+</div>
+
+<span>✓</span>
+
+</div>
+
+`
+).join("")}
+
+</div>
+<hr>
+
+
+<h2>💡 Una idea para tu día</h2>
+
+${recommendations.map(r=>`
+
+<div class="card">
+
+<div class="emoji">
+${r.icon}
+</div>
+
+<h3>
+${r.title}
+</h3>
+
+<p class="muted">
+${r.text}
+</p>
+
+${r.invite
+?
+`
+<button
+class="btn secondary"
+onclick="inviteFromRecommendation()">
+💌 Invitar a alguien
+</button>
+`
+:""}
+
+</div>
+
+`).join("")}
+
+
+<hr>
+
+
+<div class="alert alert-warn">
+
+<b>🔐 Compartir con personas de confianza</b>
+
+<br><br>
+
+El check-in <b>no se enviará automáticamente</b>.
+
+Antes de compartirlo podrás comprobar
+exactamente quién lo recibirá.
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn light"
+onclick="cancelCheckin()">
+No guardar
+</button>
+
+<button
+class="btn secondary"
+onclick="saveCheckin(false)">
+💾 Guardar sin compartir
+</button>
+
+<button
+class="btn primary"
+onclick="confirmShare()">
+💌 Compartir
+</button>
+
+</div>
+
+</div>
+
+`;
 
 }
-function trialInformation(){
 
-    const end=new Date(S.trial.end);
 
-    const days=Math.max(
-        0,
-        Math.ceil(
-            (end.getTime()-Date.now())/
-            (24*60*60*1000)
-        )
-    );
+function questionName(id){
 
-    return `
+const names={
+mood:"Estado de ánimo",
+sleep:"Sueño",
+food:"Alimentación",
+water:"Agua",
+pain:"Dolor",
+medicine:"Medicamentos",
+outside:"Salir de casa",
+social:"Contacto social",
+company:"Acompañamiento",
+need:"Necesidad",
+activity:"Actividad"
+};
 
-        <div class="alert alert-ok">
-
-            🎁 <b>Prueba gratuita activa</b>
-
-            <br><br>
-
-            Quedan aproximadamente
-            <b>${days} día(s)</b>.
-
-            <br>
-
-            Finaliza el
-            <b>${end.toLocaleDateString("es-ES")}</b>.
-
-        </div>
-
-    `;
+return names[id]||id;
 
 }
 
 
-/* =========================================================
+/* =========================
+   RECOMENDACIONES
+========================= */
+
+function getRecommendations(a){
+
+const list=[];
+
+if(a.activity==="Dar un paseo"){
+
+list.push({
+
+icon:"🚶",
+
+title:"Un paseo puede ser un buen plan",
+
+text:
+"Si te apetece, puedes invitar a una amiga o familiar y dar un paseo juntos.",
+
+invite:true
+
+});
+
+}
+
+if(a.activity==="Cocinar algo"){
+
+list.push({
+
+icon:"🍳",
+
+title:"¡Vamos a cocinar!",
+
+text:
+"Puedes preparar una receta que te guste y, si quieres, compartirla con alguien.",
+
+invite:false
+
+});
+
+}
+
+if(a.activity==="Cuidar mis plantas"){
+
+list.push({
+
+icon:"🌱",
+
+title:"Un ratito con tus plantas",
+
+text:
+"Puedes regarlas, quitar hojas secas o preparar una nueva planta.",
+
+invite:false
+
+});
+
+}
+
+if(a.activity==="Dibujar o hacer manualidades"){
+
+list.push({
+
+icon:"🎨",
+
+title:"Un momento creativo",
+
+text:
+"Busca algo que tengas por casa y crea algo que te guste.",
+
+invite:false
+
+});
+
+}
+
+if(a.activity==="Leer"){
+
+list.push({
+
+icon:"📖",
+
+title:"Un rato de lectura",
+
+text:
+"Elige un libro, revista o historia que te apetezca leer.",
+
+invite:false
+
+});
+
+}
+
+if(a.activity==="Escuchar música"){
+
+list.push({
+
+icon:"🎵",
+
+title:"Pon tu música favorita",
+
+text:
+"Puedes escuchar algunas canciones que te hagan sentir bien.",
+
+invite:false
+
+});
+
+}
+
+if(a.activity==="Hablar con alguien"){
+
+list.push({
+
+icon:"💌",
+
+title:"Una conversación puede alegrar el día",
+
+text:
+"Puedes escribir o llamar a una persona de confianza.",
+
+invite:true
+
+});
+
+}
+
+if(a.activity==="Ver a una amiga"){
+
+list.push({
+
+icon:"👩‍🦰",
+
+title:"¡Un plan con una amiga!",
+
+text:
+"Puedes escribirle y preguntarle si quiere tomar algo o salir contigo.",
+
+invite:true
+
+});
+
+}
+
+if(a.activity==="Descansar"){
+
+list.push({
+
+icon:"😴",
+
+title:"También está bien descansar",
+
+text:
+"Busca un lugar cómodo y tómate un momento tranquilo.",
+
+invite:false
+
+});
+
+}
+
+if(
+a.company==="Me siento solo/a"
+){
+
+list.push({
+
+icon:"❤️",
+
+title:"Hoy podrías contactar con alguien",
+
+text:
+"Si te apetece, escribe a una persona de confianza y cuéntale cómo estás.",
+
+invite:true
+
+});
+
+}
+
+if(!list.length){
+
+list.push({
+
+icon:"🌷",
+
+title:"Haz algo que te guste",
+
+text:
+"Hoy puedes elegir una actividad sencilla que te haga sentir bien.",
+
+invite:false
+
+});
+
+}
+
+return list.slice(0,3);
+
+}
+/* =========================
+   GUARDAR CHECK-IN
+========================= */
+
+function saveCheckin(shared){
+
+const a=S.wellness.answers;
+
+S.wellness.status=
+a.mood||"Registrado";
+
+S.wellness.last=time();
+
+history(
+"Check-in realizado",
+S.wellness.status
+);
+
+if(shared){
+
+shareCheckin();
+
+}
+
+S.wellness.questionIndex=0;
+
+S.wellness.answers={};
+
+save();
+
+go("home");
+
+toast(
+shared
+?"💌 Check-in compartido."
+:"💾 Check-in guardado."
+);
+
+}
+
+
+/* =========================
+   CONFIRMAR COMPARTIR
+========================= */
+
+function confirmShare(){
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+if(!contacts.length){
+
+modal(
+"❤️ Personas de confianza",
+
+`
+
+<div class="alert alert-warn">
+
+Todavía no tienes ninguna persona
+de confianza vinculada.
+
+</div>
+
+<button
+class="btn primary block"
+onclick="close();go('people')">
+
+Gestionar personas
+
+</button>
+
+`
+);
+
+return;
+
+}
+
+modal(
+
+"🔐 Confirmar envío",
+
+`
+
+<h3>
+💌 Esto se enviará a:
+</h3>
+
+${contacts.map(c=>`
+
+<div class="item">
+
+<div class="row">
+
+<div class="avatar">
+${initials(c.name)}
+</div>
+
+<div>
+
+<b>${esc(c.name)}</b>
+
+<br>
+
+<span class="muted">
+${esc(c.relation)}
+</span>
+
+</div>
+
+</div>
+
+<span>❤️</span>
+
+</div>
+
+`).join("")}
+
+
+<div class="alert alert-warn">
+
+<b>Importante</b>
+
+<br><br>
+
+Vas a compartir tu resumen de check-in
+con estas personas.
+
+Puedes cancelar ahora si cambias de opinión.
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn light"
+onclick="close()">
+Cancelar
+</button>
+
+<button
+class="btn primary"
+onclick="close();saveCheckin(true)">
+💌 Sí, enviar
+</button>
+
+</div>
+
+`
+
+);
+
+}
+
+
+/* =========================
+   COMPARTIR CHECK-IN
+========================= */
+
+function shareCheckin(){
+
+if(!S.sharing.checkin){
+
+return;
+
+}
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+const summary=
+Object.entries(
+S.wellness.answers
+)
+.map(
+([key,value])=>
+questionName(key)+": "+value
+)
+.join(" · ");
+
+contacts.forEach(c=>{
+
+notification(
+`💚 Nuevo check-in de ${
+S.profile.name
+}: ${summary}`,
+"checkin"
+);
+
+});
+
+history(
+"Check-in compartido",
+contacts.map(c=>c.name).join(", ")
+);
+
+}
+
+
+/* =========================
+   INVITAR A ALGUIEN
+========================= */
+
+function inviteFromRecommendation(){
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+if(!contacts.length){
+
+modal(
+"❤️ Personas de confianza",
+`
+<div class="alert alert-warn">
+Primero vincula una persona de confianza.
+</div>
+
+<button
+class="btn primary block"
+onclick="close();go('people')">
+Añadir persona
+</button>
+`
+);
+
+return;
+
+}
+
+modal(
+"💌 Invitar a dar un paseo",
+
+`
+
+<p>
+¿A quién quieres invitar?
+</p>
+
+${contacts.map(c=>`
+
+<button
+class="choice"
+onclick="sendInvitation(${c.id})">
+
+<span class="emoji">
+👩‍🦰
+</span>
+
+<b>
+${esc(c.name)}
+</b>
+
+<br>
+
+<span class="muted">
+${esc(c.relation)}
+</span>
+
+</button>
+
+`).join("")}
+
+`
+);
+
+}
+function sendInvitation(id){
+
+const c=S.contacts.find(
+x=>x.id===id
+);
+
+if(!c)return;
+
+notification(
+`🚶 ${S.profile.name} quiere invitarte a dar un paseo.`,
+"invitation"
+);
+
+history(
+"Invitación enviada",
+"Actividad con "+c.name
+);
+
+close();
+
+save();
+
+toast(
+"💌 Invitación enviada a "+c.name
+);
+
+}
+
+
+/* =========================
+   PERSONAS
+========================= */
+
+function people(){
+
+return `
+
+<div class="row between wrap">
+
+<div>
+
+<h1>❤️ Personas de confianza</h1>
+
+<p class="muted">
+Solo las personas vinculadas podrán
+recibir la información que autorices.
+</p>
+
+</div>
+
+<button
+class="btn primary"
+onclick="addContact()">
+＋ Añadir
+</button>
+
+</div>
+
+
+<div class="card">
+
+${
+S.contacts.length
+?
+S.contacts.map(c=>`
+
+<div class="item">
+
+<div class="row">
+
+<div class="avatar">
+${initials(c.name)}
+</div>
+
+<div>
+
+<b>${esc(c.name)}</b>
+
+<br>
+
+<span class="muted">
+${esc(c.relation)}
+·
+${esc(c.email)}
+</span>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<span class="pill">
+${c.linked?"🔗 Vinculada":"Pendiente"}
+</span>
+
+<button
+class="btn secondary"
+onclick="link(${c.id})">
+${c.linked?"Desvincular":"Vincular"}
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+:
+`
+<div class="alert alert-warn">
+No tienes personas de confianza.
+</div>
+`
+}
+
+</div>
+
+
+<div class="card">
+
+<h2>🔐 Tu privacidad</h2>
+
+<p class="muted">
+SerCerca nunca debe compartir información
+con una persona que no hayas autorizado.
+</p>
+
+</div>
+
+`;
+
+}
+
+
+function addContact(){
+
+modal(
+"❤️ Añadir persona",
+
+`
+
+<form onsubmit="newContact(event)">
+
+<div class="fg">
+<label>Nombre</label>
+<input id="ncname" required>
+</div>
+
+<div class="fg">
+<label>Correo</label>
+<input id="ncemail" type="email">
+</div>
+
+<div class="fg">
+
+<label>Relación</label>
+
+<select id="ncrelation">
+<option>Hija/o</option>
+<option>Nieta/o</option>
+<option>Pareja</option>
+<option>Hermana/o</option>
+<option>Otro familiar</option>
+</select>
+
+</div>
+
+<button class="btn primary block">
+Añadir persona
+</button>
+
+</form>
+
+`
+);
+
+}
+
+
+function newContact(e){
+
+e.preventDefault();
+
+S.contacts.push({
+
+id:Date.now(),
+
+name:ncname.value.trim(),
+
+email:ncemail.value.trim(),
+
+relation:ncrelation.value,
+
+linked:false
+
+});
+
+history(
+"Persona añadida",
+ncname.value.trim()
+);
+
+close();
+
+save();
+
+render();
+
+}
+
+
+function link(id){
+
+const c=S.contacts.find(
+x=>x.id===id
+);
+
+if(!c)return;
+
+c.linked=!c.linked;
+
+history(
+c.linked
+?"Persona vinculada"
+:"Persona desvinculada",
+c.name
+);
+
+save();
+
+render();
+
+}
+
+
+/* =========================
+   AYUDA
+========================= */
+
+function help(){
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+if(!contacts.length){
+
+toast(
+"No tienes personas vinculadas."
+);
+
+return;
+
+}
+
+modal(
+"🆘 Confirmar ayuda",
+
+`
+
+<div class="alert alert-danger">
+
+<b>¿Quieres enviar un aviso de ayuda?</b>
+
+<br><br>
+
+Se enviará a:
+
+<br><br>
+
+${contacts.map(
+c=>`❤️ ${esc(c.name)}<br>`
+).join("")}
+
+</div>
+
+<p class="muted">
+SerCerca no sustituye a los servicios
+de emergencia.
+</p>
+
+<div class="actions">
+
+<button
+class="btn light"
+onclick="close()">
+Cancelar
+</button>
+
+<button
+class="btn danger"
+onclick="sendHelp()">
+🆘 Sí, enviar
+</button>
+
+</div>
+
+`
+);
+
+}
+function sendHelp(){
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+contacts.forEach(c=>{
+
+notification(
+`🆘 ${S.profile.name} ha solicitado ayuda.`,
+"help"
+);
+
+});
+
+history(
+"Ayuda solicitada",
+contacts.map(c=>c.name).join(", ")
+);
+
+close();
+
+save();
+
+toast(
+"🆘 Aviso enviado."
+);
+
+}
+
+
+/* =========================
+   MENSAJES
+========================= */
+
+function messages(){
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+return `
+
+<div class="card">
+
+<h1>💌 Mensajes</h1>
+
+${
+contacts.length
+?
+`
+
+<button
+class="btn primary"
+onclick="messageModal()">
+＋ Nuevo mensaje
+</button>
+
+<div class="chat">
+
+${
+S.messages.map(m=>`
+
+<div class="msg ${
+m.me?"me":"them"
+}">
+
+${esc(m.text)}
+
+<div class="small">
+${esc(m.to)}
+·
+${esc(m.date)}
+</div>
+
+</div>
+
+`).join("")
+||
+`
+<div
+class="muted"
+style="text-align:center;padding:100px">
+No hay mensajes todavía.
+</div>
+`
+}
+
+</div>
+
+`
+:
+`
+<div class="alert alert-warn">
+Primero vincula una persona.
+</div>
+`
+}
+
+</div>
+
+`;
+
+}
+
+
+function messageModal(){
+
+const contacts=
+S.contacts.filter(c=>c.linked);
+
+modal(
+"💌 Nuevo mensaje",
+
+`
+
+<form onsubmit="sendMessage(event)">
+
+<div class="fg">
+
+<label>Enviar a</label>
+
+<select id="mto">
+
+${contacts.map(
+c=>`
+<option>${esc(c.name)}</option>
+`
+).join("")}
+
+</select>
+
+</div>
+
+<div class="fg">
+
+<label>Mensaje</label>
+
+<textarea id="mtext" required></textarea>
+
+</div>
+
+<button class="btn primary block">
+💌 Enviar
+</button>
+
+</form>
+
+`
+);
+
+}
+
+
+function sendMessage(e){
+
+e.preventDefault();
+
+const message={
+
+id:Date.now(),
+
+me:true,
+
+to:mto.value,
+
+text:mtext.value,
+
+date:time()
+
+};
+
+S.messages.push(message);
+
+notification(
+`💌 Has enviado un mensaje a ${message.to}.`,
+"message"
+);
+
+history(
+"Mensaje enviado",
+message.to
+);
+
+close();
+
+save();
+
+render();
+
+}
+
+
+/* =========================
+   FAMILIA
+========================= */
+
+function family(){
+
+const linked=
+S.contacts.filter(c=>c.linked);
+
+return `
+
+<h1>👨‍👩‍👧 Zona de familiares</h1>
+
+<p class="muted">
+Información que ha sido autorizada.
+</p>
+
+<div class="grid g3">
+
+<div class="stat">
+❤️
+<b>${linked.length}</b>
+<span>Personas vinculadas</span>
+</div>
+
+<div class="stat">
+💚
+<b>${esc(S.wellness.status||"Sin registrar")}</b>
+<span>Estado</span>
+</div>
+
+<div class="stat">
+📋
+<b>${S.history.length}</b>
+<span>Actividad</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Actividad reciente</h2>
+
+${
+S.history.slice(0,8).map(h=>`
+
+<div class="item">
+
+<div>
+
+<b>${esc(h.action)}</b>
+
+<br>
+
+<span class="muted">
+${esc(h.detail)}
+</span>
+
+</div>
+
+<span class="small">
+${esc(h.date)}
+</span>
+
+</div>
+
+`).join("")
+||
+`<p class="muted">No hay actividad.</p>`
+}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   HISTORIAL
+========================= */
+
+function historyPage(){
+
+return `
+
+<h1>📋 Historial</h1>
+
+<p class="muted">
+Check-ins y actividad guardada.
+</p>
+
+<div class="card">
+
+${
+S.history.map(h=>`
+
+<div class="item">
+
+<div>
+
+<b>${esc(h.action)}</b>
+
+<br>
+
+<span class="muted">
+${esc(h.detail)}
+</span>
+
+</div>
+
+<span class="small">
+${esc(h.date)}
+</span>
+
+</div>
+
+`).join("")
+||
+`<p class="muted">No hay actividad.</p>`
+}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   PLANES
+========================= */
+
+function plans(){
+
+const plans=[
+
+[
+"Básico",
+"2,99 €",
+[
+"Perfil",
+"Personas de confianza",
+"Check-in",
+"Estado de bienestar",
+"Avisos",
+"Historial"
+]
+],
+
+[
+"Familia",
+"6,99 €",
+[
+"Todo lo de Básico",
+"Mensajes",
+"Recordatorios",
+"Zona familiar",
+"Recomendaciones"
+]
+],
+
+[
+"Cerca",
+"12,99 €",
+[
+"Todo lo de Familia",
+"Funciones avanzadas",
+"Privacidad avanzada",
+"Historial ampliado",
+"Funciones futuras"
+]
+]
+
+];
+
+return `
+
+<h1>💳 Planes</h1>
+
+<p class="muted">
+Elige el plan que mejor se adapte a ti.
+</p>
+
+<div class="grid g3">
+
+${plans.map(p=>`
+
+<div class="card ${
+S.plan===p[0]?"plan current":"plan"
+}">
+
+${S.plan===p[0]
+?`<span class="pill">ACTUAL</span>`
+:""}
+
+<h2>${p[0]}</h2>
+
+<div class="price">
+${p[1]}
+</div>
+
+<hr>
+
+${p[2].map(f=>`
+<p>
+<span class="check">✓</span>
+${f}
+</p>
+`).join("")}
+
+<button
+class="btn ${
+S.plan===p[0]?"light":"primary"
+} block"
+onclick="choosePlan('${p[0]}')">
+
+${
+S.plan===p[0]
+?"Plan actual"
+:"Elegir"
+}
+
+</button>
+
+</div>
+
+`).join("")}
+
+</div>
+
+`;
+
+}
+
+
+function choosePlan(plan){
+
+S.plan=plan;
+
+history(
+"Plan cambiado",
+plan
+);
+
+save();
+
+render();
+
+toast("💳 Plan actualizado.");
+
+}
+
+
+/* =========================
    CONFIGURACIÓN
-   ========================================================= */
+========================= */
 
-function settingsScreen(){
+function settings(){
 
-    return `
+return `
 
-        <div>
+<h1>⚙️ Configuración</h1>
 
-            <h1>⚙️ Configuración</h1>
+<div class="grid g2">
 
-            <p class="muted">
-                Cuenta, privacidad y permisos.
-            </p>
+<div class="card">
 
-        </div>
+<h2>👤 Perfil</h2>
 
+<div class="fg">
+<label>Nombre</label>
+<input
+id="sname"
+value="${esc(S.profile.name)}">
+</div>
 
-        <div class="grid g2">
+<div class="fg">
+<label>Teléfono</label>
+<input
+id="sphone"
+value="${esc(S.profile.phone)}">
+</div>
 
+<div class="fg">
+<label>Ciudad</label>
+<input
+id="scity"
+value="${esc(S.profile.city)}">
+</div>
 
-            <div class="card">
+<button
+class="btn primary"
+onclick="saveProfile()">
+💾 Guardar
+</button>
 
-                <h2>👤 Mi perfil</h2>
-
-
-                <div class="fg">
-
-                    <label>Nombre</label>
-
-                    <input
-                        id="settingsName"
-                        value="${escapeHTML(S.profile.name)}"
-                    >
-
-                </div>
-
-
-                <div class="fg">
-
-                    <label>Correo</label>
-
-                    <input
-                        id="settingsEmail"
-                        type="email"
-                        value="${escapeHTML(S.profile.email)}"
-                    >
-
-                </div>
+</div>
 
 
-                <div class="fg">
+<div class="card">
 
-                    <label>Teléfono</label>
+<h2>🔐 Privacidad</h2>
 
-                    <input
-                        id="settingsPhone"
-                        value="${escapeHTML(S.profile.phone)}"
-                    >
+${privacySwitch(
+"checkin",
+"💚 Check-in",
+"Compartir check-ins"
+)}
 
-                </div>
+${privacySwitch(
+"wellness",
+"🌷 Bienestar",
+"Compartir estado"
+)}
 
+${privacySwitch(
+"activity",
+"🚶 Actividades",
+"Compartir actividades"
+)}
 
-                <div class="fg">
+</div>
 
-                    <label>Ciudad</label>
+</div>
 
-                    <input
-                        id="settingsCity"
-                        value="${escapeHTML(S.profile.city)}"
-                    >
-
-                </div>
-
-
-                <button
-                    class="btn primary"
-                    onclick="saveProfile()"
-                >
-                    💾 Guardar
-                </button>
-
-            </div>
-
-
-            <div class="card">
-
-                <h2>🔐 Privacidad y permisos</h2>
-
-                ${settingHTML(
-                    "notifications",
-                    "🔔 Avisos",
-                    "Permitir avisos"
-                )}
-
-                ${settingHTML(
-                    "weekly",
-                    "📋 Resumen",
-                    "Resumen de actividad"
-                )}
-
-                ${settingHTML(
-                    "activity",
-                    "📊 Actividad",
-                    "Guardar historial"
-                )}
-
-                ${settingHTML(
-                    "location",
-                    "📍 Ubicación",
-                    "Permiso de ubicación"
-                )}
-
-                ${settingHTML(
-                    "health",
-                    "❤️ Datos de salud",
-                    "Permiso para futuras funciones"
-                )}
-
-                <p class="small muted">
-                    En este prototipo los datos se guardan
-                    localmente en el navegador.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>💾 Datos</h2>
-
-            <p class="muted">
-                Puedes guardar y conservar la información
-                de tu cuenta en este navegador.
-            </p>
-
-            <div class="actions">
-
-                <button
-                    class="btn secondary"
-                    onclick="exportData()"
-                >
-                    📥 Exportar datos
-                </button>
-
-                <button
-                    class="btn light"
-                    onclick="resetApplication()"
-                >
-                    Restablecer aplicación
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
+`;
 
 }
 
 
-function settingHTML(key,title,description){
+function privacySwitch(key,title,text){
 
-    return `
+return `
 
-        <div class="item">
+<div class="item">
 
-            <div>
+<div>
 
-                <b>${title}</b>
+<b>${title}</b>
 
-                <br>
+<br>
 
-                <span class="muted small">
-                    ${description}
-                </span>
+<span class="muted small">
+${text}
+</span>
 
-            </div>
+</div>
 
-            <button
-                class="switch ${
-                    S.settings[key]?"on":""
-                }"
-                onclick="toggleSetting('${key}')"
-            ></button>
+<button
+class="switch ${
+S.sharing[key]?"on":""
+}"
+onclick="toggleShare('${key}')">
+</button>
 
-        </div>
+</div>
 
-    `;
+`;
 
 }
 
 
-function toggleSetting(key){
+function toggleShare(key){
 
-    S.settings[key]=!S.settings[key];
+S.sharing[key]=!S.sharing[key];
 
-    addHistory(
-        "Configuración modificada",
-        key+": "+(
-            S.settings[key]
-            ?"activado"
-            :"desactivado"
-        )
-    );
+save();
 
-    saveData();
-
-    render();
+render();
 
 }
 
 
 function saveProfile(){
 
-    S.profile.name=document.getElementById(
-        "settingsName"
-    ).value.trim();
+S.profile.name=sname.value.trim();
+S.profile.phone=sphone.value.trim();
+S.profile.city=scity.value.trim();
 
-    S.profile.email=document.getElementById(
-        "settingsEmail"
-    ).value.trim();
+S.user.name=S.profile.name;
 
-    S.profile.phone=document.getElementById(
-        "settingsPhone"
-    ).value.trim();
+history(
+"Perfil actualizado",
+S.profile.name
+);
 
-    S.profile.city=document.getElementById(
-        "settingsCity"
-    ).value.trim();
+save();
 
-    S.user.name=S.profile.name;
+render();
 
-    S.user.email=S.profile.email;
-
-    addHistory(
-        "Perfil actualizado",
-        "Datos personales"
-    );
-
-    saveData();
-
-    render();
-
-    toast("💾 Perfil guardado.");
+toast("💾 Guardado.");
 
 }
 
 
-/* =========================================================
-   RECORDATORIOS
-   ========================================================= */
+/* =========================
+   SETTINGS GENERALES
+========================= */
 
-function remindersScreen(){
+function setting(key,title,text){
 
-    if(!hasPlan(2)){
+return `
 
-        return `
+<div class="item">
 
-            <div class="card">
+<div>
 
-                <h1>📅 Recordatorios</h1>
+<b>${title}</b>
 
-                ${lockedMessage("Familia")}
+<br>
 
-            </div>
+<span class="muted small">
+${text}
+</span>
 
-        `;
+</div>
 
-    }
+<button
+class="switch ${
+S.sharing[key]?"on":""
+}"
+onclick="toggleShare('${key}')">
+</button>
 
+</div>
 
-    return `
-
-        <div class="row between wrap">
-
-            <div>
-
-                <h1>📅 Recordatorios</h1>
-
-                <p class="muted">
-                    Organiza actividades importantes.
-                </p>
-
-            </div>
-
-            <button
-                class="btn primary"
-                onclick="addReminderModal()"
-            >
-                ＋ Añadir
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            ${
-                S.reminders.length
-                ?
-                S.reminders.map(r=>`
-
-                    <div class="item">
-
-                        <div>
-
-                            <b>
-                                ${escapeHTML(r.title)}
-                            </b>
-
-                            <br>
-
-                            <span class="muted">
-                                ${escapeHTML(r.date)}
-                            </span>
-
-                        </div>
-
-                        <button
-                            class="btn light"
-                            onclick="deleteReminder(${r.id})"
-                        >
-                            Eliminar
-                        </button>
-
-                    </div>
-
-                `).join("")
-                :
-                `<p class="muted">
-                    No tienes recordatorios.
-                </p>`
-            }
-
-        </div>
-
-    `;
+`;
 
 }
 
 
-function addReminderModal(){
+/* =========================
+   PRUEBA
+========================= */
 
-    openModal(
-        "📅 Nuevo recordatorio",
-        `
+function trial(){
 
-        <form onsubmit="createReminder(event)">
+const start=new Date();
 
-            <div class="fg">
+const end=
+new Date(
+start.getTime()+
+14*24*60*60*1000
+);
 
-                <label>Nombre</label>
+S.trial={
+active:true,
+start:start.toISOString(),
+end:end.toISOString()
+};
 
-                <input
-                    id="reminderTitle"
-                    required
-                    placeholder="Ej. Llamar a María"
-                >
+history(
+"Prueba gratuita",
+"14 días"
+);
 
-            </div>
+save();
 
-
-            <div class="fg">
-
-                <label>Fecha y hora</label>
-
-                <input
-                    id="reminderDate"
-                    type="datetime-local"
-                    required
-                >
-
-            </div>
-
-
-            <button class="btn primary block">
-                Guardar
-            </button>
-
-        </form>
-
-        `
-    );
+toast(
+"🎁 Prueba de 14 días activada."
+);
 
 }
 
 
-function createReminder(event){
-
-    event.preventDefault();
-
-    const reminder={
-
-        id:Date.now(),
-
-        title:document.getElementById(
-            "reminderTitle"
-        ).value,
-
-        date:new Date(
-            document.getElementById(
-                "reminderDate"
-            ).value
-        ).toLocaleString("es-ES")
-
-    };
-
-    S.reminders.push(reminder);
-
-    addHistory(
-        "Recordatorio creado",
-        reminder.title
-    );
-
-    closeModal();
-
-    saveData();
-
-    render();
-
-    toast("📅 Recordatorio guardado.");
-
-}
-
-
-function deleteReminder(id){
-
-    S.reminders=S.reminders.filter(
-        r=>r.id!==id
-    );
-
-    saveData();
-
-    render();
-
-}
-
-
-/* =========================================================
-   EXPORTAR / RESTABLECER
-   ========================================================= */
-
-function exportData(){
-
-    const file=new Blob(
-        [
-            JSON.stringify(S,null,2)
-        ],
-        {
-            type:"application/json"
-        }
-    );
-
-    const url=URL.createObjectURL(file);
-
-    const a=document.createElement("a");
-
-    a.href=url;
-
-    a.download="sercerca-datos.json";
-
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-}
-
-
-function resetApplication(){
-
-    if(!confirm(
-        "¿Seguro que quieres borrar todos los datos de SerCerca?"
-    )){
-        return;
-    }
-
-    localStorage.removeItem(
-        STORAGE_KEY
-    );
-
-    S=clone(DEFAULT_DATA);
-
-    render();
-
-}
-
-
-/* =========================================================
-   CERRAR SESIÓN
-   ========================================================= */
+/* =========================
+   LOGOUT
+========================= */
 
 function logout(){
 
-    S.logged=false;
+S.logged=false;
 
-    saveData();
+save();
 
-    render();
+render();
 
 }
 
 
-/* =========================================================
-   INICIO
-   ========================================================= */
+/* =========================
+   RENDER
+========================= */
+
+function render(){
+
+let html;
+
+if(!S.logged){
+
+html=welcome();
+
+}else if(S.onboarding){
+
+html=onboarding();
+
+}else{
+
+html=app();
+
+}
+
+document.getElementById("app")
+.innerHTML=html;
+
+}
 
 render();
 
@@ -4040,3 +3404,4 @@ render();
 
 </body>
 </html>
+
