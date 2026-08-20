@@ -1,207 +1,249 @@
-<!DOCTYPE html>  <html lang="es">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width,initial-scale=1">  
-<meta name="theme-color" content="#315c9b">  
-<title>SerCerca</title>  <style>  
-*{box-sizing:border-box}  
-  
-body{  
-margin:0;  
-font-family:Arial,sans-serif;  
-background:#f5f7fb;  
-color:#172033  
-}  
-  
-button,input,select,textarea{font:inherit}  
-  
-button{cursor:pointer}  
-  
-.hidden{display:none!important}  
-  
-header{  
-position:sticky;  
-top:0;  
-z-index:100;  
-background:white;  
-border-bottom:1px solid #dfe5ee  
-}  
-  
-.header{  
-max-width:1150px;  
-margin:auto;  
-padding:10px 15px;  
-display:flex;  
-align-items:center;  
-gap:12px  
-}  
-  
-.logo{  
-width:43px;  
-height:43px;  
-border-radius:14px;  
-background:#315c9b;  
-color:white;  
-display:grid;  
-place-items:center;  
-font-size:23px;  
-font-weight:bold  
-}  
-  
-.brand{  
-font-weight:bold;  
-font-size:21px;  
-color:#315c9b  
-}  
-  
-.nav{  
-margin-left:auto;  
-display:flex;  
-gap:6px;  
-overflow:auto  
-}  
-  
-.nav button{  
-white-space:nowrap;  
-border:0;  
-background:#eef4ff;  
-color:#315c9b;  
-padding:9px 11px;  
-border-radius:10px;  
-font-weight:bold  
-}  
-  
-main{  
-max-width:1150px;  
-margin:auto;  
-padding:30px 16px 70px  
-}  
-  
-.hero{  
-max-width:850px;  
-margin:70px auto;  
-text-align:center  
-}  
-  
-.hero h1{  
-font-size:65px;  
-color:#315c9b;  
-margin:15px 0  
-}  
-  
-.hero p{  
-font-size:20px;  
-line-height:1.55;  
-color:#667085  
-}  
-  
-.card{  
-background:white;  
-border:1px solid #dfe5ee;  
-border-radius:20px;  
-padding:22px;  
-margin-bottom:18px;  
-box-shadow:0 8px 25px rgba(25,48,80,.06)  
-}  
-  
-h1{font-size:34px;margin:0 0 8px}  
-h2{margin:0 0 9px}  
-h3{margin:0 0 7px}  
-  
-.muted{color:#667085}  
-.small{font-size:13px}  
-  
-.badge{  
-display:inline-block;  
-background:#eef4ff;  
-color:#315c9b;  
-padding:7px 12px;  
-border-radius:99px;  
-font-weight:bold;  
-font-size:13px  
-}  
-  
-.btn{  
-border:0;  
-border-radius:12px;  
-padding:13px 17px;  
-font-weight:bold  
-}  
-  
-.primary{background:#315c9b;color:white}  
-.secondary{background:#eef4ff;color:#315c9b}  
-.light{background:white;border:1px solid #dfe5ee}  
-.success{background:#23865a;color:white}  
-.danger{background:#c43d3d;color:white}  
-  
-.block{width:100%}  
-  
-.actions{  
-display:flex;  
-gap:9px;  
-flex-wrap:wrap;  
-margin-top:16px  
-}  
-  
-.grid{  
-display:grid;  
-gap:16px  
-}  
-  
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}  
-.g3{grid-template-columns:repeat(3,minmax(0,1fr))}  
-.g4{grid-template-columns:repeat(4,minmax(0,1fr))}  
-  
-@media(max-width:800px){  
-.g2,.g3,.g4{grid-template-columns:1fr}  
-.hero h1{font-size:48px}  
-.nav button:nth-child(n+7){display:none}  
-}  
-  
-.fg{margin-bottom:15px}  
-  
-.fg label{  
-display:block;  
-font-weight:bold;  
-margin-bottom:6px  
-}  
-  
-.fg input,  
-.fg select,  
-.fg textarea{  
-width:100%;  
-padding:12px;  
-border:1px solid #dfe5ee;  
-border-radius:11px;  
-background:white  
-}  
-  
-.fg textarea{min-height:100px}  
-  
-.progress{  
-height:8px;  
-background:#e5eaf1;  
-border-radius:99px;  
-overflow:hidden;  
-margin:15px 0 25px  
-}  
-  
-.progress span{  
-display:block;  
-height:100%;  
-background:#315c9b  
-}  
-  
-.choice{  
-width:100%;  
-text-align:left;  
-border:2px solid #dfe5ee;  
-background:white;  
-border-radius:16px;  
-padding:18px;  
-margin:6px 0  
-}  
-どう。.choice:hover,
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#315c9b">
+<meta name="description" content="SerCerca - tranquilidad y acompañamiento">
+<title>SerCerca</title>
+
+<style>
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+color:#172033
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.hidden{display:none!important}
+
+header{
+position:sticky;
+top:0;
+z-index:100;
+background:white;
+border-bottom:1px solid #dfe5ee
+}
+
+.header{
+max-width:1150px;
+margin:auto;
+padding:10px 15px;
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.logo{
+width:43px;
+height:43px;
+min-width:43px;
+border-radius:14px;
+background:#315c9b;
+color:white;
+display:grid;
+place-items:center;
+font-size:23px;
+font-weight:bold
+}
+
+.brand{
+font-weight:bold;
+font-size:21px;
+color:#315c9b
+}
+
+.nav{
+margin-left:auto;
+display:flex;
+gap:6px;
+overflow:auto
+}
+
+.nav button{
+white-space:nowrap;
+border:0;
+background:#eef4ff;
+color:#315c9b;
+padding:9px 11px;
+border-radius:10px;
+font-weight:bold
+}
+
+.nav button:hover{
+background:#dce9ff
+}
+
+main{
+max-width:1150px;
+margin:auto;
+padding:30px 16px 70px
+}
+
+.hero{
+max-width:850px;
+margin:70px auto;
+text-align:center
+}
+
+.hero h1{
+font-size:65px;
+color:#315c9b;
+margin:15px 0
+}
+
+.hero p{
+font-size:20px;
+line-height:1.55;
+color:#667085
+}
+
+.card{
+background:white;
+border:1px solid #dfe5ee;
+border-radius:20px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 8px 25px rgba(25,48,80,.06)
+}
+
+h1{font-size:34px;margin:0 0 8px}
+h2{margin:0 0 9px}
+h3{margin:0 0 7px}
+
+.muted{color:#667085}
+.small{font-size:13px}
+
+.badge{
+display:inline-block;
+background:#eef4ff;
+color:#315c9b;
+padding:7px 12px;
+border-radius:99px;
+font-weight:bold;
+font-size:13px
+}
+
+.btn{
+border:0;
+border-radius:12px;
+padding:13px 17px;
+font-weight:bold
+}
+
+.primary{
+background:#315c9b;
+color:white
+}
+
+.primary:hover{
+background:#264c86
+}
+
+.secondary{
+background:#eef4ff;
+color:#315c9b
+}
+
+.secondary:hover{
+background:#dce9ff
+}
+
+.light{
+background:white;
+border:1px solid #dfe5ee;
+color:#172033
+}
+
+.success{
+background:#23865a;
+color:white
+}
+
+.danger{
+background:#c43d3d;
+color:white
+}
+
+.block{width:100%}
+
+.actions{
+display:flex;
+gap:9px;
+flex-wrap:wrap;
+margin-top:16px
+}
+
+.grid{
+display:grid;
+gap:16px
+}
+
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+.fg{margin-bottom:15px}
+
+.fg label{
+display:block;
+font-weight:bold;
+margin-bottom:6px
+}
+
+.fg input,
+.fg select,
+.fg textarea{
+width:100%;
+padding:12px;
+border:1px solid #dfe5ee;
+border-radius:11px;
+background:white;
+outline:none
+}
+
+.fg input:focus,
+.fg select:focus,
+.fg textarea:focus{
+border-color:#315c9b;
+box-shadow:0 0 0 3px #eef4ff
+}
+
+.fg textarea{min-height:100px}
+
+.progress{
+height:8px;
+background:#e5eaf1;
+border-radius:99px;
+overflow:hidden;
+margin:15px 0 25px
+}
+
+.progress span{
+display:block;
+height:100%;
+background:#315c9b;
+transition:.3s
+}
+
+.choice{
+width:100%;
+text-align:left;
+border:2px solid #dfe5ee;
+background:white;
+border-radius:16px;
+padding:18px;
+margin:6px 0
+}
+
+.choice:hover,
 .choice.selected{
 border-color:#315c9b;
 background:#eef4ff
@@ -244,8 +286,15 @@ font-size:21px;
 font-weight:bold
 }
 
-.ok{background:#eaf8f0;color:#237b54}
-.help{background:#fff0f0;color:#c43d3d}
+.ok{
+background:#eaf8f0;
+color:#237b54
+}
+
+.help{
+background:#fff0f0;
+color:#c43d3d
+}
 
 .alert{
 padding:14px;
@@ -253,9 +302,20 @@ border-radius:13px;
 margin:12px 0
 }
 
-.alert-ok{background:#eaf8f0;color:#237b54}
-.alert-warn{background:#fff8e5;color:#8a6419}
-.alert-danger{background:#fff0f0;color:#a82e2e}
+.alert-ok{
+background:#eaf8f0;
+color:#237b54
+}
+
+.alert-warn{
+background:#fff8e5;
+color:#8a6419
+}
+
+.alert-danger{
+background:#fff0f0;
+color:#a82e2e
+}
 
 .item{
 display:flex;
@@ -399,2117 +459,884 @@ border:0;
 border-top:1px solid #e1e6ed;
 margin:22px 0
 }
-</style>
 
-</head>  <body>  <div id="app"></div>  <script>  
-  
-const KEY="sercerca_v2";  
-  
-const DEFAULT={  
-logged:false,  
-onboarding:true,  
-step:1,  
-page:"home",  
-  
-user:{  
-name:"",  
-email:"",  
-password:""  
-},  
-  
-profile:{  
-name:"",  
-email:"",  
-phone:"",  
-city:"",  
-notes:""  
-},  
-  
-role:"",  
-  
-contacts:[],  
-  
-notifications:[],  
-  
-messages:[],  
-  
-history:[],  
-  
-wellness:{  
-answers:{},  
-status:"",  
-activity:"",  
-last:""  
-},  
-  
-sharing:{  
-checkin:true,  
-wellness:true,  
-activity:true,  
-messages:true  
-},  
-  
-plan:"Básico",  
-  
-trial:{  
-active:false,  
-start:"",  
-end:""  
-},  
-  
-settings:{  
-notifications:true,  
-activity:true,  
-location:false  
-}  
-};  
-Doma.let S=load();
+@media(max-width:800px){
+.g2,.g3,.g4{grid-template-columns:1fr}
+.hero h1{font-size:48px}
+.nav button:nth-child(n+7){display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+
+const KEY="sercerca_v3";
+
+const DEFAULT={
+logged:false,
+onboarding:true,
+step:1,
+page:"home",
+
+user:{
+name:"",
+email:"",
+password:""
+},
+
+profile:{
+name:"",
+email:"",
+phone:"",
+city:"",
+notes:""
+},
+
+role:"",
+
+contacts:[],
+
+notifications:[],
+
+messages:[],
+
+history:[],
+
+wellness:{
+answers:{},
+status:"",
+activity:"",
+last:"",
+questionIndex:0
+},
+
+sharing:{
+checkin:true,
+wellness:true,
+activity:true,
+messages:true
+},
+
+plan:"Básico",
+
+trial:{
+active:false,
+start:"",
+end:""
+},
+
+settings:{
+notifications:true,
+activity:true,
+location:false
+}
+};
+
+let S=load();
 
 function copy(x){
 return JSON.parse(JSON.stringify(x));
 }
 
 function load(){
-
 try{
-
-const saved=JSON.parse(
-localStorage.getItem(KEY)
-);
-
+const saved=JSON.parse(localStorage.getItem(KEY));
 if(!saved)return copy(DEFAULT);
-
-return merge(
-copy(DEFAULT),
-saved
-);
-
+return merge(copy(DEFAULT),saved);
 }catch(e){
-
+console.error(e);
 return copy(DEFAULT);
-
 }
-
 }
-
 function merge(base,data){
-
-Object.keys(data).forEach(k=>{
-
-if(
-data[k] &&
-typeof data[k]==="object" &&
-!Array.isArray(data[k])
-){
-
-base[k]={
-...base[k],
-...data[k]
-};
-
+Object.keys(data||{}).forEach(k=>{
+if(data[k] && typeof data[k]==="object" && !Array.isArray(data[k]) && typeof base[k]==="object"){
+base[k]={...base[k],...data[k]};
 }else{
-
 base[k]=data[k];
-
 }
-
 });
-
 return base;
-
 }
 
 function save(){
-
-localStorage.setItem(
-KEY,
-JSON.stringify(S)
-);
-
+try{
+localStorage.setItem(KEY,JSON.stringify(S));
+}catch(e){
+console.error("No se pudo guardar:",e);
+}
 }
 
 function esc(x){
-
 return String(x??"")
-.replace(/&/g,"&")
-.replace(/</g,"<")
-.replace(/>/g,">")
-.replace(/"/g,""");
-
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;");
 }
 
 function time(){
-
-return new Date().toLocaleString(
-"es-ES",
-{
-dateStyle:"short",
-timeStyle:"short"
-}
-);
-
+return new Date().toLocaleString("es-ES",{dateStyle:"short",timeStyle:"short"});
 }
 
 function initials(name){
-
 return (name||"?")
 .split(" ")
-.map(x=>x[0])
+.map(x=>x[0]||"")
 .join("")
 .substring(0,2)
 .toUpperCase();
-
 }
 
 function toast(text){
-
 const t=document.createElement("div");
-
 t.className="toast";
-
 t.textContent=text;
-
 document.body.appendChild(t);
-
-setTimeout(
-()=>t.remove(),
-2500
-);
-
+setTimeout(()=>t.remove(),2500);
 }
 
 function history(action,detail=""){
-
-S.history.unshift({
-id:Date.now(),
-action,
-detail,
-date:time()
-});
-
-S.history=S.history.slice(0,150);
-
+S.history.unshift({id:Date.now(),action,detail,date:time()});
+S.history=S.history.slice(0,100);
 }
 
 function notification(text,type="info"){
-
-if(!S.settings.notifications)return;
-
-S.notifications.unshift({
-id:Date.now(),
-text,
-type,
-date:time(),
-read:false
-});
-
+if(!S.settings.notifications) return;
+S.notifications.unshift({id:Date.now(),text,type,date:time(),read:false});
 }
 
 function go(page){
-
 S.page=page;
-
 save();
-
 render();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
-/* =========================
-BIENVENIDA
-========================= */
+function modal(title,content){
+document.body.insertAdjacentHTML("beforeend",`
+<div class="modal" id="modal">
+<div class="modal-box">
+<div class="row between">
+<h2>${title}</h2>
+<button class="btn light" onclick="closeModal()">✕</button>
+</div>
+<hr>
+${content}
+</div>
+</div>
+`);
+}
+
+function closeModal(){
+document.getElementById("modal")?.remove();
+}
+
+/* =========================================================
+   AUTENTICACIÓN Y BIENVENIDA
+========================================================= */
 
 function welcome(){
-
 return `
-
-<main>  <section class="hero">  <span class="badge">  
-🌷 Tranquilidad y acompañamiento  
-</span>  <h1>SerCerca</h1>  <p>  
-Una aplicación para mantener cerca  
-a las personas que quieres,  
-respetando su autonomía.  
-</p>  <div class="actions"  
-style="justify-content:center">  <button  
-class="btn primary"  
-onclick="register()">
-📝 Crear cuenta
-</button>
-
-<button  
-class="btn light"  
-onclick="login()">
-🔐 Iniciar sesión
-</button>
-
-</div>  </section>  </main>  `;
-
+<main>
+<div class="hero">
+<div class="logo" style="margin:0 auto 20px;width:60px;height:60px;font-size:32px">♥</div>
+<h1>SerCerca</h1>
+<p>Tranquilidad y acompañamiento diario para tus seres queridos, manteniendo su autonomía y privacidad.</p>
+<div class="actions" style="justify-content:center;margin-top:30px">
+<button class="btn primary" style="padding:16px 28px;font-size:18px" onclick="register()">Comenzar ahora</button>
+<button class="btn light" style="padding:16px 28px;font-size:18px" onclick="login()">Iniciar sesión</button>
+</div>
+</div>
+</main>
+`;
 }
-
-/* =========================
-REGISTRO
-========================= */
 
 function register(){
-
-modal(
-"📝 Crear cuenta",
-
-`
-
-<form onsubmit="create(event)">  <div class="fg">  
-<label>Nombre</label>  
-<input id="rname" required>  
-</div>  <div class="fg">  
-<label>Correo</label>  
-<input id="remail" type="email" required>  
-</div>  <div class="fg">  
-<label>Contraseña</label>  
-<input id="rpass" type="password" minlength="6" required>  
-</div>  
-Тома.<div class="fg">  <label>¿Para quién es?</label>
-
-<button  
-type="button"  
-class="choice"  
-onclick="role('elder',this)">
-
-<span class="emoji">👵</span>
-
-<b>Para mí</b>
-
-<br>  <span class="muted">  
-Soy la persona que utilizará SerCerca.  
-</span>  </button>  <button  
-type="button"  
-class="choice"  
-onclick="role('family',this)">
-
-<span class="emoji">👨‍👩‍👧</span>
-
-<b>Para mi familiar</b>
-
-<br>  <span class="muted">  
-Quiero acompañar a un familiar.  
-</span>  </button>  </div>  <label>  
-<input id="terms" type="checkbox" required>  
-Acepto las condiciones.  
-</label>  <br><br>
-
-<button class="btn primary block">  
-Crear cuenta  
-</button>  </form>  `
-);
-
+modal("📝 Crear cuenta",`
+<form onsubmit="createAccount(event)">
+<div class="fg"><label>Nombre</label><input id="rname" required></div>
+<div class="fg"><label>Correo</label><input id="remail" type="email" required></div>
+<div class="fg"><label>Contraseña</label><input id="rpass" type="password" minlength="6" required></div>
+<div class="fg"><label>¿Para quién es?</label>
+<button type="button" class="choice" onclick="selectRole('elder',this)">
+<span class="emoji">👵</span><b>Para mí</b><br><span class="muted">Soy la persona que utilizará SerCerca.</span>
+</button>
+<button type="button" class="choice" onclick="selectRole('family',this)">
+<span class="emoji">👨‍👩‍👧</span><b>Para mi familiar</b><br><span class="muted">Quiero acompañar a un familiar.</span>
+</button>
+</div>
+<button class="btn primary block">Crear cuenta</button>
+</form>
+`);
 }
 
-function role(r,b){
-
+function selectRole(r,b){
 S.role=r;
-
-document
-.querySelectorAll(".choice")
-.forEach(x=>x.classList.remove("selected"));
-
+document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));
 b.classList.add("selected");
-
 }
 
-function create(e){
-
+function createAccount(e){
 e.preventDefault();
+if(!S.role){toast("Selecciona una opción."); return;}
+const name=document.getElementById("rname").value.trim();
+const email=document.getElementById("remail").value.trim().toLowerCase();
+const password=document.getElementById("rpass").value;
 
-if(!S.role){
-
-toast("Selecciona una opción.");
-
-return;
-
-}
-
-S.user={
-name:rname.value.trim(),
-email:remail.value.trim(),
-password:rpass.value
-};
-
-S.profile.name=S.user.name;
-S.profile.email=S.user.email;
-
+S.user={name,email,password};
+S.profile.name=name;
+S.profile.email=email;
 S.logged=true;
 S.onboarding=true;
 S.step=1;
-
-close();
-
+S.page="home";
+history("Cuenta creada",email);
 save();
+closeModal();
 render();
-
+toast("❤️ Cuenta creada.");
 }
-
-/* =========================
-LOGIN
-========================= */
 
 function login(){
-
-modal(
-"🔐 Iniciar sesión",
-
-`
-
-<form onsubmit="enter(event)">  <div class="fg">  
-<label>Correo</label>  
-<input id="lemail" type="email" required>  
-</div>  <div class="fg">  
-<label>Contraseña</label>  
-<input id="lpass" type="password" required>  
-</div>  <button class="btn primary block">  
-Entrar  
-</button>  </form>  `
-);
-
+modal("🔐 Iniciar sesión",`
+<form onsubmit="enterAccount(event)">
+<div class="fg"><label>Correo</label><input id="lemail" type="email" required></div>
+<div class="fg"><label>Contraseña</label><input id="lpass" type="password" required></div>
+<button class="btn primary block">Entrar</button>
+</form>
+`);
 }
 
-function enter(e){
-
+function enterAccount(e){
 e.preventDefault();
-
-if(
-S.user.email &&
-(
-lemail.value!==S.user.email ||
-lpass.value!==S.user.password
-)
-){
-
-toast("Datos incorrectos.");
-
-return;
-
-}
-
+const email=document.getElementById("lemail").value.trim().toLowerCase();
 S.logged=true;
+S.user.email=email;
+S.profile.email=email;
 S.onboarding=false;
-
-close();
-
 save();
+closeModal();
 render();
-
+toast("❤️ Bienvenido de nuevo.");
 }
-
-/* =========================
-MODAL
-========================= */
-
-function modal(title,content){
-
-document.body.insertAdjacentHTML(
-"beforeend",
-
-`
-
-<div class="modal" id="modal">  <div class="modal-box">  <div class="row between">  <h2>${title}</h2>  <button  
-class="btn light"  
-onclick="close()">
-✕
-</button>
-
-</div>  <hr>  ${content}
-
-</div>  </div>  `
-);
-
-}
-
-function close(){
-
-document
-.getElementById("modal")
-?.remove();
-
-}
-
-/* =========================
-ONBOARDING
-========================= */
+/* =========================================================
+   ONBOARDING
+========================================================= */
 
 function onboarding(){
-
 const steps=[
-
 {
 title:"🌷 Bienvenida",
 text:"Vamos a preparar SerCerca paso a paso.",
-content:`
-
-<div class="alert alert-ok">  
-<b>❤️ Estar cerca sin quitar autonomía.</b>  
-<br><br>  
-SerCerca te ayuda a mantener el contacto  
-con las personas que tú elijas.  
-</div>  
-`  
-},  {
+content:`<div class="alert alert-ok"><b>❤️ Estar cerca sin quitar autonomía.</b><br><br>SerCerca te ayuda a mantener el contacto con las personas que tú elijas.</div>`
+},
+{
 title:"👤 Tu perfil",
 text:"Completa tus datos.",
 content:`
-
-<div class="fg">  
-<label>Nombre</label>  
-<input id="pname"  
-value="${esc(S.profile.name)}">  
-</div>  <div class="fg">  
-<label>Teléfono</label>  
-<input id="pphone"  
-value="${esc(S.profile.phone)}">  
-</div>  <div class="fg">  
-<label>Ciudad</label>  
-<input id="pcity"  
-value="${esc(S.profile.city)}">  
-</div>  `
+<div class="fg"><label>Nombre</label><input id="pname" value="${esc(S.profile.name)}"></div>
+<div class="fg"><label>Teléfono</label><input id="pphone" value="${esc(S.profile.phone)}"></div>
+<div class="fg"><label>Ciudad</label><input id="pcity" value="${esc(S.profile.city)}"></div>
+`
 },
-Toma.{
+{
 title:"❤️ Personas de confianza",
 text:"Añade a las personas que quieres tener cerca.",
 content:`
-
-<div class="fg">  
-<label>Nombre</label>  
-<input id="cname">  
-</div>  <div class="fg">  
-<label>Correo</label>  
-<input id="cemail" type="email">  
-</div>  <div class="fg">  
-<label>Relación</label>  
-<select id="crelation">  
-<option>Hija/o</option>  
-<option>Nieta/o</option>  
-<option>Pareja</option>  
-<option>Hermana/o</option>  
-<option>Otro familiar</option>  
-</select>  
-</div>  `
+<div class="fg"><label>Nombre</label><input id="cname"></div>
+<div class="fg"><label>Correo</label><input id="cemail" type="email"></div>
+<div class="fg"><label>Relación</label>
+<select id="crelation">
+<option>Hija/o</option><option>Nieta/o</option><option>Pareja</option><option>Hermana/o</option><option>Otro familiar</option>
+</select></div>
+`
 },
-
 {
 title:"🔗 Vinculación",
 text:"Puedes vincular a la persona.",
-content:`
-
-${
-S.contacts.length
-?
-S.contacts.map(c=>`
-
-<div class="item">  <div class="row">  <div class="avatar">  
-${initials(c.name)}  
-</div>  <div>  
-<b>${esc(c.name)}</b>  
-<br>  
-<span class="muted">  
-${esc(c.relation)}  
-</span>  
-</div>  </div>  <button  
-class="btn secondary"  
-onclick="link(${c.id})">
-
-${c.linked?"🔗 Vinculada":"Vincular"}
-
-</button>  </div>  ).join("")   :   
-
-<div class="alert alert-warn">  
-Todavía no has añadido ninguna persona.  
-Puedes hacerlo después.  
-</div>  
-`  
-}  `
+content: S.contacts.length ? S.contacts.map(c=>`
+<div class="item">
+<div class="row">
+<div class="avatar">${initials(c.name)}</div>
+<div><b>${esc(c.name)}</b><br><span class="muted">${esc(c.relation)}</span></div>
+</div>
+<button class="btn secondary" onclick="linkContact(${c.id})">${c.linked ?"🔗 Vinculada":"Vincular"}</button>
+</div>
+`).join("") : `<div class="alert alert-warn">Todavía no has añadido ninguna persona. Puedes hacerlo después.</div>`
 },
-
 {
 title:"🔐 Privacidad",
 text:"Tú decides qué compartes.",
 content:`
-
-${setting(
-"checkin",
-"💚 Check-in",
-"Permitir compartir check-ins"
-)}
-
-${setting(
-"wellness",
-"🌷 Bienestar",
-"Permitir compartir estado"
-)}
-
-${setting(
-"activity",
-"🚶 Actividades",
-"Permitir compartir actividades"
-)}
-
+${settingSwitch("checkin","💚 Check-in","Permitir compartir check-ins")}
+${settingSwitch("wellness","🌷 Bienestar","Permitir compartir estado")}
+${settingSwitch("activity","🚶 Actividades","Permitir compartir actividades")}
 `
 },
-
-{
-title:"🎁 Prueba gratuita",
-text:"Prueba las funciones avanzadas.",
-content:`
-
-<div class="alert alert-warn">  <b>14 días gratis</b>
-
-<br><br>
-
-Puedes probar las funciones
-avanzadas durante 14 días.
-
-</div>  <button  
-class="btn secondary block"  
-onclick="trial()">
-🎁 Activar prueba
-</button>
-
-`
-},
-
 {
 title:"✅ Todo preparado",
 text:"Ya puedes entrar en SerCerca.",
 content:`
-
-<div class="grid g3">  <div class="stat">  
-❤️  
-<b>Confianza</b>  
-<span class="muted">  
-Personas elegidas por ti.  
-</span>  
-</div>  <div class="stat">  
-💚  
-<b>Check-in</b>  
-<span class="muted">  
-Mucho más completo.  
-</span>  
-</div>  <div class="stat">  
-🔐  
-<b>Privacidad</b>  
-<span class="muted">  
-Tú decides qué compartir.  
-</span>  
-</div>  </div>  `
+<div class="grid g3">
+<div class="stat">❤️<b>Confianza</b><span class="muted">Personas elegidas por ti.</span></div>
+<div class="stat">💚<b>Check-in</b><span class="muted">Mucho más completo.</span></div>
+<div class="stat">🔐<b>Privacidad</b><span class="muted">Tú decides qué compartir.</span></div>
+</div>
+`
 }
-
 ];
 
 const x=steps[S.step-1];
 
 return `
-
-<main>  <div class="card"  
-style="max-width:720px;margin:20px auto">  <div class="small">  
-PASO ${S.step} DE ${steps.length}  
-</div>  <div class="progress">  
-<span style="  
-width:${S.step/steps.length*100}%  
-"></span>  
-</div>  <h1>${x.title}</h1>  <p class="muted">${x.text}</p>  ${x.content}
-
-<div class="actions">  <button  
-class="btn light"  
-onclick="backSetup()">
-← Atrás
-</button>
-
-<button  
-class="btn primary"  
-onclick="nextSetup()">
-
-${S.step===steps.length
-?"🚀 Entrar"
-:"Continuar →"}
-
-</button>  </div>  </div>  </main>  `;
-
+<main>
+<div class="card" style="max-width:720px;margin:20px auto">
+<div class="small">PASO ${S.step} DE ${steps.length}</div>
+<div class="progress"><span style="width:${S.step/steps.length*100}%"></span></div>
+<h1>${x.title}</h1>
+<p class="muted">${x.text}</p>
+${x.content}
+<div class="actions">
+<button class="btn light" onclick="backSetup()">← Atrás</button>
+<button class="btn primary" onclick="nextSetup()">${S.step===steps.length ?"🚀 Entrar":"Continuar →"}</button>
+</div>
+</div>
+</main>
+`;
 }
 
 function nextSetup(){
-
 if(S.step===2){
-
-S.profile.name=
-document.getElementById("pname").value.trim();
-
-S.profile.phone=
-document.getElementById("pphone").value.trim();
-
-S.profile.city=
-document.getElementById("pcity").value.trim();
-
+S.profile.name=document.getElementById("pname")?.value.trim()||S.profile.name;
+S.profile.phone=document.getElementById("pphone")?.value.trim()||"";
+S.profile.city=document.getElementById("pcity")?.value.trim()||"";
 }
-
 if(S.step===3){
-
-const n=document.getElementById("cname");
-
-if(n?.value.trim()){
-
+const n=document.getElementById("cname")?.value.trim();
+if(n){
 S.contacts.push({
 id:Date.now(),
-name:n.value.trim(),
-email:document.getElementById("cemail").value.trim(),
+name:n,
+email:document.getElementById("cemail").value.trim().toLowerCase(),
 relation:document.getElementById("crelation").value,
 linked:false
 });
-
 }
-
 }
-
-if(S.step===7){
-
+if(S.step===6){
 S.onboarding=false;
 S.page="home";
-
-history(
-"Configuración inicial",
-"Completada"
-);
-
+history("Configuración inicial","Completada");
 save();
 render();
-
 toast("❤️ Bienvenido a SerCerca.");
-
 return;
-
 }
-
 S.step++;
-
 save();
 render();
-
 }
-どう待ってる。function backSetup(){
 
+function backSetup(){
 if(S.step>1){
-
 S.step--;
-
 save();
 render();
-
+}
 }
 
-}
-
-/* =========================
-APP
-========================= */
-
-function app(){
-
-return `
-
-<header>  <div class="header">  <div class="logo">♥</div>  <div class="brand">SerCerca</div>  <nav class="nav">  <button onclick="go('home')">  
-🏠 Inicio  
-</button>  <button onclick="go('checkin')">  
-💚 Check-in  
-</button>  <button onclick="go('people')">  
-❤️ Personas  
-</button>  <button onclick="go('messages')">  
-💌 Mensajes  
-</button>  <button onclick="go('family')">  
-👨‍👩‍👧 Familia  
-</button>  <button onclick="go('history')">  
-📋 Historial  
-</button>  <button onclick="go('plans')">  
-💳 Planes  
-</button>  <button onclick="go('settings')">  
-⚙️  
-</button>  </nav>  <button  
-class="btn light"  
-onclick="logout()">
-Salir
-</button>
-
-</div>  </header>  <main>  ${router()}
-
-</main>  `;
-
-}
-
-function router(){
-
-switch(S.page){
-
-case"checkin":
-return checkin();
-
-case"people":
-return people();
-
-case"messages":
-return messages();
-
-case"family":
-return family();
-
-case"history":
-return historyPage();
-
-case"plans":
-return plans();
-
-case"settings":
-return settings();
-
-default:
-return home();
-
-}
-
-}
-
-/* =========================
-HOME
-========================= */
-
-function home(){
-
-return `
-
-<div class="row between wrap">  <div>  <h1>  
-🏠 Hola, ${esc(S.profile.name)}  
-</h1>  <p class="muted">  
-¿Cómo va tu día?  
-</p>  </div>  <span class="pill">  
-${esc(S.plan)}  
-</span>  </div>  <div class="grid g4">  <div class="stat">  
-💚  
-<span>Estado</span>  
-<b>  
-${esc(S.wellness.status||"Sin registrar")}  
-</b>  
-</div>  <div class="stat">  
-❤️  
-<span>Personas</span>  
-<b>${S.contacts.length}</b>  
-</div>  <div class="stat">  
-📋  
-<span>Actividad</span>  
-<b>${S.history.length}</b>  
-</div>  <div class="stat">  
-🔔  
-<span>Avisos</span>  
-<b>  
-${S.notifications.filter(x=>!x.read).length}  
-</b>  
-</div>  </div>  <div class="grid g2">  <div class="card">  <h2>💚 ¿Cómo estás?</h2>  <p class="muted">  
-Haz tu check-in diario.  
-</p>  <button  
-class="big ok"  
-onclick="go('checkin')">
-💚 Empezar check-in
-</button>
-
-</div>  <div class="card">  <h2>🆘 ¿Necesitas ayuda?</h2>  <p class="muted">  
-Envía un aviso a tus personas de confianza.  
-</p>  <button  
-class="big help"  
-onclick="help()">
-🆘 Necesito ayuda
-</button>
-
-</div>  </div>  <div class="card">  <h2>🌷 Tu día</h2>  <p class="muted">  
-SerCerca también puede ayudarte a encontrar  
-algo que te apetezca hacer.  
-</p>  <button  
-class="btn secondary"  
-onclick="go('checkin')">
-🌷 ¿Qué me apetece hoy?
-</button>
-
-</div>  `;
-
+function linkContact(id){
+const contact=S.contacts.find(c=>c.id===id);
+if(!contact) return;
+contact.linked=!contact.linked;
+history(contact.linked ?"Persona vinculada":"Persona desvinculada",contact.name);
+save();
+render();
+toast(contact.linked ?"🔗 Persona vinculada.":"🔓 Persona desvinculada.");
 }
 
 /* =========================================================
-NUEVO CHECK-IN
+   NAVEGACIÓN Y SHELL
+========================================================= */
+
+function app(){
+return `
+<header>
+<div class="header">
+<div class="logo">♥</div>
+<div class="brand">SerCerca</div>
+<nav class="nav">
+<button onclick="go('home')">🏠 Inicio</button>
+<button onclick="go('checkin')">💚 Check-in</button>
+<button onclick="go('people')">❤️ Personas</button>
+<button onclick="go('messages')">💌 Mensajes</button>
+<button onclick="go('family')">👨‍👩‍👧 Familia</button>
+<button onclick="go('history')">📋 Historial</button>
+<button onclick="go('plans')">💳 Planes</button>
+<button onclick="go('settings')">⚙️</button>
+</nav>
+<button class="btn light" onclick="logout()">Salir</button>
+</div>
+</header>
+<main>${router()}</main>
+`;
+}
+
+function router(){
+switch(S.page){
+case"checkin": return checkin();
+case"people": return people();
+case"messages": return messages();
+case"family": return family();
+case"history": return historyPage();
+case"plans": return plans();
+case"settings": return settings();
+default: return home();
+}
+}
+function home(){
+return `
+<div class="row between wrap">
+<div>
+<h1>🏠 Hola, ${esc(S.profile.name||S.user.name)}</h1>
+<p class="muted">¿Cómo va tu día?</p>
+</div>
+<span class="pill">${esc(S.plan)}</span>
+</div>
+
+<div class="grid g4">
+<div class="stat">💚<span>Estado</span><b>${esc(S.wellness.status||"Sin registrar")}</b></div>
+<div class="stat">❤️<span>Personas</span><b>${S.contacts.length}</b></div>
+<div class="stat">📋<span>Actividad</span><b>${S.history.length}</b></div>
+<div class="stat">🔔<span>Avisos</span><b>${S.notifications.filter(x=>!x.read).length}</b></div>
+</div>
+
+<div class="grid g2">
+<div class="card">
+<h2>💚 ¿Cómo estás?</h2>
+<p class="muted">Haz tu check-in diario.</p>
+<button class="big ok" onclick="go('checkin')">💚 Empezar check-in</button>
+</div>
+<div class="card">
+<h2>🆘 ¿Necesitas ayuda?</h2>
+<p class="muted">Envía un aviso a tus personas de confianza.</p>
+<button class="big help" onclick="help()">🆘 Necesito ayuda</button>
+</div>
+</div>
+`;
+}
+
+function people(){
+return `
+<h1>❤️ Personas de confianza</h1>
+<p class="muted">Personas que pueden recibir información cuando tú decides compartirla.</p>
+<div class="card">
+<button class="btn primary" onclick="addPerson()">＋ Añadir persona</button>
+${S.contacts.length ? S.contacts.map(c=>`
+<div class="item">
+<div class="row">
+<div class="avatar">${initials(c.name)}</div>
+<div>
+<b>${esc(c.name)}</b><br>
+<span class="muted">${esc(c.relation)}</span><br>
+<span class="small">${esc(c.email)}</span>
+</div>
+</div>
+<div>
+<span class="pill">${c.linked ?"🔗 Vinculada":"No vinculada"}</span><br>
+<button class="btn secondary" onclick="linkContact(${c.id})">${c.linked ?"Desvincular":"Vincular"}</button>
+</div>
+</div>
+`).join("") : `<div class="alert alert-warn">Todavía no tienes personas de confianza.</div>`}
+</div>
+`;
+}
+
+function addPerson(){
+modal("❤️ Añadir persona",`
+<form onsubmit="addPersonSubmit(event)">
+<div class="fg"><label>Nombre</label><input id="aname" required></div>
+<div class="fg"><label>Correo</label><input id="aemail" type="email" required></div>
+<div class="fg"><label>Relación</label>
+<select id="arelation">
+<option>Hija/o</option><option>Nieta/o</option><option>Pareja</option><option>Hermana/o</option><option>Otro familiar</option>
+</select></div>
+<button class="btn primary block">Añadir persona</button>
+</form>
+`);
+}
+
+function addPersonSubmit(e){
+e.preventDefault();
+S.contacts.push({
+id:Date.now(),
+name:document.getElementById("aname").value.trim(),
+email:document.getElementById("aemail").value.trim().toLowerCase(),
+relation:document.getElementById("arelation").value,
+linked:false
+});
+history("Persona añadida",S.contacts[S.contacts.length-1].name);
+save();
+closeModal();
+render();
+toast("❤️ Persona añadida.");
+}
+
+/* =========================================================
+   CHECK-IN Y CUESTIONARIOS
 ========================================================= */
 
 const QUESTIONS=[
-
-{
-id:"mood",
-title:"😊 ¿Cómo te encuentras hoy?",
-options:[
-["😊","Muy bien"],
-["🙂","Bien"],
-["😐","Regular"],
-["😟","Mal"],
-["😢","Muy mal"]
-]
-},
-
-{
-id:"sleep",
-title:"😴 ¿Cómo has dormido?",
-options:[
-["😴","Muy bien"],
-["🙂","Bien"],
-["😐","Regular"],
-["😟","Mal"]
-]
-},
-
-{
-id:"food",
-title:"🍽️ ¿Has comido hoy?",
-options:[
-["🍽️","Sí, bien"],
-["🙂","Más o menos"],
-["⚠️","Poco"],
-["❌","No"]
-]
-},
-
-{
-id:"water",
-title:"💧 ¿Has bebido agua?",
-options:[
-["💧","Sí"],
-["🙂","Más o menos"],
-["⚠️","Creo que no"]
-]
-},
-Boma.{
-id:"pain",
-title:"❤️ ¿Te duele algo?",
-options:[
-["❤️","No"],
-["🟡","Un poco"],
-["🔴","Sí"]
-]
-},
-
-{
-id:"medicine",
-title:"💊 ¿Has tomado tus medicamentos habituales?",
-options:[
-["✅","Sí"],
-["⏰","Todavía no"],
-["❌","No"],
-["🚫","No tomo medicamentos"]
-]
-},
-
-{
-id:"outside",
-title:"🚶 ¿Has salido de casa hoy?",
-options:[
-["🚶","Sí"],
-["🏠","No"],
-["🕐","Todavía no"]
-]
-},
-
-{
-id:"social",
-title:"💌 ¿Has hablado con alguien hoy?",
-options:[
-["❤️","Sí"],
-["🙂","Un poco"],
-["😔","No"]
-]
-},
-
-{
-id:"company",
-title:"🤝 ¿Te sientes acompañado/a?",
-options:[
-["❤️","Sí"],
-["😐","Más o menos"],
-["😔","Me siento solo/a"]
-]
-},
-
-{
-id:"need",
-title:"🌷 ¿Necesitas algo hoy?",
-options:[
-["🛒","Comprar algo"],
-["💌","Hablar con alguien"],
-["🏠","Ayuda en casa"],
-["🩺","Necesito atención"],
-["😊","No necesito nada"]
-]
-},
-
-{
-id:"activity",
-title:"🌷 ¿Qué te apetece hacer hoy?",
-options:[
-["🚶","Dar un paseo"],
-["🍳","Cocinar algo"],
-["🌱","Cuidar mis plantas"],
-["🎨","Dibujar o hacer manualidades"],
-["📖","Leer"],
-["🎵","Escuchar música"],
-["☕","Tomarme algo tranquilamente"],
-["💌","Hablar con alguien"],
-["👩‍🦰","Ver a una amiga"],
-["🏠","Hacer algo en casa"],
-["😴","Descansar"],
-["🤷","No sé qué me apetece"]
-]
-}
-
+{id:"mood",title:"😊 ¿Cómo te encuentras hoy?",options:[["😊","Muy bien"],["🙂","Bien"],["😐","Regular"],["😟","Mal"],["😢","Muy mal"]]},
+{id:"sleep",title:"😴 ¿Cómo has dormido?",options:[["😴","Muy bien"],["🙂","Bien"],["😐","Regular"],["😟","Mal"]]},
+{id:"food",title:"🍽️ ¿Has comido hoy?",options:[["🍽️","Sí, bien"],["🙂","Más o menos"],["⚠️","Poco"],["❌","No"]]},
+{id:"water",title:"💧 ¿Has bebido agua?",options:[["💧","Sí"],["🙂","Más o menos"],["⚠️","Creo que no"]]},
+{id:"pain",title:"❤️ ¿Te duele algo?",options:[["❤️","No"],["🟡","Un poco"],["🔴","Sí"]]},
+{id:"medicine",title:"💊 ¿Has tomado tus medicamentos habituales?",options:[["✅","Sí"],["⏰","Todavía no"],["❌","No"],["🚫","No tomo medicamentos"]]},
+{id:"outside",title:"🚶 ¿Has salido de casa hoy?",options:[["🚶","Sí"],["🏠","No"],["🕐","Todavía no"]]},
+{id:"social",title:"💌 ¿Has hablado con alguien hoy?",options:[["❤️","Sí"],["🙂","Un poco"],["😔","No"]]},
+{id:"company",title:"🤝 ¿Te sientes acompañado/a?",options:[["❤️","Sí"],["😐","Más o menos"],["😔","Me siento solo/a"]]},
+{id:"need",title:"🌷 ¿Necesitas algo hoy?",options:[["🛒","Comprar algo"],["💌","Hablar con alguien"],["🏠","Ayuda en casa"],["🩺","Necesito atención"],["😊","No necesito nada"]]},
+{id:"activity",title:"🌷 ¿Qué te apetece hacer hoy?",options:[["🚶","Dar un paseo"],["🍳","Cocinar algo"],["🌱","Cuidar mis plantas"],["🎨","Manualidades"],["📖","Leer"],["🎵","Escuchar música"],["😴","Descansar"]]}
 ];
 
 function checkin(){
-
 const total=QUESTIONS.length;
-
-const index=
-S.wellness.questionIndex||0;
-
-if(index>=total){
-
-return checkinSummary();
-
-}
+const index=S.wellness.questionIndex||0;
+if(index>=total) return checkinSummary();
 
 const q=QUESTIONS[index];
-
 return `
-
-<div class="card"  
-style="max-width:750px;margin:auto">  <div class="small">  
-CHECK-IN · ${index+1} DE ${total}  
-</div>  <div class="progress">  
-<span style="  
-width:${(index+1)/total*100}%  
-"></span>  
-</div>  <h1>${q.title}</h1>  <p class="muted">  
-Pulsa una respuesta para continuar.  
-</p>  ${q.options.map(o=>`
-
-<button
-class="choice"
-onclick="answer(
-'${q.id}',
-'${o[1].replace(/'/g,"\'")}'
-)">
-
+<div class="card" style="max-width:750px;margin:auto">
+<div class="small">CHECK-IN · ${index+1} DE ${total}</div>
+<div class="progress"><span style="width:${(index+1)/total*100}%"></span></div>
+<h1>${q.title}</h1>
+<p class="muted">Pulsa una respuesta para continuar.</p>
+${q.options.map(o=>`
+<button class="choice" onclick="answer('${q.id}','${o[1].replace(/'/g,"\\'")}')">
 <span class="emoji">${o[0]}</span>
-
 <b>${o[1]}</b>
-
-</button>  `).join("")}
-
-<div class="actions">  <button  
-class="btn light"  
-onclick="previousQuestion()">
-← Atrás
 </button>
-
-<button  
-class="btn light"  
-onclick="cancelCheckin()">
-Salir
-</button>
-
-</div>  </div>  `;
-
+`).join("")}
+<div class="actions">
+<button class="btn light" onclick="previousQuestion()">← Atrás</button>
+<button class="btn light" onclick="cancelCheckin()">Salir</button>
+</div>
+</div>
+`;
 }
 
 function answer(id,value){
-
 S.wellness.answers[id]=value;
-
-if(id==="activity"){
-
-S.wellness.activity=value;
-
-}
-
-S.wellness.questionIndex=
-(S.wellness.questionIndex||0)+1;
-
+if(id==="activity") S.wellness.activity=value;
+S.wellness.questionIndex=(S.wellness.questionIndex||0)+1;
 save();
 render();
-
 }
-
-/* =========================
-CHECK-IN ATRÁS
-========================= */
 
 function previousQuestion(){
-
-if(
-(S.wellness.questionIndex||0)>0
-){
-
+if((S.wellness.questionIndex||0)>0){
 S.wellness.questionIndex--;
-
 save();
 render();
-
 }else{
-
 cancelCheckin();
-
 }
-
 }
 
 function cancelCheckin(){
-
 S.wellness.questionIndex=0;
 S.wellness.answers={};
-
 save();
-
 go("home");
-
 }
-
-/* =========================
-RESUMEN
-========================= */
-
 function checkinSummary(){
-
 const a=S.wellness.answers;
-
-const recommendations=
-getRecommendations(a);
-
 return `
-
-<div class="card"  
-style="max-width:800px;margin:auto">  <span class="badge">  
-📋 RESUMEN  
-</span>  <h1>  
-💚 Tu check-in está listo  
-</h1>  <p class="muted">  
-Antes de terminar, revisa tus respuestas.  
-</p>  <div class="grid g2">  ${Object.entries(a).map(
-([key,value])=>`
-
-<div class="item">  <div>  
-<b>  
-${questionName(key)}  
-</b>  <br>  <span class="muted">  
-${esc(value)}  
-</span>  
-</div>  <span>✓</span>
-
-</div>  `
-).join("")}
-
-</div>  
-Тома.<hr>  <h2>💡 Una idea para tu día</h2>  ${recommendations.map(r=>`
-
-<div class="card">  <div class="emoji">  
-${r.icon}  
-</div>  <h3>  
-${r.title}  
-</h3>  <p class="muted">  
-${r.text}  
-</p>  ${r.invite
-?
-  <button   class="btn secondary"   onclick="inviteFromRecommendation()">   💌 Invitar a alguien   </button>  
-:""}
-
-</div>  `).join("")}
-
-<hr>  <div class="alert alert-warn">  <b>🔐 Compartir con personas de confianza</b>
-
-<br><br>
-
-El check-in <b>no se enviará automáticamente</b>.
-
-Antes de compartirlo podrás comprobar
-exactamente quién lo recibirá.
-
-</div>  <div class="actions">  <button  
-class="btn light"  
-onclick="cancelCheckin()">
-No guardar
-</button>
-
-<button  
-class="btn secondary"  
-onclick="saveCheckin(false)">
-💾 Guardar sin compartir
-</button>
-
-<button  
-class="btn primary"  
-onclick="confirmShare()">
-💌 Compartir
-</button>
-
-</div>  </div>  `;
-
+<div class="card" style="max-width:800px;margin:auto">
+<span class="badge">📋 RESUMEN</span>
+<h1>💚 Tu check-in está listo</h1>
+<p class="muted">Antes de terminar, revisa tus respuestas.</p>
+<div class="grid g2">
+${Object.entries(a).map(([key,value])=>`
+<div class="item">
+<div><b>${questionName(key)}</b><br><span class="muted">${esc(value)}</span></div>
+<span>✓</span>
+</div>
+`).join("")}
+</div>
+<hr>
+<div class="actions">
+<button class="btn light" onclick="cancelCheckin()">No guardar</button>
+<button class="btn secondary" onclick="saveCheckin(false)">💾 Guardar sin compartir</button>
+<button class="btn primary" onclick="confirmShare()">💌 Compartir</button>
+</div>
+</div>
+`;
 }
 
 function questionName(id){
-
-const names={
-mood:"Estado de ánimo",
-sleep:"Sueño",
-food:"Alimentación",
-water:"Agua",
-pain:"Dolor",
-medicine:"Medicamentos",
-outside:"Salir de casa",
-social:"Contacto social",
-company:"Acompañamiento",
-need:"Necesidad",
-activity:"Actividad"
-};
-
+const names={mood:"Estado de ánimo",sleep:"Sueño",food:"Alimentación",water:"Agua",pain:"Dolor",medicine:"Medicamentos",outside:"Salir de casa",social:"Contacto social",company:"Acompañamiento",need:"Necesidad",activity:"Actividad"};
 return names[id]||id;
-
 }
-
-/* =========================
-RECOMENDACIONES
-========================= */
-
-function getRecommendations(a){
-
-const list=[];
-
-if(a.activity==="Dar un paseo"){
-
-list.push({
-
-icon:"🚶",
-
-title:"Un paseo puede ser un buen plan",
-
-text:
-"Si te apetece, puedes invitar a una amiga o familiar y dar un paseo juntos.",
-
-invite:true
-
-});
-
-}
-
-if(a.activity==="Cocinar algo"){
-
-list.push({
-
-icon:"🍳",
-
-title:"¡Vamos a cocinar!",
-
-text:
-"Puedes preparar una receta que te guste y, si quieres, compartirla con alguien.",
-
-invite:false
-
-});
-
-}
-
-if(a.activity==="Cuidar mis plantas"){
-
-list.push({
-
-icon:"🌱",
-
-title:"Un ratito con tus plantas",
-
-text:
-"Puedes regarlas, quitar hojas secas o preparar una nueva planta.",
-
-invite:false
-
-});
-
-}
-
-if(a.activity==="Dibujar o hacer manualidades"){
-
-list.push({
-
-icon:"🎨",
-
-title:"Un momento creativo",
-
-text:
-"Busca algo que tengas por casa y crea algo que te guste.",
-
-invite:false
-
-});
-
-}
-
-if(a.activity==="Leer"){
-
-list.push({
-
-icon:"📖",
-
-title:"Un rato de lectura",
-
-text:
-"Elige un libro, revista o historia que te apetezca leer.",
-
-invite:false
-
-});
-
-}
-
-if(a.activity==="Escuchar música"){
-
-list.push({
-
-icon:"🎵",
-
-title:"Pon tu música favorita",
-
-text:
-"Puedes escuchar algunas canciones que te hagan sentir bien.",
-
-invite:false
-
-});
-
-}
-
-if(a.activity==="Hablar con alguien"){
-
-list.push({
-
-icon:"💌",
-
-title:"Una conversación puede alegrar el día",
-
-text:
-"Puedes escribir o llamar a una persona de confianza.",
-
-invite:true
-
-});
-
-}
-
-if(a.activity==="Ver a una amiga"){
-
-list.push({
-
-icon:"👩‍🦰",
-
-title:"¡Un plan con una amiga!",
-
-text:
-"Puedes escribirle y preguntarle si quiere tomar algo o salir contigo.",
-
-invite:true
-
-});
-
-}
-
-if(a.activity==="Descansar"){
-
-list.push({
-
-icon:"😴",
-
-title:"También está bien descansar",
-
-text:
-"Busca un lugar cómodo y tómate un momento tranquilo.",
-
-invite:false
-
-});
-
-}
-
-if(
-a.company==="Me siento solo/a"
-){
-
-list.push({
-
-icon:"❤️",
-
-title:"Hoy podrías contactar con alguien",
-
-text:
-"Si te apetece, escribe a una persona de confianza y cuéntale cómo estás.",
-
-invite:true
-
-});
-
-}
-
-if(!list.length){
-
-list.push({
-
-icon:"🌷",
-
-title:"Haz algo que te guste",
-
-text:
-"Hoy puedes elegir una actividad sencilla que te haga sentir bien.",
-
-invite:false
-
-});
-
-}
-
-return list.slice(0,3);
-
-}
-Domat./* =========================
-GUARDAR CHECK-IN
-========================= */
 
 function saveCheckin(shared){
-
 const a=S.wellness.answers;
-
-S.wellness.status=
-a.mood||"Registrado";
-
+S.wellness.status=a.mood||"Registrado";
 S.wellness.last=time();
-
-history(
-"Check-in realizado",
-S.wellness.status
-);
-
-if(shared){
-
-shareCheckin();
-
-}
-
+history("Check-in realizado",S.wellness.status);
+if(shared) shareCheckin();
 S.wellness.questionIndex=0;
-
 S.wellness.answers={};
-
 save();
-
 go("home");
-
-toast(
-shared
-?"💌 Check-in compartido."
-:"💾 Check-in guardado."
-);
-
+toast(shared ?"💌 Check-in compartido.":"💾 Check-in guardado.");
 }
-
-/* =========================
-CONFIRMAR COMPARTIR
-========================= */
 
 function confirmShare(){
-
-const contacts=
-S.contacts.filter(c=>c.linked);
-
+const contacts=S.contacts.filter(c=>c.linked);
 if(!contacts.length){
-
-modal(
-"❤️ Personas de confianza",
-
-`
-
-<div class="alert alert-warn">  Todavía no tienes ninguna persona
-de confianza vinculada.
-
-</div>  <button  
-class="btn primary block"  
-onclick="close();go('people')">
-
-Gestionar personas
-
-</button>  `
-);
-
+modal("❤️ Personas de confianza",`<div class="alert alert-warn">Todavía no tienes ninguna persona de confianza vinculada.</div><button class="btn primary block" onclick="closeModal();go('people')">Gestionar personas</button>`);
 return;
-
 }
-
-modal(
-
-"🔐 Confirmar envío",
-
-`
-
-<h3>  
-💌 Esto se enviará a:  
-</h3>  ${contacts.map(c=>`
-
-<div class="item">  <div class="row">  <div class="avatar">  
-${initials(c.name)}  
-</div>  <div>  <b>${esc(c.name)}</b>
-
-<br>  <span class="muted">  
-${esc(c.relation)}  
-</span>  </div>  </div>  <span>❤️</span>
-
-</div>  `).join("")}
-
-<div class="alert alert-warn">  <b>Importante</b>
-
-<br><br>
-
-Vas a compartir tu resumen de check-in
-con estas personas.
-
-Puedes cancelar ahora si cambias de opinión.
-
-</div>  <div class="actions">  <button  
-class="btn light"  
-onclick="close()">
-Cancelar
-</button>
-
-<button  
-class="btn primary"  
-onclick="close();saveCheckin(true)">
-💌 Sí, enviar
-</button>
-
-</div>  `
-
-);
-
+modal("🔐 Confirmar envío",`
+<h3>💌 Esto se enviará a:</h3>
+${contacts.map(c=>`<div class="item"><div class="row"><div class="avatar">${initials(c.name)}</div><div><b>${esc(c.name)}</b><br><span class="muted">${esc(c.relation)}</span></div></div><span>❤️</span></div>`).join("")}
+<div class="actions">
+<button class="btn light" onclick="closeModal()">Cancelar</button>
+<button class="btn primary" onclick="closeModal();saveCheckin(true)">💌 Sí, enviar</button>
+</div>
+`);
 }
-
-/* =========================
-COMPARTIR CHECK-IN
-========================= */
 
 function shareCheckin(){
-
-if(!S.sharing.checkin){
-
-return;
-
-}
-
-const contacts=
-S.contacts.filter(c=>c.linked);
-
-const summary=
-Object.entries(
-S.wellness.answers
-)
-.map(
-([key,value])=>
-questionName(key)+": "+value
-)
-.join(" · ");
-
+if(!S.sharing.checkin) return;
+const contacts=S.contacts.filter(c=>c.linked);
+const summary=Object.entries(S.wellness.answers).map(([key,value])=>questionName(key)+": "+value).join(" · ");
 contacts.forEach(c=>{
-
-notification(
-💚 Nuevo check-in de ${   S.profile.name   }: ${summary},
-"checkin"
-);
-
+notification(`💚 Check-in de ${S.profile.name}: ${summary}`,"checkin");
 });
-
-history(
-"Check-in compartido",
-contacts.map(c=>c.name).join(", ")
-);
-
-}
-
-/* =========================
-INVITAR A ALGUIEN
-========================= */
-
-function inviteFromRecommendation(){
-
-const contacts=
-S.contacts.filter(c=>c.linked);
-
-if(!contacts.length){
-
-modal(
-"❤️ Personas de confianza",
-`
-
-<div class="alert alert-warn">  
-Primero vincula una persona de confianza.  
-</div>  <button  
-class="btn primary block"  
-onclick="close();go('people')">
-Añadir persona
-</button>
-`
-);
-
-return;
-
-}
-
-modal(
-"💌 Invitar a dar un paseo",
-
-`
-
-<p>  
-¿A quién quieres invitar?  
-</p>  ${contacts.map(c=>`
-
-<button  
-class="choice"  
-onclick="sendInvitation(${c.id})">
-
-<span class="emoji">  
-👩‍🦰  
-</span>  <b>  
-${esc(c.name)}  
-</b>  <br>  <span class="muted">  
-${esc(c.relation)}  
-</span>  </button>  `).join("")}
-
-`
-);
-
-}
-どうま。function sendHelp(){
-
-const contacts=
-S.contacts.filter(c=>c.linked);
-
-contacts.forEach(c=>{
-
-notification(
-🆘 ${S.profile.name} ha solicitado ayuda.,
-"help"
-);
-
-});
-
-history(
-"Ayuda solicitada",
-contacts.map(c=>c.name).join(", ")
-);
-
-close();
-
+history("Check-in compartido",contacts.map(c=>c.name).join(", "));
 save();
-
-toast(
-"🆘 Aviso enviado."
-);
-
 }
 
-/* =========================
-MENSAJES
-========================= */
+function help(){
+const contacts=S.contacts.filter(c=>c.linked);
+if(!contacts.length){
+modal("🆘 Necesito ayuda",`<div class="alert alert-warn">Todavía no tienes personas vinculadas.</div><button class="btn primary block" onclick="closeModal();go('people')">Gestionar personas</button>`);
+return;
+}
+modal("🆘 Confirmar ayuda",`
+<div class="alert alert-danger"><b>¿Quieres enviar un aviso de ayuda?</b></div>
+${contacts.map(c=>`<div class="item"><div><b>${esc(c.name)}</b></div><span>🆘</span></div>`).join("")}
+<div class="actions">
+<button class="btn light" onclick="closeModal()">Cancelar</button>
+<button class="btn danger" onclick="sendHelp()">🆘 Enviar aviso</button>
+</div>
+`);
+}
+
+function sendHelp(){
+const contacts=S.contacts.filter(c=>c.linked);
+contacts.forEach(c=>{
+notification(`🆘 ${S.profile.name} solicita ayuda.`,"help");
+});
+history("Ayuda solicitada",contacts.map(c=>c.name).join(", "));
+closeModal();
+save();
+toast("🆘 Aviso enviado.");
+}
+
+/* =========================================================
+   MENSAJERÍA LOCAL
+========================================================= */
 
 function messages(){
-
-const contacts=
-S.contacts.filter(c=>c.linked);
-
+const contacts=S.contacts.filter(c=>c.linked);
 return `
-
-<div class="card">  <h1>💌 Mensajes</h1>  ${
-contacts.length
-?
-`
-
-<button  
-class="btn primary"  
-onclick="messageModal()">
-＋ Nuevo mensaje
-</button>
-
-<div class="chat">  ${
-S.messages.map(m=>`
-
-<div class="msg ${  
-m.me?"me":"them"  
-}">  ${esc(m.text)}
-
-<div class="small">  
-${esc(m.to)}  
-·  
-${esc(m.date)}  
-</div>  </div>  ).join("")   ||   
-
-<div  
-class="muted"  
-style="text-align:center;padding:100px">  
-No hay mensajes todavía.  
-</div>  
-`  
-}  </div>    :  
-
-<div class="alert alert-warn">  
-Primero vincula una persona.  
-</div>  
-`  
-}  </div>  `;
-
+<div class="card">
+<h1>💌 Mensajes</h1>
+<p class="muted">Conversación local con personas vinculadas.</p>
+${contacts.length ? `
+<button class="btn primary" onclick="messageModal()">＋ Nuevo mensaje</button>
+<div class="chat">
+${S.messages.length ? S.messages.map(m=>`
+<div class="msg ${m.me ?"me":"them"}">
+${esc(m.text)}
+<div class="small">${m.me ?"Tú":esc(m.to)} · ${esc(m.date||"")}</div>
+</div>
+`).join("") : `<div class="muted" style="text-align:center;padding:100px">No hay mensajes todavía.</div>`}
+</div>
+` : `<div class="alert alert-warn">Primero vincula una persona.</div>`}
+</div>
+`;
 }
 
 function messageModal(){
-
-const contacts=
-S.contacts.filter(c=>c.linked);
-
-modal(
-"💌 Nuevo mensaje",
-
-`
-
-<form onsubmit="sendMessage(event)">  <div class="fg">  <label>Enviar a</label>
-
-<select id="mto">  ${contacts.map(
-c=>`
-
-<option>${esc(c.name)}</option>  
-`  
-).join("")}  </select>  </div>  <div class="fg">  <label>Mensaje</label>
-
-<textarea id="mtext" required></textarea>  </div>  <button class="btn primary block">  
-💌 Enviar  
-</button>  </form>  `
-);
-
+const contacts=S.contacts.filter(c=>c.linked);
+modal("💌 Nuevo mensaje",`
+<form onsubmit="sendMessage(event)">
+<div class="fg"><label>Enviar a</label><select id="mto">${contacts.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></div>
+<div class="fg"><label>Mensaje</label><textarea id="mtext" required></textarea></div>
+<button class="btn primary block">💌 Enviar</button>
+</form>
+`);
 }
 
 function sendMessage(e){
-
 e.preventDefault();
+const contact=S.contacts.find(c=>String(c.id)===String(document.getElementById("mto").value));
+const text=document.getElementById("mtext").value.trim();
+if(!contact || !text) return;
 
-const message={
-
-id:Date.now(),
-
-me:true,
-
-to:mto.value,
-
-text:mtext.value,
-
-date:time()
-
-};
-
-S.messages.push(message);
-
-notification(
-💌 Has enviado un mensaje a ${message.to}.,
-"message"
-);
-
-history(
-"Mensaje enviado",
-message.to
-);
-
-close();
-
+S.messages.push({id:Date.now(),me:true,to:contact.name,text,date:time()});
+history("Mensaje enviado",contact.name);
+closeModal();
 save();
-
 render();
-
+toast("💌 Mensaje enviado.");
 }
-
-/* =========================
-FAMILIA
-========================= */
+/* =========================================================
+   VISTAS SECUNDARIAS, AJUSTES Y RENDER
+========================================================= */
 
 function family(){
-
-const linked=
-S.contacts.filter(c=>c.linked);
-
+const linked=S.contacts.filter(c=>c.linked);
 return `
-
-<h1>👨‍👩‍👧 Zona de familiares</h1>  <p class="muted">  
-Información que ha sido autorizada.  
-</p>  <div class="grid g3">  <div class="stat">  
-❤️  
-<b>${linked.length}</b>  
-<span>Personas vinculadas</span>  
-</div>  <div class="stat">  
-💚  
-<b>${esc(S.wellness.status||"Sin registrar")}</b>  
-<span>Estado</span>  
-</div>  <div class="stat">  
-📋  
-<b>${S.history.length}</b>  
-<span>Actividad</span>  
-</div>  </div>  <div class="card">  <h2>📋 Actividad reciente</h2>  ${
-S.history.slice(0,8).map(h=>`
-
-<div class="item">  <div>  <b>${esc(h.action)}</b>
-
-<br>  <span class="muted">  
-${esc(h.detail)}  
-</span>  </div>  <span class="small">  
-${esc(h.date)}  
-</span>  </div>  ).join("")   ||   <p class="muted">No hay actividad.</p>`
+<h1>👨‍👩‍👧 Zona de familiares</h1>
+<p class="muted">Información autorizada sobre el acompañamiento.</p>
+<div class="grid g3">
+<div class="stat">❤️<b>${linked.length}</b><span>Personas vinculadas</span></div>
+<div class="stat">💚<b>${esc(S.wellness.status||"Sin registrar")}</b><span>Estado</span></div>
+<div class="stat">📋<b>${S.history.length}</b><span>Actividad</span></div>
+</div>
+<div class="card">
+<h2>📋 Actividad reciente</h2>
+${S.history.slice(0,8).map(h=>`<div class="item"><div><b>${esc(h.action)}</b><br><span class="muted">${esc(h.detail)}</span></div><span class="small">${esc(h.date)}</span></div>`).join("") || `<p class="muted">No hay actividad.</p>`}
+</div>
+`;
 }
-
-</div>  `;
-
-}
-
-/* =========================
-HISTORIAL
-========================= */
 
 function historyPage(){
-
 return `
-
-<h1>📋 Historial</h1>  <p class="muted">  
-Check-ins y actividad guardada.  
-</p>  <div class="card">  ${
-S.history.map(h=>`
-
-<div class="item">  <div>  <b>${esc(h.action)}</b>
-
-<br>  <span class="muted">  
-${esc(h.detail)}  
-</span>  </div>  <span class="small">  
-${esc(h.date)}  
-</span>  </div>  ).join("")   ||   <p class="muted">No hay actividad.</p>`
+<h1>📋 Historial</h1>
+<p class="muted">Registro de actividad local.</p>
+<div class="card">
+${S.history.map(h=>`<div class="item"><div><b>${esc(h.action)}</b><br><span class="muted">${esc(h.detail)}</span></div><span class="small">${esc(h.date)}</span></div>`).join("") || `<p class="muted">No hay actividad.</p>`}
+</div>
+`;
 }
 
-</div>  `;
-
-}
-
-/* =========================
-PLANES
-========================= */
-
-function plans(){
-
-const plans=[
-
-[
-"Básico",
-"2,99 €",
-[
-"Perfil",
-"Personas de confianza",
-"Check-in",
-"Estado de bienestar",
-"Avisos",
-"Historial"
-]
-],
-
-[
-"Familia",
-"6,99 €",
-[
-"Todo lo de Básico",
-"Mensajes",
-"Recordatorios",
-"Zona familiar",
-"Recomendaciones"
-]
-],
-
-[
-"Cerca",
-"12,99 €",
-[
-"Todo lo de Familia",
-"Funciones avanzadas",
-"Privacidad avanzada",
-"Historial ampliado",
-"Funciones futuras"
-]
-]
-
+const PLANS=[
+{name:"Básico",price:"2,99 €",features:["Perfil personal","Personas de confianza","Check-in diario","Avisos de ayuda"]},
+{name:"Familia",price:"6,99 €",features:["Todo lo del plan Básico","Mensajes vinculados","Zona familiar","Historial de actividad"]},
+{name:"Cerca",price:"12,99 €",features:["Todo lo del plan Familia","Privacidad avanzada","Soporte prioritario"]}
 ];
 
+function plans(){
 return `
-
-<h1>💳 Planes</h1>  <p class="muted">  
-Elige el plan que mejor se adapte a ti.  
-</p>  <div class="grid g3">  ${plans.map(p=>`
-
-<div class="card ${  
-S.plan===p[0]?"plan current":"plan"  
-}">  ${S.plan===p[0]
-?<span class="pill">ACTUAL</span>
-:""}
-
-<h2>${p[0]}</h2>  <div class="price">  
-${p[1]}  
-</div>  <hr>  ${p[2].map(f=>`
-
-<p>  
-<span class="check">✓</span>  
-${f}  
-</p>  
-`).join("")}  <button
-class="btn ${
-S.plan===p[0]?"light":"primary"
-} block"
-onclick="choosePlan('${p[0]}')">
-
-${
-S.plan===p[0]
-?"Plan actual"
-:"Elegir"
-}
-
-</button>  </div>  `).join("")}
-
-</div>  `;
-
+<h1>💳 Planes</h1>
+<p class="muted">Elige la modalidad que mejor se adapte a ti.</p>
+<div class="grid g3">
+${PLANS.map(p=>`
+<div class="card ${S.plan===p.name ?"plan current":"plan"}">
+${S.plan===p.name ? `<span class="pill">ACTUAL</span>`:""}
+<h2>${p.name}</h2>
+<div class="price">${p.price}</div>
+<p class="muted">por mes</p>
+<hr>
+${p.features.map(f=>`<div style="padding:4px 0"><span class="check">✓</span> ${f}</div>`).join("")}
+<br>
+<button class="btn ${S.plan===p.name ?"light":"primary"} block" onclick="choosePlan('${p.name}')">${S.plan===p.name ?"Plan actual":"Elegir plan"}</button>
+</div>
+`).join("")}
+</div>
+`;
 }
 
 function choosePlan(plan){
-
+if(S.plan===plan) return;
 S.plan=plan;
-
-history(
-"Plan cambiado",
-plan
-);
-
+history("Plan actualizado",plan);
 save();
-
 render();
-
-toast("💳 Plan actualizado.");
-
+toast(`💳 Plan ${plan} seleccionado.`);
 }
-
-/* =========================
-CONFIGURACIÓN
-========================= */
 
 function settings(){
-
 return `
-
-<h1>⚙️ Configuración</h1>  <div class="grid g2">  <div class="card">  <h2>👤 Perfil</h2>  <div class="fg">  
-<label>Nombre</label>  
-<input  
-id="sname"  
-value="${esc(S.profile.name)}">  
-</div>  <div class="fg">  
-<label>Teléfono</label>  
-<input  
-id="sphone"  
-value="${esc(S.profile.phone)}">  
-</div>  <div class="fg">  
-<label>Ciudad</label>  
-<input  
-id="scity"  
-value="${esc(S.profile.city)}">  
-</div>  <button  
-class="btn primary"  
-onclick="saveProfile()">
-💾 Guardar
-</button>
-
-</div>  <div class="card">  <h2>🔐 Privacidad</h2>  ${privacySwitch(
-"checkin",
-"💚 Check-in",
-"Compartir check-ins"
-)}
-
-${privacySwitch(
-"wellness",
-"🌷 Bienestar",
-"Compartir estado"
-)}
-
-${privacySwitch(
-"activity",
-"🚶 Actividades",
-"Compartir actividades"
-)}
-
-</div>  </div>  `;
-
+<h1>⚙️ Configuración</h1>
+<div class="grid g2">
+<div class="card">
+<h2>👤 Perfil</h2>
+<div class="fg"><label>Nombre</label><input id="sname" value="${esc(S.profile.name)}"></div>
+<div class="fg"><label>Teléfono</label><input id="sphone" value="${esc(S.profile.phone)}"></div>
+<div class="fg"><label>Ciudad</label><input id="scity" value="${esc(S.profile.city)}"></div>
+<button class="btn primary" onclick="saveProfile()">💾 Guardar</button>
+</div>
+<div class="card">
+<h2>🔐 Privacidad</h2>
+${settingSwitch("checkin","💚 Check-in","Compartir check-ins")}
+${settingSwitch("wellness","🌷 Bienestar","Compartir estado")}
+${settingSwitch("activity","🚶 Actividades","Compartir actividades")}
+</div>
+</div>
+`;
 }
 
-function privacySwitch(key,title,text){
-
+function settingSwitch(key,title,text){
 return `
-
-<div class="item">  <div>  <b>${title}</b>
-
-<br>  <span class="muted small">  
-${text}  
-</span>  </div>  <button
-class="switch ${
-S.sharing[key]?"on":""
-}"
-onclick="toggleShare('${key}')">
-</button>
-
-</div>  `;
-
+<div class="item">
+<div><b>${title}</b><br><span class="muted small">${text}</span></div>
+<button class="switch ${S.sharing[key] ?"on":""}" onclick="toggleShare('${key}')"></button>
+</div>
+`;
 }
 
 function toggleShare(key){
-
 S.sharing[key]=!S.sharing[key];
-
 save();
-
 render();
-
 }
 
 function saveProfile(){
-
-S.profile.name=sname.value.trim();
-S.profile.phone=sphone.value.trim();
-S.profile.city=scity.value.trim();
-
-S.user.name=S.profile.name;
-
-history(
-"Perfil actualizado",
-S.profile.name
-);
-
+S.profile.name=document.getElementById("sname").value.trim();
+S.profile.phone=document.getElementById("sphone").value.trim();
+S.profile.city=document.getElementById("scity").value.trim();
+history("Perfil actualizado",S.profile.name);
 save();
-
 render();
-
 toast("💾 Guardado.");
-
 }
-
-/* =========================
-SETTINGS GENERALES
-========================= */
-
-function setting(key,title,text){
-
-return `
-
-<div class="item">  <div>  <b>${title}</b>
-
-<br>  <span class="muted small">  
-${text}  
-</span>  </div>  <button
-class="switch ${
-S.sharing[key]?"on":""
-}"
-onclick="toggleShare('${key}')">
-</button>
-
-</div>  `;
-
-}
-
-/* =========================
-PRUEBA
-========================= */
-
-function trial(){
-
-const start=new Date();
-
-const end=
-new Date(
-start.getTime()+
-142460601000
-);
-
-S.trial={
-active:true,
-start:start.toISOString(),
-end:end.toISOString()
-};
-
-history(
-"Prueba gratuita",
-"14 días"
-);
-
-save();
-
-toast(
-"🎁 Prueba de 14 días activada."
-);
-
-}
-
-/* =========================
-LOGOUT
-========================= */
 
 function logout(){
-
 S.logged=false;
-
+S.onboarding=false;
+S.page="home";
 save();
-
 render();
-
 }
-
-/* =========================
-RENDER
-========================= */
 
 function render(){
-
 let html;
-
 if(!S.logged){
-
 html=welcome();
-
 }else if(S.onboarding){
-
 html=onboarding();
-
 }else{
-
 html=app();
-
 }
-
-document.getElementById("app")
-.innerHTML=html;
-
+document.getElementById("app").innerHTML=html;
 }
 
 render();
 
-</script>  </body>  
-</html>  
-Toma, esta es la última.
+</script>
+</body>
+</html>
+
