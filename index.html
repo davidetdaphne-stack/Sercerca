@@ -962,26 +962,10 @@ function welcome(){
 
             📝 Crear cuenta
 
-          </button>
-
           <button
-            type="button"
-            class="btn light"
-            onclick="login()">
-
-            🔐 Iniciar sesión
-
-          </button>
-
-        </div>
-
-      </section>
-
-    </main>
-
-  `;
-
-}
+  type="button"
+  class="choice"
+  onclick="role('family',this)">
 
 
 /* =========================================================
@@ -1114,21 +1098,7 @@ function register(){
 
 }
 
-function role(r,button){
 
-  S.role=r;
-
-  document
-    .querySelectorAll("#modal .choice")
-    .forEach(x=>{
-      x.classList.remove("selected");
-    });
-
-  if(button){
-    button.classList.add("selected");
-  }
-
-}
 
 function create(event){
 
@@ -1148,7 +1118,29 @@ function create(event){
     ?.value;
 
   if(!name || !email || !password){
+function role(r,b){
 
+  // Guardar inmediatamente la opción elegida
+  S.role = r;
+
+  // Quitar la selección anterior
+  document
+    .querySelectorAll(".choice")
+    .forEach(x => {
+      x.classList.remove("selected");
+      x.setAttribute("aria-pressed","false");
+    });
+
+  // Marcar la opción pulsada
+  if(b){
+    b.classList.add("selected");
+    b.setAttribute("aria-pressed","true");
+  }
+
+  // Guardar el cambio
+  save();
+
+    }
     toast("Completa todos los campos.");
 
     return;
