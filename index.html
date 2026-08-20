@@ -1190,4 +1190,631 @@ save();
 render();
 }
 }
+/* =========================================================
+   VINCULAR PERSONA & NAVEGACIÓN
+========================================================= */
+
+async function link(id){
+const contact=S.contacts.find(c=>c.id===id);
+if(!contact) return;
+contact.linked=!contact.linked;
+await saveCloudContacts();
+history(contact.linked ?"Persona vinculada":"Persona desvinculada",contact.name);
+save();
+render();
+toast(contact.linked ?"🔗 Persona vinculada.":"🔓 Persona desvinculada.");
+}
+
+function app(){
+return `
+<header>
+<div class="header">
+<div class="logo">♥</div>
+<div class="brand">SerCerca</div>
+<nav class="nav">
+<button onclick="go('home')">🏠 Inicio</button>
+<button onclick="go('checkin')">💚 Check-in</button>
+<button onclick="go('people')">❤️ Personas</button>
+<button onclick="go('messages')">💌 Mensajes</button>
+<button onclick="go('family')">👨‍👩‍👧 Familia</button>
+<button onclick="go('history')">📋 Historial</button>
+<button onclick="go('plans')">💳 Planes</button>
+<button onclick="go('settings')">⚙️</button>
+</nav>
+<button class="btn light" onclick="logout()">Salir</button>
+</div>
+</header>
+<main>${router()}</main>
+`;
+}
+
+function router(){
+switch(S.page){
+case"checkin": return checkin();
+case"people": return people();
+case"messages": return messages();
+case"family": return family();
+case"history": return historyPage();
+case"plans": return plans();
+case"settings": return settings();
+default: return home();
+}
+}
+
+function home(){
+return `
+<div class="row between wrap">
+<div>
+<h1>🏠 Hola, ${esc(S.profile.name)}</h1>
+<p class="muted">¿Cómo va tu día?</p>
+</div>
+<span class="pill">${esc(S.plan)}</span>
+</div>
+
+<div class="grid g4">
+<div class="stat">💚<span>Estado</span><b>${esc(S.wellness.status||"Sin registrar")}</b></div>
+<div class="stat">❤️<span>Personas</span><b>${S.contacts.length}</b></div>
+<div class="stat">📋<span>Actividad</span><b>${S.history.length}</b></div>
+<div class="stat">🔔<span>Avisos</span><b>${S.notifications.filter(x=>!x.read).length}</b></div>
+</div>
+
+<div class="grid g2">
+<div class="card">
+<h2>💚 ¿Cómo estás?</h2>
+<p class="muted">Haz tu check-in diario.</p>
+<button class="big ok" onclick="go('checkin')">💚 Empezar check-in</button>
+</div>
+<div class="card">
+<h2>🆘 ¿Necesitas ayuda?</h2>
+<p class="muted">Envía un aviso a tus personas de confianza.</p>
+<button class="big help" onclick="help()">🆘 Necesito ayuda</button>
+</div>
+</div>
+
+<div class="card">
+<h2>🌷 Tu día</h2>
+<p class="muted">SerCerca también puede ayudarte a encontrar algo que te apetezca hacer.</p>
+<button class="btn secondary" onclick="go('checkin')">🌷 ¿Qué me apetece hoy?</button>
+</div>
+`;
+}
+
+function people(){
+return `
+<h1>❤️ Personas de confianza</h1>
+<p class="muted">Personas que pueden recibir información cuando tú decides compartirla.</p>
+<div class="card">
+<button class="btn primary" onclick="addPerson()">＋ Añadir persona</button>
+${S.contacts.length ? S.contacts.map(c=>`
+<div class="item">
+<div class="row">
+<div class="avatar">${initials(c.name)}</div>
+<div>
+<b>${esc(c.name)}</b><br>
+<span class="muted">${esc(c.relation)}</span><br>
+<span class="small">${esc(c.email)}</span>
+</div>
+</div>
+<div>
+<span class="pill">${c.linked ?"🔗 Vinculada":"No vinculada"}</span><br>
+<button class="btn secondary" onclick="link(${c.id})">${c.linked ?"Desvincular":"Vincular"}</button>
+</div>
+</div>
+`).join("") : `<div class="alert alert-warn">Todavía no tienes personas de confianza.</div>`}
+</div>
+`;
+}
+
+function addPerson(){
+modal("❤️ Añadir persona",`
+<form onsubmit="addPersonSubmit(event)">
+<div class="fg"><label>Nombre</label><input id="aname" required></div>
+<div class="fg"><label>Correo</label><input id="aemail" type="email" required></div>
+<div class="fg"><label>Relación</label>
+<select id="arelation">
+<option>Hija/o</option><option>Nieta/o</option><option>Pareja</option><option>Hermana/o</option><option>Otro familiar</option>
+</select></div>
+<button class="btn primary block">Añadir persona</button>
+</form>
+`);
+}
+
+async function addPersonSubmit(e){
+e.preventDefault();
+S.contacts.push({
+id:Date.now(),
+name:document.getElementById("aname").value.trim(),
+email:document.getElementById("aemail").value.trim().toLowerCase(),
+relation:document.getElementById("arelation").value,
+linked:false
+});
+await saveCloudContacts();
+history("Persona añadida",S.contacts[S.contacts.length-1].name);
+save();
+close();
+render();
+toast("❤️ Persona añadida.");
+}
+
+/* =========================================================
+   CHECK-IN PREGUNTAS
+========================================================= */
+
+const QUESTIONS=[
+{id:"mood",title:"😊 ¿Cómo te encuentras hoy?",options:[["😊","Muy bien"],["🙂","Bien"],["😐","Regular"],["😟","Mal"],["😢","Muy mal"]]},
+{id:"sleep",title:"😴 ¿Cómo has dormido?",options:[["😴","Muy bien"],["🙂","Bien"],["😐","Regular"],["😟","Mal"]]},
+{id:"food",title:"🍽️ ¿Has comido hoy?",options:[["🍽️","Sí, bien"],["🙂","Más o menos"],["⚠️","Poco"],["❌","No"]]},
+{id:"water",title:"💧 ¿Has bebido agua?",options:[["💧","Sí"],["🙂","Más o menos"],["⚠️","Creo que no"]]},
+{id:"pain",title:"❤️ ¿Te duele algo?",options:[["❤️","No"],["🟡","Un poco"],["🔴","Sí"]]},
+{id:"medicine",title:"💊 ¿Has tomado tus medicamentos habituales?",options:[["✅","Sí"],["⏰","Todavía no"],["❌","No"],["🚫","No tomo medicamentos"]]},
+{id:"outside",title:"🚶 ¿Has salido de casa hoy?",options:[["🚶","Sí"],["🏠","No"],["🕐","Todavía no"]]},
+{id:"social",title:"💌 ¿Has hablado con alguien hoy?",options:[["❤️","Sí"],["🙂","Un poco"],["😔","No"]]},
+{id:"company",title:"🤝 ¿Te sientes acompañado/a?",options:[["❤️","Sí"],["😐","Más o menos"],["😔","Me siento solo/a"]]},
+{id:"need",title:"🌷 ¿Necesitas algo hoy?",options:[["🛒","Comprar algo"],["💌","Hablar con alguien"],["🏠","Ayuda en casa"],["🩺","Necesito atención"],["😊","No necesito nada"]]},
+{id:"activity",title:"🌷 ¿Qué te apetece hacer hoy?",options:[["🚶","Dar un paseo"],["🍳","Cocinar algo"],["🌱","Cuidar mis plantas"],["🎨","Dibujar o hacer manualidades"],["📖","Leer"],["🎵","Escuchar música"],["☕","Tomarme algo tranquilamente"],["💌","Hablar con alguien"],["👩‍🦰","Ver a una amiga"],["🏠","Hacer algo en casa"],["😴","Descansar"],["🤷","No sé qué me apetece"]]}
+];
+function checkin(){
+const total=QUESTIONS.length;
+const index=S.wellness.questionIndex||0;
+if(index>=total) return checkinSummary();
+
+const q=QUESTIONS[index];
+return `
+<div class="card" style="max-width:750px;margin:auto">
+<div class="small">CHECK-IN · ${index+1} DE ${total}</div>
+<div class="progress"><span style="width:${(index+1)/total*100}%"></span></div>
+<h1>${q.title}</h1>
+<p class="muted">Pulsa una respuesta para continuar.</p>
+${q.options.map(o=>`
+<button class="choice" onclick="answer('${q.id}','${o[1].replace(/'/g,"\\'")}')">
+<span class="emoji">${o[0]}</span>
+<b>${o[1]}</b>
+</button>
+`).join("")}
+<div class="actions">
+<button class="btn light" onclick="previousQuestion()">← Atrás</button>
+<button class="btn light" onclick="cancelCheckin()">Salir</button>
+</div>
+</div>
+`;
+}
+
+function answer(id,value){
+S.wellness.answers[id]=value;
+if(id==="activity") S.wellness.activity=value;
+S.wellness.questionIndex=(S.wellness.questionIndex||0)+1;
+save();
+render();
+}
+
+function previousQuestion(){
+if((S.wellness.questionIndex||0)>0){
+S.wellness.questionIndex--;
+save();
+render();
+}else{
+cancelCheckin();
+}
+}
+
+function cancelCheckin(){
+S.wellness.questionIndex=0;
+S.wellness.answers={};
+save();
+go("home");
+}
+
+function checkinSummary(){
+const a=S.wellness.answers;
+const recommendations=getRecommendations(a);
+
+return `
+<div class="card" style="max-width:800px;margin:auto">
+<span class="badge">📋 RESUMEN</span>
+<h1>💚 Tu check-in está listo</h1>
+<p class="muted">Antes de terminar, revisa tus respuestas.</p>
+<div class="grid g2">
+${Object.entries(a).map(([key,value])=>`
+<div class="item">
+<div><b>${questionName(key)}</b><br><span class="muted">${esc(value)}</span></div>
+<span>✓</span>
+</div>
+`).join("")}
+</div>
+<hr>
+<h2>💡 Una idea para tu día</h2>
+${recommendations.map(r=>`
+<div class="card">
+<div class="emoji">${r.icon}</div>
+<h3>${r.title}</h3>
+<p class="muted">${r.text}</p>
+${r.invite ? `<button class="btn secondary" onclick="inviteFromRecommendation()">💌 Invitar a alguien</button>`:""}
+</div>
+`).join("")}
+<hr>
+<div class="alert alert-warn">
+<b>🔐 Compartir con personas de confianza</b><br><br>
+El check-in no se enviará automáticamente. Antes de compartirlo podrás comprobar exactamente quién lo recibirá.
+</div>
+<div class="actions">
+<button class="btn light" onclick="cancelCheckin()">No guardar</button>
+<button class="btn secondary" onclick="saveCheckin(false)">💾 Guardar sin compartir</button>
+<button class="btn primary" onclick="confirmShare()">💌 Compartir</button>
+</div>
+</div>
+`;
+}
+
+function questionName(id){
+const names={mood:"Estado de ánimo",sleep:"Sueño",food:"Alimentación",water:"Agua",pain:"Dolor",medicine:"Medicamentos",outside:"Salir de casa",social:"Contacto social",company:"Acompañamiento",need:"Necesidad",activity:"Actividad"};
+return names[id]||id;
+}
+
+function getRecommendations(a){
+const list=[];
+if(a.activity==="Dar un paseo") list.push({icon:"🚶",title:"Un paseo puede ser un buen plan",text:"Si te apetece, puedes invitar a una amiga o familiar y dar un paseo juntos.",invite:true});
+if(a.activity==="Cocinar algo") list.push({icon:"🍳",title:"¡Vamos a cocinar!",text:"Puedes preparar una receta que te guste y, si quieres, compartirla con alguien.",invite:false});
+if(a.activity==="Cuidar mis plantas") list.push({icon:"🌱",title:"Un ratito con tus plantas",text:"Puedes regarlas, quitar hojas secas o preparar una nueva planta.",invite:false});
+if(a.activity==="Dibujar o hacer manualidades") list.push({icon:"🎨",title:"Un momento creativo",text:"Busca algo que tengas por casa y crea algo que te guste.",invite:false});
+if(a.activity==="Leer") list.push({icon:"📖",title:"Un rato de lectura",text:"Elige un libro, revista o historia que te apetece leer.",invite:false});
+if(a.activity==="Escuchar música") list.push({icon:"🎵",title:"Pon tu música favorita",text:"Puedes escuchar algunas canciones que te hagan sentir bien.",invite:false});
+if(a.activity==="Hablar con alguien") list.push({icon:"💌",title:"Una conversación puede alegrar el día",text:"Puedes escribir o llamar a una persona de confianza.",invite:true});
+if(a.activity==="Ver a una amiga") list.push({icon:"👩‍🦰",title:"¡Un plan con una amiga!",text:"Puedes escribirle y preguntarle si quiere tomar algo o salir contigo.",invite:true});
+if(a.activity==="Descansar") list.push({icon:"😴",title:"También está bien descansar",text:"Busca un lugar cómodo y tómate un momento tranquilo.",invite:false});
+if(a.company==="Me siento solo/a") list.push({icon:"❤️",title:"Hoy podrías contactar con alguien",text:"Si te apetece, escribe a una persona de confianza y cuéntale cómo estás.",invite:true});
+
+if(!list.length) list.push({icon:"🌷",title:"Haz algo que te guste",text:"Hoy puedes elegir una actividad sencilla que te haga sentir bien.",invite:false});
+return list.slice(0,3);
+}
+
+async function saveCheckin(shared){
+const a=S.wellness.answers;
+S.wellness.status=a.mood||"Registrado";
+S.wellness.last=time();
+history("Check-in realizado",S.wellness.status);
+if(shared) await shareCheckin();
+S.wellness.questionIndex=0;
+S.wellness.answers={};
+save();
+go("home");
+toast(shared ?"💌 Check-in compartido.":"💾 Check-in guardado.");
+}
+
+function confirmShare(){
+const contacts=S.contacts.filter(c=>c.linked);
+if(!contacts.length){
+modal("❤️ Personas de confianza",`<div class="alert alert-warn">Todavía no tienes ninguna persona de confianza vinculada.</div><button class="btn primary block" onclick="close();go('people')">Gestionar personas</button>`);
+return;
+}
+modal("🔐 Confirmar envío",`
+<h3>💌 Esto se enviará a:</h3>
+${contacts.map(c=>`<div class="item"><div class="row"><div class="avatar">${initials(c.name)}</div><div><b>${esc(c.name)}</b><br><span class="muted">${esc(c.relation)}</span></div></div><span>❤️</span></div>`).join("")}
+<div class="alert alert-warn"><b>Importante</b><br><br>Vas a compartir tu resumen de check-in con estas personas.<br>Puedes cancelar ahora si cambias de opinión.</div>
+<div class="actions">
+<button class="btn light" onclick="close()">Cancelar</button>
+<button class="btn primary" onclick="close();saveCheckin(true)">💌 Sí, enviar</button>
+</div>
+`);
+}
+
+async function shareCheckin(){
+if(!S.sharing.checkin) return;
+const contacts=S.contacts.filter(c=>c.linked);
+const summary=Object.entries(S.wellness.answers).map(([key,value])=>questionName(key)+": "+value).join(" · ");
+
+for(const c of contacts){
+notification(`💚 Nuevo check-in de ${S.profile.name}: ${summary}`,"checkin");
+if(firebaseReady() && c.email){
+await sendCloudMessage(c,`💚 Nuevo check-in de ${S.profile.name}: ${summary}`);
+}
+}
+history("Check-in compartido",contacts.map(c=>c.name).join(", "));
+save();
+}
+
+async function help(){
+const contacts=S.contacts.filter(c=>c.linked);
+if(!contacts.length){
+modal("🆘 Necesito ayuda",`<div class="alert alert-warn">Todavía no tienes ninguna persona de confianza vinculada.</div><button class="btn primary block" onclick="close();go('people')">Gestionar personas</button>`);
+return;
+}
+modal("🆘 Confirmar ayuda",`
+<div class="alert alert-danger"><b>¿Quieres enviar un aviso de ayuda?</b><br><br>Se avisará a:</div>
+${contacts.map(c=>`<div class="item"><div class="row"><div class="avatar">${initials(c.name)}</div><div><b>${esc(c.name)}</b><br><span class="muted">${esc(c.relation)}</span></div></div><span>🆘</span></div>`).join("")}
+<div class="actions">
+<button class="btn light" onclick="close()">Cancelar</button>
+<button class="btn danger" onclick="sendHelp()">🆘 Enviar aviso</button>
+</div>
+`);
+}
+
+async function sendHelp(){
+const contacts=S.contacts.filter(c=>c.linked);
+const text=`🆘 ${S.profile.name} ha solicitado ayuda.`;
+
+for(const c of contacts){
+notification(text,"help");
+if(firebaseReady() && c.email){
+await sendCloudMessage(c,text);
+}
+}
+history("Ayuda solicitada",contacts.map(c=>c.name).join(", "));
+close();
+save();
+toast("🆘 Aviso enviado.");
+}
+
+function inviteFromRecommendation(){
+const contacts=S.contacts.filter(c=>c.linked);
+if(!contacts.length){
+modal("❤️ Personas de confianza",`<div class="alert alert-warn">Primero vincula una persona de confianza.</div><button class="btn primary block" onclick="close();go('people')">Añadir persona</button>`);
+return;
+}
+modal("💌 Invitar a dar un paseo",`
+<p>¿A quién quieres invitar?</p>
+${contacts.map(c=>`<button class="choice" onclick="sendInvitation(${c.id})"><span class="emoji">👩‍🦰</span><b>${esc(c.name)}</b><br><span class="muted">${esc(c.relation)}</span></button>`).join("")}
+`);
+}
+
+async function sendInvitation(id){
+const contact=S.contacts.find(c=>c.id===id);
+if(!contact) return;
+const text=`💌 ${S.profile.name} te invita a pasar un rato juntos.`;
+if(firebaseReady() && contact.email){
+await sendCloudMessage(contact,text);
+}
+notification(`💌 Invitación enviada a ${contact.name}.`,"invitation");
+history("Invitación enviada",contact.name);
+close();
+save();
+toast("💌 Invitación enviada.");
+}
+
+function messages(){
+const contacts=S.contacts.filter(c=>c.linked);
+return `
+<div class="card">
+<h1>💌 Mensajes</h1>
+<p class="muted">Los mensajes enviados a una persona vinculada quedan guardados en la conversación.</p>
+${contacts.length ? `
+<button class="btn primary" onclick="messageModal()">＋ Nuevo mensaje</button>
+<div class="chat">
+${S.messages.length ? S.messages.map(m=>`
+<div class="msg ${m.me ?"me":"them"}">
+${esc(m.text)}
+<div class="small">${m.me ?"Tú":esc(m.senderName||m.to||"Persona de confianza")} · ${esc(m.date||"")}</div>
+</div>
+`).join("") : `<div class="muted" style="text-align:center;padding:100px">No hay mensajes todavía.</div>`}
+</div>
+` : `<div class="alert alert-warn">Primero vincula una persona.</div>`}
+</div>
+`;
+}
+
+function messageModal(){
+const contacts=S.contacts.filter(c=>c.linked);
+modal("💌 Nuevo mensaje",`
+<form onsubmit="sendMessage(event)">
+<div class="fg"><label>Enviar a</label><select id="mto">${contacts.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></div>
+<div class="fg"><label>Mensaje</label><textarea id="mtext" required></textarea></div>
+<button class="btn primary block">💌 Enviar</button>
+</form>
+`);
+}
+
+async function sendMessage(e){
+e.preventDefault();
+const contact=S.contacts.find(c=>String(c.id)===String(document.getElementById("mto").value));
+const text=document.getElementById("mtext").value.trim();
+
+if(!contact){
+toast("⚠️ Persona no encontrada.");
+return;
+}
+if(!text) return;
+
+const message={id:Date.now(),me:true,to:contact.name,recipientEmail:contact.email,text,date:time(),timestamp:Date.now()};
+
+if(firebaseReady() && contact.email){
+const sent=await sendCloudMessage(contact,text);
+if(!sent) return;
+}
+
+S.messages.push(message);
+notification(`💌 Has enviado un mensaje a ${contact.name}.`,"message");
+history("Mensaje enviado",contact.name);
+close();
+save();
+render();
+toast("💌 Mensaje enviado.");
+}
+
+function family(){
+const linked=S.contacts.filter(c=>c.linked);
+return `
+<h1>👨‍👩‍👧 Zona de familiares</h1>
+<p class="muted">Información que ha sido autorizada.</p>
+<div class="grid g3">
+<div class="stat">❤️<b>${linked.length}</b><span>Personas vinculadas</span></div>
+<div class="stat">💚<b>${esc(S.wellness.status||"Sin registrar")}</b><span>Estado</span></div>
+<div class="stat">📋<b>${S.history.length}</b><span>Actividad</span></div>
+</div>
+<div class="card">
+<h2>📋 Actividad reciente</h2>
+${S.history.slice(0,8).map(h=>`<div class="item"><div><b>${esc(h.action)}</b><br><span class="muted">${esc(h.detail)}</span></div><span class="small">${esc(h.date)}</span></div>`).join("") || `<p class="muted">No hay actividad.</p>`}
+</div>
+`;
+}
+
+function historyPage(){
+return `
+<h1>📋 Historial</h1>
+<p class="muted">Check-ins y actividad guardada.</p>
+<div class="card">
+${S.history.map(h=>`<div class="item"><div><b>${esc(h.action)}</b><br><span class="muted">${esc(h.detail)}</span></div><span class="small">${esc(h.date)}</span></div>`).join("") || `<p class="muted">No hay actividad.</p>`}
+</div>
+`;
+}
+
+const PLANS=[
+{name:"Básico",price:"2,99 €",features:["Perfil personal","Personas de confianza","Check-in diario","Estado de bienestar","Avisos de ayuda","Historial básico"]},
+{name:"Familia",price:"6,99 €",features:["Todo lo del plan Básico","Mensajes con personas vinculadas","Zona familiar","Recomendaciones personalizadas","Invitaciones","Más funciones de acompañamiento"]},
+{name:"Cerca",price:"12,99 €",features:["Todo lo del plan Familia","Funciones avanzadas","Privacidad avanzada","Historial ampliado","Más opciones de seguimiento","Funciones futuras de SerCerca"]}
+];
+
+function hasFeature(feature){
+const order={"Básico":1,"Familia":2,"Cerca":3};
+return order[S.plan]>=order[feature];
+}
+
+function plans(){
+return `
+<h1>💳 Planes</h1>
+<p class="muted">Elige el plan que mejor se adapte a ti.</p>
+<div class="alert alert-ok"><b>💳 Pagos reales todavía desactivados</b><br><br>Por ahora puedes elegir cualquier plan para probar cómo funcionará SerCerca. No se realizará ningún cobro.</div>
+<div class="grid g3">
+${PLANS.map(p=>`
+<div class="card ${S.plan===p.name ?"plan current":"plan"}">
+${S.plan===p.name ? `<span class="pill">ACTUAL</span>`:""}
+<h2>${p.name}</h2>
+<div class="price">${p.price}</div>
+<p class="muted">por mes</p>
+<hr>
+${p.features.map(f=>`<div class="plan-feature"><span class="check">✓</span>${f}</div>`).join("")}
+<div class="plan-note">${p.name==="Básico" ?"Perfecto para empezar.":p.name==="Familia" ?"Más herramientas para acompañar a un familiar.":"El plan más completo de SerCerca."}</div>
+<button class="btn ${S.plan===p.name ?"light":"primary"} block" onclick="choosePlan('${p.name}')">${S.plan===p.name ?"Plan actual":"Elegir plan"}</button>
+</div>
+`).join("")}
+</div>
+`;
+}
+
+async function choosePlan(plan){
+const valid=PLANS.some(p=>p.name===plan);
+if(!valid) return;
+if(S.plan===plan){
+toast("💳 Este ya es tu plan.");
+return;
+}
+const previous=S.plan;
+S.plan=plan;
+history("Plan cambiado",`${previous} → ${plan}`);
+save();
+await saveCloudProfile();
+render();
+toast(`💳 Plan ${plan} seleccionado.`);
+}
+
+function settings(){
+return `
+<h1>⚙️ Configuración</h1>
+<div class="grid g2">
+<div class="card">
+<h2>👤 Perfil</h2>
+<div class="fg"><label>Nombre</label><input id="sname" value="${esc(S.profile.name)}"></div>
+<div class="fg"><label>Teléfono</label><input id="sphone" value="${esc(S.profile.phone)}"></div>
+<div class="fg"><label>Ciudad</label><input id="scity" value="${esc(S.profile.city)}"></div>
+<button class="btn primary" onclick="saveProfile()">💾 Guardar</button>
+</div>
+<div class="card">
+<h2>🔐 Privacidad</h2>
+${privacySwitch("checkin","💚 Check-in","Compartir check-ins")}
+${privacySwitch("wellness","🌷 Bienestar","Compartir estado")}
+${privacySwitch("activity","🚶 Actividades","Compartir actividades")}
+</div>
+<div class="card">
+<h2>🔔 Notificaciones</h2>
+<div class="item">
+<div><b>Avisos</b><br><span class="muted small">Mostrar notificaciones de SerCerca</span></div>
+<button class="switch ${S.settings.notifications ?"on":""}" onclick="toggleNotifications()"></button>
+</div>
+</div>
+<div class="card">
+<h2>💳 Tu plan</h2>
+<p><span class="pill">${esc(S.plan)}</span></p>
+<button class="btn secondary" onclick="go('plans')">Ver planes</button>
+</div>
+</div>
+`;
+}
+
+function privacySwitch(key,title,text){
+return `
+<div class="item">
+<div><b>${title}</b><br><span class="muted small">${text}</span></div>
+<button class="switch ${S.sharing[key] ?"on":""}" onclick="toggleShare('${key}')"></button>
+</div>
+`;
+}
+
+function setting(key,title,text){
+return privacySwitch(key,title,text);
+}
+
+function toggleShare(key){
+S.sharing[key]=!S.sharing[key];
+save();
+render();
+}
+
+function toggleNotifications(){
+S.settings.notifications=!S.settings.notifications;
+save();
+render();
+}
+
+async function saveProfile(){
+S.profile.name=document.getElementById("sname").value.trim();
+S.profile.phone=document.getElementById("sphone").value.trim();
+S.profile.city=document.getElementById("scity").value.trim();
+S.user.name=S.profile.name;
+history("Perfil actualizado",S.profile.name);
+save();
+await saveCloudProfile();
+render();
+toast("💾 Guardado.");
+}
+
+function trial(){
+const start=new Date();
+const end=new Date(start.getTime()+14*24*60*60*1000);
+S.trial={active:true,start:start.toISOString(),end:end.toISOString()};
+history("Prueba gratuita","14 días");
+save();
+toast("🎁 Prueba de 14 días activada.");
+render();
+}
+
+async function logout(){
+try{
+if(auth) await signOut(auth);
+}catch(error){
+console.error(error);
+}
+S.logged=false;
+S.onboarding=false;
+S.page="home";
+S.messages=[];
+messagesListenerStarted=false;
+save();
+render();
+}
+
+function render(){
+let html;
+if(!S.logged){
+html=welcome();
+}else if(S.onboarding){
+html=onboarding();
+}else{
+html=app();
+}
+document.getElementById("app").innerHTML=html;
+}
+
+render();
+
+</script>
+</body>
+</html>
 
