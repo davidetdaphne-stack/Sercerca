@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#315c9b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+
 <title>SerCerca</title>
 
 <style>
@@ -26,7 +27,10 @@ body{
   overflow-x:hidden;
 }
 
-button,input,select,textarea{
+button,
+input,
+select,
+textarea{
   font:inherit;
 }
 
@@ -300,6 +304,7 @@ h3{
   text-align:left;
   border:2px solid #dfe5ee;
   background:white;
+  color:#172033;
   border-radius:16px;
   padding:18px;
   margin:6px 0;
@@ -421,7 +426,6 @@ h3{
   font-weight:bold;
   font-size:12px;
 }
-
 .plan.current{
   border:2px solid #315c9b;
 }
@@ -560,6 +564,11 @@ hr{
   color:#667085;
 }
 
+.error-box{
+  max-width:650px;
+  margin:60px auto;
+}
+
 @media(max-width:900px){
 
   .header{
@@ -649,15 +658,25 @@ hr{
 
 /* =========================================================
    SER CERCA
-   VERSIÓN CORREGIDA
+   VERSIÓN COMPLETA Y PROTEGIDA
 ========================================================= */
 
-const KEY="sercerca_v5";
+"use strict";
+
+const KEY="sercerca_v6";
+
+/* =========================================================
+   ESTADO INICIAL
+========================================================= */
 
 const DEFAULT={
+
   logged:false,
+
   onboarding:true,
+
   step:1,
+
   page:"home",
 
   user:{
@@ -674,7 +693,7 @@ const DEFAULT={
     notes:""
   },
 
-  role:"",
+  role:"user",
 
   contacts:[],
 
@@ -691,7 +710,6 @@ const DEFAULT={
     last:"",
     questionIndex:0
   },
-
   sharing:{
     checkin:true,
     wellness:true,
@@ -712,95 +730,26 @@ const DEFAULT={
     activity:true,
     location:false
   }
+
 };
 
 let S=load();
-/* =========================================================
-   DATOS
-========================================================= */
-
-function copy(x){
-  return JSON.parse(JSON.stringify(x));
-}
-
-function load(){
-
-  try{
-
-    const saved=localStorage.getItem(KEY);
-
-    if(!saved){
-      return copy(DEFAULT);
-    }
-
-    const data=JSON.parse(saved);
-
-    return merge(copy(DEFAULT),data);
-
-  }catch(error){
-
-    console.error("Error cargando datos:",error);
-
-    return copy(DEFAULT);
-
-  }
-
-}
-
-function merge(base,data){
-
-  Object.keys(data||{}).forEach(key=>{
-
-    if(
-      data[key] &&
-      typeof data[key]==="object" &&
-      !Array.isArray(data[key])
-    ){
-
-      base[key]={
-        ...(base[key]||{}),
-        ...data[key]
-      };
-
-    }else{
-
-      base[key]=data[key];
-
-    }
-
-  });
-
-  return base;
-
-}
-
-function save(){
-
-  try{
-
-    localStorage.setItem(
-      KEY,
-      JSON.stringify(S)
-    );
-
-  }catch(error){
-
-    console.error("Error guardando:",error);
-
-    toast("No se pudieron guardar los cambios.");
-
-  }
-
-}
-
 
 /* =========================================================
    UTILIDADES
 ========================================================= */
 
+function copy(obj){
+
+  return JSON.parse(
+    JSON.stringify(obj)
+  );
+
+}
+
 function esc(value){
 
-  return String(value??"")
+  return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -811,97 +760,228 @@ function esc(value){
 
 function time(){
 
-  return new Date().toLocaleString(
-    "es-ES",
-    {
-      dateStyle:"short",
-      timeStyle:"short"
-    }
-  );
+  try{
+
+    return new Date().toLocaleString(
+      "es-ES",
+      {
+        dateStyle:"short",
+        timeStyle:"short"
+      }
+    );
+
+  }catch(e){
+
+    return new Date().toLocaleString();
+
+  }
 
 }
 
 function initials(name){
 
-  const result=(name||"?")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
+  const words=
+    String(name||"")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+  if(!words.length){
+    return "SC";
+  }
+
+  return words
+    .slice(0,2)
     .map(x=>x[0])
     .join("")
-    .substring(0,2)
     .toUpperCase();
 
-  return result||"?";
-
 }
 
-function toast(text){
+/* =========================================================
+   CARGA SEGURA
+========================================================= */
 
-  document
-    .querySelectorAll(".toast")
-    .forEach(x=>x.remove());
+function load(){
 
-  const t=document.createElement("div");
+  try{
 
-  t.className="toast";
-  t.textContent=text;
+    const raw=
+      localStorage.getItem(KEY);
 
-  document.body.appendChild(t);
+    if(!raw){
 
-  setTimeout(()=>{
-    if(t.parentNode){
-      t.remove();
+      return copy(DEFAULT);
+
     }
-  },2800);
 
-}
+    const saved=
+      JSON.parse(raw);
 
-function addHistory(action,detail=""){
+    return normalize(
+      saved
+    );
 
-  if(!S.settings.activity){
-    return;
+  }catch(error){
+
+    console.warn(
+      "No se pudieron cargar los datos:",
+      error
+    );
+
+    return copy(DEFAULT);
+
   }
 
-  S.history.unshift({
-    id:Date.now()+Math.random(),
-    action,
-    detail,
-    date:time()
-  });
-
-  S.history=S.history.slice(0,150);
-
 }
 
-function addNotification(text,type="info",target=""){
+/* =========================================================
+   NORMALIZACIÓN
+========================================================= */
 
-  if(!S.settings.notifications){
-    return;
+function normalize(data){
+
+  const base=copy(DEFAULT);
+
+  if(!data || typeof data!=="object"){
+    return base;
   }
 
-  S.notifications.unshift({
+  const result={
+    ...base,
+    ...data
+  };
 
-    id:Date.now()+Math.random(),
+  result.user={
+    ...base.user,
+    ...(data.user||{})
+  };
 
-    text,
+  result.profile={
+    ...base.profile,
+    ...(data.profile||{})
+  };
 
-    type,
+  result.wellness={
+    ...base.wellness,
+    ...(data.wellness||{})
+  };
 
-    target,
+  result.wellness.answers={
+    ...base.wellness.answers,
+    ...((data.wellness&&data.wellness.answers)||{})
+  };
 
-    date:time(),
+  result.sharing={
+    ...base.sharing,
+    ...(data.sharing||{})
+  };
 
-    read:false
+  result.trial={
+    ...base.trial,
+    ...(data.trial||{})
+  };
 
-  });
+  result.settings={
+    ...base.settings,
+    ...(data.settings||{})
+  };
 
-  S.notifications=
-    S.notifications.slice(0,100);
+  result.contacts=
+    Array.isArray(data.contacts)
+    ?data.contacts
+    :[];
+
+  result.notifications=
+    Array.isArray(data.notifications)
+    ?data.notifications
+    :[];
+
+  result.messages=
+    Array.isArray(data.messages)
+    ?data.messages
+    :[];
+
+  result.history=
+    Array.isArray(data.history)
+    ?data.history
+    :[];
+
+  if(!Number.isFinite(Number(result.step))){
+    result.step=1;
+  }
+
+  result.step=
+    Math.max(
+      1,
+      Math.min(
+        7,
+        Number(result.step)
+      )
+    );
+
+  if(!result.page){
+    result.page="home";
+  }
+
+  if(!result.plan){
+    result.plan="Básico";
+  }
+
+  return result;
 
 }
+/* =========================================================
+   GUARDADO SEGURO
+========================================================= */
+
+function save(){
+
+  try{
+
+    localStorage.setItem(
+      KEY,
+      JSON.stringify(S)
+    );
+
+    return true;
+
+  }catch(error){
+
+    console.error(
+      "No se pudo guardar:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
 
 function go(page){
+
+  const allowed=[
+
+    "home",
+    "checkin",
+    "people",
+    "messages",
+    "family",
+    "notifications",
+    "history",
+    "plans",
+    "settings"
+
+  ];
+
+  if(!allowed.includes(page)){
+    page="home";
+  }
 
   S.page=page;
 
@@ -916,16 +996,201 @@ function go(page){
 
 }
 
+/* =========================================================
+   ROL
+========================================================= */
+
+function role(){
+
+  return S.role||"user";
+
+}
+
+function setRole(value){
+
+  const allowed=[
+    "user",
+    "family"
+  ];
+
+  S.role=
+    allowed.includes(value)
+    ?value
+    :"user";
+
+  save();
+
+  render();
+
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer=null;
+
+function toast(message){
+
+  const old=
+    document.querySelector(".toast");
+
+  if(old){
+    old.remove();
+  }
+
+  const el=
+    document.createElement("div");
+
+  el.className="toast";
+
+  el.textContent=message;
+
+  document.body.appendChild(el);
+
+  clearTimeout(toastTimer);
+
+  toastTimer=
+    setTimeout(()=>{
+      el.remove();
+    },3500);
+
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function modal(title,content){
+
+  const old=
+    document.getElementById("modal");
+
+  if(old){
+    old.remove();
+  }
+
+  const wrapper=
+    document.createElement("div");
+
+  wrapper.id="modal";
+
+  wrapper.className="modal";
+
+  wrapper.innerHTML=`
+
+    <div
+      class="modal-box"
+      role="dialog"
+      aria-modal="true">
+
+      <div
+        class="row between"
+        style="margin-bottom:15px">
+
+        <h2>${esc(title)}</h2>
+
+        <button
+          type="button"
+          class="btn light"
+          aria-label="Cerrar"
+          onclick="close()">
+
+          ✕
+
+        </button>
+
+      </div>
+
+      ${content}
+
+    </div>
+
+  `;
+
+  document.body.appendChild(wrapper);
+
+}
+
+function close(){
+
+  const modalEl=
+    document.getElementById("modal");
+
+  if(modalEl){
+    modalEl.remove();
+  }
+
+}
+
+/* =========================================================
+   HISTORIAL
+========================================================= */
+
+function addHistory(action,detail){
+
+  if(!S.settings.activity){
+    return;
+  }
+
+  S.history.unshift({
+
+    id:Date.now()+Math.random(),
+
+    action:String(action||""),
+
+    detail:String(detail||""),
+
+    date:time()
+
+  });
+
+  S.history=
+    S.history.slice(0,100);
+
+}
+
+/* =========================================================
+   AVISOS
+========================================================= */
+
+function addNotification(text,type,targetId){
+
+  if(!S.settings.notifications){
+    return;
+  }
+
+  S.notifications.unshift({
+
+    id:Date.now()+Math.random(),
+
+    text:String(text||""),
+
+    type:type||"general",
+
+    target:targetId||null,
+
+    read:false,
+
+    date:time()
+
+  });
+
+  S.notifications=
+    S.notifications.slice(0,100);
+
+}
 function markNotificationsRead(){
 
-  S.notifications.forEach(n=>{
-    n.read=true;
-  });
+  S.notifications.forEach(
+    n=>{
+      n.read=true;
+    }
+  );
 
   save();
 
 }
-
 
 /* =========================================================
    BIENVENIDA
@@ -937,425 +1202,79 @@ function welcome(){
 
     <main>
 
-      <section class="hero">
+      <div class="hero">
 
-        <span class="badge">
-          🌷 Tranquilidad y acompañamiento
-        </span>
+        <div class="logo"
+          style="margin:auto;width:70px;height:70px;font-size:35px">
 
-        <h1>SerCerca</h1>
-
-        <p>
-          Una aplicación para mantener cerca
-          a las personas que quieres,
-          respetando su autonomía.
-        </p>
-
-        <div
-          class="actions"
-          style="justify-content:center">
-
-          <button
-            type="button"
-            class="btn primary"
-            onclick="register()">
-
-            📝 Crear cuenta
-
-          <button
-  type="button"
-  class="choice"
-  onclick="role('family',this)">
-
-
-/* =========================================================
-   REGISTRO
-========================================================= */
-
-function register(){
-
-  S.role="";
-
-  modal(
-    "📝 Crear cuenta",
-
-    `
-
-    <form onsubmit="create(event)">
-
-      <div class="fg">
-
-        <label for="rname">
-          Nombre
-        </label>
-
-        <input
-          id="rname"
-          autocomplete="name"
-          required>
-
-      </div>
-
-      <div class="fg">
-
-        <label for="remail">
-          Correo
-        </label>
-
-        <input
-          id="remail"
-          type="email"
-          autocomplete="email"
-          required>
-
-      </div>
-      <div class="fg">
-
-        <label for="rpass">
-          Contraseña
-        </label>
-
-        <input
-          id="rpass"
-          type="password"
-          minlength="6"
-          autocomplete="new-password"
-          required>
-
-        <div class="small muted">
-          Mínimo 6 caracteres.
+          ♥
         </div>
 
-      </div>
-
-      <div class="fg">
-
-        <label>
-          ¿Para quién es?
-        </label>
-
-        <button
-          type="button"
-          class="choice"
-          onclick="role('elder',this)">
-
-          <span class="emoji">👵</span>
-
-          <b>Para mí</b>
-
-          <br>
-
-          <span class="muted">
-            Soy la persona que utilizará SerCerca.
-          </span>
-
-        </button>
-
-        <button
-          type="button"
-          class="choice"
-          onclick="role('family',this)">
-
-          <span class="emoji">👨‍👩‍👧</span>
-
-          <b>Para mi familiar</b>
-
-          <br>
-
-          <span class="muted">
-            Quiero acompañar a un familiar.
-          </span>
-
-        </button>
-
-      </div>
-
-      <label>
-
-        <input
-          id="terms"
-          type="checkbox"
-          required>
-
-        Acepto las condiciones.
-
-      </label>
-
-      <br><br>
-
-      <button
-        type="submit"
-        class="btn primary block">
-
-        Crear cuenta
-
-      </button>
-
-    </form>
-
-    `
-  );
-
-}
-
-
-
-function create(event){
-
-  event.preventDefault();
-
-  const name=
-    document.getElementById("rname")
-    ?.value.trim();
-
-  const email=
-    document.getElementById("remail")
-    ?.value.trim()
-    .toLowerCase();
-
-  const password=
-    document.getElementById("rpass")
-    ?.value;
-
-  if(!name || !email || !password){
-function role(r,b){
-
-  // Guardar inmediatamente la opción elegida
-  S.role = r;
-
-  // Quitar la selección anterior
-  document
-    .querySelectorAll(".choice")
-    .forEach(x => {
-      x.classList.remove("selected");
-      x.setAttribute("aria-pressed","false");
-    });
-
-  // Marcar la opción pulsada
-  if(b){
-    b.classList.add("selected");
-    b.setAttribute("aria-pressed","true");
-  }
-
-  // Guardar el cambio
-  save();
-
-    }
-    toast("Completa todos los campos.");
-
-    return;
-
-  }
-
-  if(password.length<6){
-
-    toast("La contraseña debe tener al menos 6 caracteres.");
-
-    return;
-
-  }
-
-  if(!S.role){
-
-    toast("Selecciona para quién es SerCerca.");
-
-    return;
-
-  }
-
-  S.user={
-    name,
-    email,
-    password
-  };
-
-  S.profile.name=name;
-  S.profile.email=email;
-
-  S.logged=true;
-  S.onboarding=true;
-  S.step=1;
-  S.page="home";
-
-  addHistory(
-    "Cuenta creada",
-    "Configuración inicial"
-  );
-
-  close();
-
-  save();
-
-  render();
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-function login(){
-
-  modal(
-    "🔐 Iniciar sesión",
-
-    `
-
-    <form onsubmit="enter(event)">
-
-      <div class="fg">
-
-        <label for="lemail">
-          Correo
-        </label>
-
-        <input
-          id="lemail"
-          type="email"
-          autocomplete="email"
-          required>
-
-      </div>
-
-      <div class="fg">
-
-        <label for="lpass">
-          Contraseña
-        </label>
-
-        <input
-          id="lpass"
-          type="password"
-          autocomplete="current-password"
-          required>
-
-      </div>
-
-      <button
-        type="submit"
-        class="btn primary block">
-
-        Entrar
-
-      </button>
-
-    </form>
-
-    `
-  );
-
-}
-
-function enter(event){
-
-  event.preventDefault();
-
-  const email=
-    document.getElementById("lemail")
-    ?.value.trim()
-    .toLowerCase();
-
-  const pass=
-    document.getElementById("lpass")
-    ?.value;
-
-  if(!S.user.email){
-
-    toast(
-      "No existe ninguna cuenta en este navegador. Crea una cuenta primero."
-    );
-
-    return;
-
-  }
-
-  if(
-    email!==S.user.email ||
-    pass!==S.user.password
-  ){
-
-    toast("Correo o contraseña incorrectos.");
-
-    return;
-
-  }
-
-  S.logged=true;
-
-  if(S.step>=7){
-    S.onboarding=false;
-  }
-
-  close();
-
-  save();
-
-  render();
-
-  toast("👋 Has iniciado sesión.");
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function modal(title,content){
-
-  close();
-
-  document.body.insertAdjacentHTML(
-    "beforeend",
-
-    `
-
-    <div
-      class="modal"
-      id="modal"
-      role="dialog"
-      aria-modal="true">
-
-      <div class="modal-box">
-
-        <div class="row between">
-
-          <h2>${esc(title)}</h2>
+        <h1>
+          SerCerca
+        </h1>
+
+        <p>
+          Estar cerca sin quitar autonomía.
+        </p>
+
+        <p>
+          Una forma sencilla de mantener
+          el contacto con las personas
+          que tú eliges.
+        </p>
+
+        <div class="card">
+
+          <h2>
+            ❤️ Bienvenido/a
+          </h2>
+
+          <p class="muted">
+            Vamos a preparar tu cuenta paso a paso.
+          </p>
 
           <button
             type="button"
-            class="btn light"
-            onclick="close()"
-            aria-label="Cerrar">
+            class="btn primary block"
+            onclick="startApp()">
 
-            ✕
+            🚀 Empezar
 
           </button>
 
         </div>
 
-        <hr>
+        <div class="small muted">
 
-        ${content}
+          Tus datos de esta versión
+          se guardan en este navegador.
+
+        </div>
 
       </div>
 
-    </div>
+    </main>
 
-    `
-  );
-
-}
-
-function close(){
-
-  document
-    .getElementById("modal")
-    ?.remove();
+  `;
 
 }
 
+function startApp(){
+
+  S.logged=true;
+
+  S.onboarding=true;
+
+  S.step=1;
+
+  S.page="home";
+
+  save();
+
+  render();
+
+}
 
 /* =========================================================
    ONBOARDING
@@ -1378,8 +1297,9 @@ function onboarding(){
 
           <br><br>
 
-          SerCerca te ayuda a mantener el contacto
-          con las personas que tú elijas.
+          SerCerca te ayuda a mantener
+          el contacto con las personas
+          que tú elijas.
 
         </div>
 
@@ -1399,6 +1319,7 @@ function onboarding(){
 
           <input
             id="pname"
+            autocomplete="name"
             value="${esc(S.profile.name)}">
 
         </div>
@@ -1412,6 +1333,7 @@ function onboarding(){
           <input
             id="pphone"
             type="tel"
+            autocomplete="tel"
             value="${esc(S.profile.phone)}">
 
         </div>
@@ -1430,6 +1352,7 @@ function onboarding(){
 
       `
     },
+
     {
       title:"❤️ Personas de confianza",
       text:"Añade a las personas que quieres tener cerca.",
@@ -1477,13 +1400,14 @@ function onboarding(){
         </div>
 
         <div class="small muted">
+
           Si no quieres añadirla ahora,
           puedes dejarlo vacío y continuar.
+
         </div>
 
       `
     },
-
     {
       title:"🔗 Vinculación",
       text:"Puedes vincular a la persona.",
@@ -1519,7 +1443,7 @@ function onboarding(){
               <button
                 type="button"
                 class="btn secondary"
-                onclick="linkContact(${c.id})">
+                onclick="linkContact(${JSON.stringify(c.id)})">
 
                 ${
                   c.linked
@@ -1605,11 +1529,82 @@ function onboarding(){
           ?
           `
           <div class="alert alert-ok">
+
             🎁 Tu prueba está activada.
+
           </div>
           `
           :""
         }
+
+      `
+    },
+
+    {
+      title:"👥 ¿Quién eres?",
+      text:"Elige cómo quieres utilizar SerCerca.",
+      content:`
+
+        <div class="grid g2">
+
+          <button
+            type="button"
+            class="choice"
+            onclick="setRole('user')">
+
+            <span class="emoji">
+              👤
+            </span>
+
+            <b>
+              Soy la persona que utiliza SerCerca
+            </b>
+
+            <br>
+
+            <span class="muted">
+              Quiero mantener mi autonomía
+              y decidir qué compartir.
+            </span>
+
+          </button>
+
+          <button
+            type="button"
+            class="choice"
+            onclick="setRole('family')">
+
+            <span class="emoji">
+              👨‍👩‍👧
+            </span>
+
+            <b>
+              Soy familiar o persona de confianza
+            </b>
+
+            <br>
+
+            <span class="muted">
+              Quiero acompañar a una persona
+              que me ha elegido.
+            </span>
+
+          </button>
+
+        </div>
+
+        <div class="notice">
+
+          Rol actual:
+          <b>
+            ${
+              role()==="family"
+              ?"Persona de confianza"
+              :"Usuario/a"
+            }
+          </b>
+
+        </div>
 
       `
     },
@@ -1622,27 +1617,45 @@ function onboarding(){
         <div class="grid g3">
 
           <div class="stat">
+
             ❤️
-            <b>Confianza</b>
+
+            <b>
+              Confianza
+            </b>
+
             <span class="muted">
               Personas elegidas por ti.
             </span>
+
           </div>
 
           <div class="stat">
+
             💚
-            <b>Check-in</b>
+
+            <b>
+              Check-in
+            </b>
+
             <span class="muted">
               Seguimiento diario.
             </span>
+
           </div>
 
           <div class="stat">
+
             🔐
-            <b>Privacidad</b>
+
+            <b>
+              Privacidad
+            </b>
+
             <span class="muted">
               Tú decides qué compartir.
             </span>
+
           </div>
 
         </div>
@@ -1652,10 +1665,14 @@ function onboarding(){
 
   ];
 
-  const step=Math.min(
-    Math.max(S.step,1),
-    steps.length
-  );
+  const step=
+    Math.min(
+      Math.max(
+        Number(S.step)||1,
+        1
+      ),
+      steps.length
+    );
 
   const x=steps[step-1];
 
@@ -1668,7 +1685,9 @@ function onboarding(){
         style="max-width:720px;margin:20px auto">
 
         <div class="small">
+
           PASO ${step} DE ${steps.length}
+
         </div>
 
         <div class="progress">
@@ -1679,7 +1698,9 @@ function onboarding(){
 
         </div>
 
-        <h1>${x.title}</h1>
+        <h1>
+          ${x.title}
+        </h1>
 
         <p class="muted">
           ${x.text}
@@ -1727,61 +1748,77 @@ function onboarding(){
   `;
 
 }
-
 function nextSetup(){
 
-  if(S.step===2){
+  const step=
+    Number(S.step)||1;
+
+  if(step===2){
 
     const name=
       document.getElementById("pname")
-      ?.value.trim();
+      ?.value.trim()||"";
 
     const phone=
       document.getElementById("pphone")
-      ?.value.trim();
+      ?.value.trim()||"";
 
     const city=
       document.getElementById("pcity")
-      ?.value.trim();
+      ?.value.trim()||"";
 
-    if(name){
-      S.profile.name=name;
-      S.user.name=name;
+    if(!name){
+
+      toast("Escribe tu nombre.");
+
+      return;
+
     }
 
+    S.profile.name=name;
+
+    S.user.name=name;
+
     S.profile.phone=phone;
+
     S.profile.city=city;
 
     save();
 
   }
 
-  if(S.step===3){
+  if(step===3){
 
     const name=
       document.getElementById("cname")
-      ?.value.trim();
+      ?.value.trim()||"";
 
     const email=
       document.getElementById("cemail")
-      ?.value.trim();
+      ?.value.trim()||"";
 
     const relation=
       document.getElementById("crelation")
-      ?.value;
+      ?.value||"Otro familiar";
 
     if(name){
 
-      const exists=S.contacts.some(
-        c=>
-          c.name.toLowerCase()===name.toLowerCase()
-      );
+      const exists=
+        S.contacts.some(
+          c=>
+            String(c.name)
+              .toLowerCase()
+            ===
+            name.toLowerCase()
+        );
 
       if(!exists){
 
         S.contacts.push({
 
-          id:Date.now()+Math.random(),
+          id:
+            Date.now()+
+            Math.random(),
 
           name,
 
@@ -1804,9 +1841,10 @@ function nextSetup(){
 
   }
 
-  if(S.step===7){
+  if(step===7){
 
     S.onboarding=false;
+
     S.page="home";
 
     addHistory(
@@ -1818,13 +1856,15 @@ function nextSetup(){
 
     render();
 
-    toast("❤️ Bienvenido a SerCerca.");
+    toast(
+      "❤️ Bienvenido/a a SerCerca."
+    );
 
     return;
 
   }
 
-  S.step++;
+  S.step=step+1;
 
   save();
 
@@ -1834,9 +1874,12 @@ function nextSetup(){
 
 function backSetup(){
 
-  if(S.step>1){
+  const step=
+    Number(S.step)||1;
 
-    S.step--;
+  if(step>1){
+
+    S.step=step-1;
 
     save();
 
@@ -1845,7 +1888,6 @@ function backSetup(){
   }
 
 }
-
 
 /* =========================================================
    APP
@@ -1869,40 +1911,76 @@ function app(){
 
         <nav class="nav">
 
-          <button type="button" onclick="go('home')">
+          <button
+            type="button"
+            onclick="go('home')">
+
             🏠 Inicio
+
           </button>
 
-          <button type="button" onclick="go('checkin')">
+          <button
+            type="button"
+            onclick="go('checkin')">
+
             💚 Check-in
+
           </button>
 
-          <button type="button" onclick="go('people')">
+          <button
+            type="button"
+            onclick="go('people')">
+
             ❤️ Personas
+
           </button>
 
-          <button type="button" onclick="go('messages')">
+          <button
+            type="button"
+            onclick="go('messages')">
+
             💌 Mensajes
+
           </button>
 
-          <button type="button" onclick="go('family')">
+          <button
+            type="button"
+            onclick="go('family')">
+
             👨‍👩‍👧 Familia
+
           </button>
 
-          <button type="button" onclick="go('notifications')">
+          <button
+            type="button"
+            onclick="go('notifications')">
+
             🔔 Avisos
+
           </button>
 
-          <button type="button" onclick="go('history')">
+          <button
+            type="button"
+            onclick="go('history')">
+
             📋 Historial
+
           </button>
 
-          <button type="button" onclick="go('plans')">
+          <button
+            type="button"
+            onclick="go('plans')">
+
             💳 Planes
+
           </button>
 
-          <button type="button" onclick="go('settings')">
+          <button
+            type="button"
+            onclick="go('settings')">
+
             ⚙️
+
           </button>
 
         </nav>
@@ -1927,12 +2005,15 @@ function app(){
     </main>
 
     <div class="footer">
+
       SerCerca · Cerca sin quitar autonomía ❤️
+
     </div>
 
   `;
 
 }
+
 /* =========================================================
    ROUTER
 ========================================================= */
@@ -1971,8 +2052,6 @@ function router(){
   }
 
 }
-
-
 /* =========================================================
    HOME
 ========================================================= */
@@ -1980,7 +2059,9 @@ function router(){
 function home(){
 
   const unread=
-    S.notifications.filter(x=>!x.read).length;
+    S.notifications.filter(
+      x=>!x.read
+    ).length;
 
   return `
 
@@ -1989,7 +2070,14 @@ function home(){
       <div>
 
         <h1>
-          🏠 Hola, ${esc(S.profile.name||S.user.name)}
+
+          🏠 Hola,
+          ${esc(
+            S.profile.name||
+            S.user.name||
+            "bienvenido/a"
+          )}
+
         </h1>
 
         <p class="muted">
@@ -1999,7 +2087,9 @@ function home(){
       </div>
 
       <span class="pill">
+
         ${esc(S.plan)}
+
       </span>
 
     </div>
@@ -2007,11 +2097,20 @@ function home(){
     <div class="grid g4">
 
       <div class="stat">
+
         💚
-        <span>Estado</span>
+
+        <span>
+          Estado
+        </span>
 
         <b>
-          ${esc(S.wellness.status||"Sin registrar")}
+
+          ${esc(
+            S.wellness.status||
+            "Sin registrar"
+          )}
+
         </b>
 
       </div>
@@ -2023,7 +2122,9 @@ function home(){
 
         ❤️
 
-        <span>Personas</span>
+        <span>
+          Personas
+        </span>
 
         <b>
           ${S.contacts.length}
@@ -2038,7 +2139,9 @@ function home(){
 
         📋
 
-        <span>Actividad</span>
+        <span>
+          Actividad
+        </span>
 
         <b>
           ${S.history.length}
@@ -2053,7 +2156,9 @@ function home(){
 
         🔔
 
-        <span>Avisos</span>
+        <span>
+          Avisos
+        </span>
 
         <b>
           ${unread}
@@ -2067,7 +2172,9 @@ function home(){
 
       <div class="card">
 
-        <h2>💚 ¿Cómo estás?</h2>
+        <h2>
+          💚 ¿Cómo estás?
+        </h2>
 
         <p class="muted">
           Haz tu check-in diario.
@@ -2086,7 +2193,9 @@ function home(){
 
       <div class="card">
 
-        <h2>🆘 ¿Necesitas ayuda?</h2>
+        <h2>
+          🆘 ¿Necesitas ayuda?
+        </h2>
 
         <p class="muted">
           Envía un aviso a tus personas de confianza.
@@ -2107,11 +2216,15 @@ function home(){
 
     <div class="card">
 
-      <h2>🌷 Tu día</h2>
+      <h2>
+        🌷 Tu día
+      </h2>
 
       <p class="muted">
-        SerCerca también puede ayudarte a encontrar
-        algo que te apetezca hacer.
+
+        SerCerca también puede ayudarte
+        a encontrar algo que te apetezca hacer.
+
       </p>
 
       <button
@@ -2130,7 +2243,9 @@ function home(){
       ?
       `
       <div class="notice">
+
         🎁 Tienes activa tu prueba gratuita.
+
       </div>
       `
       :""
@@ -2139,7 +2254,6 @@ function home(){
   `;
 
 }
-
 
 /* =========================================================
    CHECK-IN
@@ -2274,1788 +2388,933 @@ const QUESTIONS=[
   }
 
 ];
-function startCheckin(){
-
-  S.wellness.questionIndex=0;
-  S.wellness.answers={};
-  S.wellness.activity="";
-
-  S.page="checkin";
-
+function startCheckin() {
+  S.wellness.questionIndex = 0;
+  S.wellness.answers = {};
+  S.wellness.activity = "";
+  S.page = "checkin";
   save();
-
   render();
-
 }
 
-function checkin(){
+function checkin() {
+  const total = QUESTIONS.length;
+  const index = Math.max(0, Number(S.wellness.questionIndex) || 0);
 
-  const total=QUESTIONS.length;
-
-  const index=
-    Number(S.wellness.questionIndex)||0;
-
-  if(index>=total){
+  if (index >= total) {
     return checkinSummary();
   }
 
-  const q=QUESTIONS[index];
+  const q = QUESTIONS[index];
 
   return `
-
-    <div
-      class="card"
-      style="max-width:750px;margin:auto">
-
+    <div class="card" style="max-width:750px;margin:auto">
       <div class="small">
-        CHECK-IN · ${index+1} DE ${total}
+        CHECK-IN · ${index + 1} DE ${total}
       </div>
-
       <div class="progress">
-
-        <span
-          style="width:${(index+1)/total*100}%">
-        </span>
-
+        <span style="width:${((index + 1) / total) * 100}%"></span>
       </div>
-
       <h1>${q.title}</h1>
-
-      <p class="muted">
-        Pulsa una respuesta para continuar.
-      </p>
-
-      ${q.options.map((o,index)=>`
-
+      <p class="muted">Pulsa una respuesta para continuar.</p>
+      ${q.options
+        .map(
+          (o) => `
         <button
           type="button"
           class="choice"
-          onclick="answer(${JSON.stringify(q.id)},${JSON.stringify(o[1])})">
-
-          <span class="emoji">
-            ${o[0]}
-          </span>
-
+          onclick='answer(${JSON.stringify(q.id)},${JSON.stringify(o[1])})'>
+          <span class="emoji">${o[0]}</span>
           <b>${esc(o[1])}</b>
-
         </button>
-
-      `).join("")}
-
+      `
+        )
+        .join("")}
       <div class="actions">
-
-        <button
-          type="button"
-          class="btn light"
-          onclick="previousQuestion()">
-
+        <button type="button" class="btn light" onclick="previousQuestion()">
           ← Atrás
-
         </button>
-
-        <button
-          type="button"
-          class="btn light"
-          onclick="cancelCheckin()">
-
+        <button type="button" class="btn light" onclick="cancelCheckin()">
           Salir
-
         </button>
-
       </div>
-
     </div>
-
   `;
-
 }
 
-function answer(id,value){
+function answer(id, value) {
+  if (!id) return;
 
-  S.wellness.answers[id]=value;
-
-  if(id==="activity"){
-    S.wellness.activity=value;
+  if (!S.wellness.answers) {
+    S.wellness.answers = {};
   }
 
-  S.wellness.questionIndex=
-    Number(S.wellness.questionIndex||0)+1;
+  S.wellness.answers[id] = value;
 
+  if (id === "activity") {
+    S.wellness.activity = value;
+  }
+
+  S.wellness.questionIndex = Number(S.wellness.questionIndex || 0) + 1;
   save();
-
   render();
-
 }
 
-function previousQuestion(){
+function previousQuestion() {
+  const current = Number(S.wellness.questionIndex) || 0;
 
-  const current=
-    Number(S.wellness.questionIndex)||0;
-
-  if(current>0){
-
-    S.wellness.questionIndex=current-1;
-
+  if (current > 0) {
+    S.wellness.questionIndex = current - 1;
     save();
-
     render();
-
-  }else{
-
+  } else {
     cancelCheckin();
-
   }
-
 }
 
-function cancelCheckin(){
-
-  S.wellness.questionIndex=0;
-  S.wellness.answers={};
-  S.wellness.activity="";
-
+function cancelCheckin() {
+  S.wellness.questionIndex = 0;
+  S.wellness.answers = {};
+  S.wellness.activity = "";
   save();
-
   go("home");
-
 }
-
 
 /* =========================================================
    RESUMEN
 ========================================================= */
 
-function checkinSummary(){
-
-  const a=S.wellness.answers;
-
-  const recommendations=
-    getRecommendations(a);
+function checkinSummary() {
+  const a = S.wellness.answers || {};
+  const recommendations = getRecommendations(a);
 
   return `
-
-    <div
-      class="card"
-      style="max-width:800px;margin:auto">
-
-      <span class="badge">
-        📋 RESUMEN
-      </span>
-
-      <h1>
-        💚 Tu check-in está listo
-      </h1>
-
-      <p class="muted">
-        Antes de terminar, revisa tus respuestas.
-      </p>
-
+    <div class="card" style="max-width:800px;margin:auto">
+      <span class="badge">📋 RESUMEN</span>
+      <h1>💚 Tu check-in está listo</h1>
+      <p class="muted">Antes de terminar, revisa tus respuestas.</p>
       <div class="grid g2">
-
-        ${
-          Object.entries(a).map(
-            ([key,value])=>`
-
+        ${Object.entries(a)
+          .map(
+            ([key, value]) => `
               <div class="item">
-
                 <div>
-
-                  <b>
-                    ${esc(questionName(key))}
-                  </b>
-
-                  <br>
-
-                  <span class="muted">
-                    ${esc(value)}
-                  </span>
-
+                  <b>${esc(questionName(key))}</b><br>
+                  <span class="muted">${esc(value)}</span>
                 </div>
-
                 <span>✓</span>
-
               </div>
-
             `
-          ).join("")
-        }
-
+          )
+          .join("")}
       </div>
-
       <hr>
-
       <h2>💡 Una idea para tu día</h2>
-
-      ${recommendations.map(r=>`
-
+      ${recommendations
+        .map(
+          (r) => `
         <div class="card">
-
-          <div class="emoji">
-            ${r.icon}
-          </div>
-
-          <h3>
-            ${esc(r.title)}
-          </h3>
-
-          <p class="muted">
-            ${esc(r.text)}
-          </p>
-
+          <div class="emoji">${r.icon}</div>
+          <h3>${esc(r.title)}</h3>
+          <p class="muted">${esc(r.text)}</p>
           ${
             r.invite
-            ?
-            `
-            <button
-              type="button"
-              class="btn secondary"
-              onclick="inviteFromRecommendation()">
-
-              💌 Invitar a alguien
-
-            </button>
-            `
-            :""
+              ? `<button type="button" class="btn secondary" onclick="inviteFromRecommendation()">💌 Invitar a alguien</button>`
+              : ""
           }
-
         </div>
-
-      `).join("")}
-
+      `
+        )
+        .join("")}
       <hr>
-
       <div class="alert alert-warn">
-
-        <b>
-          🔐 Compartir con personas de confianza
-        </b>
-
-        <br><br>
-
-        El check-in
-        <b>no se enviará automáticamente</b>.
-
-        <br><br>
-
-        Antes de compartirlo podrás comprobar
-        exactamente quién lo recibirá.
-
+        <b>🔐 Compartir con personas de confianza</b><br><br>
+        El check-in <b>no se enviará automáticamente</b>.<br><br>
+        Antes de compartirlo podrás comprobar exactamente quién lo recibirá.
       </div>
-
       <div class="actions">
-
-        <button
-          type="button"
-          class="btn light"
-          onclick="cancelCheckin()">
-
-          No guardar
-
-        </button>
-
-        <button
-          type="button"
-          class="btn secondary"
-          onclick="saveCheckin(false)">
-
-          💾 Guardar sin compartir
-
-        </button>
-
-        <button
-          type="button"
-          class="btn primary"
-          onclick="confirmShare()">
-
-          💌 Compartir
-
-        </button>
-
+        <button type="button" class="btn light" onclick="cancelCheckin()">No guardar</button>
+        <button type="button" class="btn secondary" onclick="saveCheckin(false)">💾 Guardar sin compartir</button>
+        <button type="button" class="btn primary" onclick="confirmShare()">💌 Compartir</button>
       </div>
-
     </div>
-
   `;
-
 }
 
-function questionName(id){
-
-  const names={
-
-    mood:"Estado de ánimo",
-    sleep:"Sueño",
-    food:"Alimentación",
-    water:"Agua",
-    pain:"Dolor",
-    medicine:"Medicamentos",
-    outside:"Salir de casa",
-    social:"Contacto social",
-    company:"Acompañamiento",
-    need:"Necesidad",
-    activity:"Actividad"
-
+function questionName(id) {
+  const names = {
+    mood: "Estado de ánimo",
+    sleep: "Sueño",
+    food: "Alimentación",
+    water: "Agua",
+    pain: "Dolor",
+    medicine: "Medicamentos",
+    outside: "Salir de casa",
+    social: "Contacto social",
+    company: "Acompañamiento",
+    need: "Necesidad",
+    activity: "Actividad"
   };
 
-  return names[id]||id;
-
+  return names[id] || id;
 }
-
 
 /* =========================================================
    RECOMENDACIONES
 ========================================================= */
 
-function getRecommendations(a){
+function getRecommendations(a) {
+  const list = [];
 
-  const list=[];
-
-  if(a.activity==="Dar un paseo"){
-
+  if (a.activity === "Dar un paseo") {
     list.push({
-      icon:"🚶",
-      title:"Un paseo puede ser un buen plan",
-      text:
-        "Si te apetece, puedes invitar a una amiga o familiar y dar un paseo juntos.",
-      invite:true
+      icon: "🚶",
+      title: "Un paseo puede ser un buen plan",
+      text: "Si te apetece, puedes invitar a una amiga o familiar y dar un paseo juntos.",
+      invite: true
     });
-
   }
 
-  if(a.activity==="Cocinar algo"){
-
+  if (a.activity === "Cocinar algo") {
     list.push({
-      icon:"🍳",
-      title:"¡Vamos a cocinar!",
-      text:
-        "Puedes preparar una receta que te guste.",
-      invite:false
+      icon: "🍳",
+      title: "¡Vamos a cocinar!",
+      text: "Puedes preparar una receta que te guste.",
+      invite: false
     });
-
-  }
-  if(a.activity==="Cuidar mis plantas"){
-
-    list.push({
-      icon:"🌱",
-      title:"Un ratito con tus plantas",
-      text:
-        "Puedes regarlas, quitar hojas secas o preparar una nueva planta.",
-      invite:false
-    });
-
   }
 
-  if(a.activity==="Dibujar o hacer manualidades"){
-
+  if (a.activity === "Cuidar mis plantas") {
     list.push({
-      icon:"🎨",
-      title:"Un momento creativo",
-      text:
-        "Busca algo que tengas por casa y crea algo que te guste.",
-      invite:false
+      icon: "🌱",
+      title: "Un ratito con tus plantas",
+      text: "Puedes regarlas, quitar hojas secas o preparar una nueva planta.",
+      invite: false
     });
-
   }
 
-  if(a.activity==="Leer"){
-
+  if (a.activity === "Dibujar o hacer manualidades") {
     list.push({
-      icon:"📖",
-      title:"Un rato de lectura",
-      text:
-        "Elige un libro, revista o historia que te apetezca leer.",
-      invite:false
+      icon: "🎨",
+      title: "Un momento creativo",
+      text: "Busca algo que tengas por casa y crea algo que te guste.",
+      invite: false
     });
-
   }
 
-  if(a.activity==="Escuchar música"){
-
+  if (a.activity === "Leer") {
     list.push({
-      icon:"🎵",
-      title:"Pon tu música favorita",
-      text:
-        "Puedes escuchar algunas canciones que te hagan sentir bien.",
-      invite:false
+      icon: "📖",
+      title: "Un rato de lectura",
+      text: "Elige un libro, revista o historia que te apetece leer.",
+      invite: false
     });
-
   }
 
-  if(a.activity==="Hablar con alguien"){
-
+  if (a.activity === "Escuchar música") {
     list.push({
-      icon:"💌",
-      title:"Una conversación puede alegrar el día",
-      text:
-        "Puedes escribir o llamar a una persona de confianza.",
-      invite:true
+      icon: "🎵",
+      title: "Pon tu música favorita",
+      text: "Puedes escuchar algunas canciones que te hagan sentir bien.",
+      invite: false
     });
-
   }
 
-  if(a.activity==="Ver a una amiga"){
-
+  if (a.activity === "Hablar con alguien") {
     list.push({
-      icon:"👩‍🦰",
-      title:"¡Un plan con una amiga!",
-      text:
-        "Puedes escribirle y preguntarle si quiere tomar algo o salir contigo.",
-      invite:true
+      icon: "💌",
+      title: "Una conversación puede alegrar el día",
+      text: "Puedes escribir o llamar a una persona de confianza.",
+      invite: true
     });
-
   }
 
-  if(a.activity==="Descansar"){
-
+  if (a.activity === "Ver a una amiga") {
     list.push({
-      icon:"😴",
-      title:"También está bien descansar",
-      text:
-        "Busca un lugar cómodo y tómate un momento tranquilo.",
-      invite:false
+      icon: "👩‍🦰",
+      title: "¡Un plan con una amiga!",
+      text: "Puedes escribirle y preguntarle si quiere tomar algo o salir contigo.",
+      invite: true
     });
-
   }
 
-  if(a.company==="Me siento solo/a"){
-
+  if (a.activity === "Descansar") {
     list.push({
-      icon:"❤️",
-      title:"Hoy podrías contactar con alguien",
-      text:
-        "Si te apetece, escribe a una persona de confianza y cuéntale cómo estás.",
-      invite:true
+      icon: "😴",
+      title: "También está bien descansar",
+      text: "Busca un lugar cómodo y tómate un momento tranquilo.",
+      invite: false
     });
-
   }
 
-  if(!list.length){
-
+  if (a.company === "Me siento solo/a") {
     list.push({
-      icon:"🌷",
-      title:"Haz algo que te guste",
-      text:
-        "Hoy puedes elegir una actividad sencilla que te haga sentir bien.",
-      invite:false
+      icon: "❤️",
+      title: "Hoy podrías contactar con alguien",
+      text: "Si te apetece, escribe a una persona de confianza y cuéntale cómo estás.",
+      invite: true
     });
-
   }
 
-  return list.slice(0,3);
+  if (!list.length) {
+    list.push({
+      icon: "🌷",
+      title: "Haz algo que te guste",
+      text: "Hoy puedes elegir una actividad sencilla que te haga sentir bien.",
+      invite: false
+    });
+  }
 
+  return list.slice(0, 3);
 }
-
 
 /* =========================================================
    GUARDAR CHECK-IN
 ========================================================= */
 
-function saveCheckin(shared){
+function saveCheckin(shared) {
+  const a = { ...(S.wellness.answers || {}) };
 
-  const a={...S.wellness.answers};
+  S.wellness.status = a.mood || "Registrado";
+  S.wellness.last = time();
 
-  S.wellness.status=
-    a.mood||"Registrado";
+  addHistory("Check-in realizado", S.wellness.status);
 
-  S.wellness.last=time();
-
-  addHistory(
-    "Check-in realizado",
-    S.wellness.status
-  );
-
-  if(shared){
+  if (shared) {
     shareCheckin(a);
   }
 
-  S.wellness.questionIndex=0;
-  S.wellness.answers={};
-  S.wellness.activity="";
+  S.wellness.questionIndex = 0;
+  S.wellness.answers = {};
+  S.wellness.activity = "";
 
   save();
-
   go("home");
-
-  toast(
-    shared
-      ?"💌 Check-in compartido."
-      :"💾 Check-in guardado."
-  );
-
+  toast(shared ? "💌 Check-in compartido." : "💾 Check-in guardado.");
 }
-
 
 /* =========================================================
    COMPARTIR CHECK-IN
 ========================================================= */
 
-function confirmShare(){
+function confirmShare() {
+  const contacts = S.contacts.filter((c) => c.linked);
 
-  const contacts=
-    S.contacts.filter(c=>c.linked);
-
-  if(!contacts.length){
-
+  if (!contacts.length) {
     modal(
       "❤️ Personas de confianza",
-
       `
-
       <div class="alert alert-warn">
-
-        Todavía no tienes ninguna persona
-        de confianza vinculada.
-
+        Todavía no tienes ninguna persona de confianza vinculada.
       </div>
-
-      <button
-        type="button"
-        class="btn primary block"
-        onclick="close();go('people')">
-
+      <button type="button" class="btn primary block" onclick="close();go('people')">
         Gestionar personas
-
       </button>
-
       `
     );
-
     return;
-
   }
 
   modal(
-
     "🔐 Confirmar envío",
-
     `
-
-    <h3>
-      💌 Esto se enviará a:
-    </h3>
-
-    ${contacts.map(c=>`
-
+    <h3>💌 Esto se enviará a:</h3>
+    ${contacts
+      .map(
+        (c) => `
       <div class="item">
-
         <div class="row">
-
-          <div class="avatar">
-            ${initials(c.name)}
-          </div>
-
+          <div class="avatar">${initials(c.name)}</div>
           <div>
-
-            <b>${esc(c.name)}</b>
-
-            <br>
-
-            <span class="muted">
-              ${esc(c.relation)}
-            </span>
-
+            <b>${esc(c.name)}</b><br>
+            <span class="muted">${esc(c.relation)}</span>
           </div>
-
         </div>
-
         <span>❤️</span>
-
       </div>
-
-    `).join("")}
-
-    <div class="alert alert-warn">
-
-      <b>Importante</b>
-
-      <br><br>
-
-      Vas a compartir tu resumen de check-in
-      con estas personas.
-
-      <br><br>
-
-      Puedes cancelar ahora si cambias de opinión.
-
-    </div>
-
-    <div class="actions">
-
-      <button
-        type="button"
-        class="btn light"
-        onclick="close()">
-
-        Cancelar
-
-      </button>
-
-      <button
-        type="button"
-        class="btn primary"
-        onclick="close();saveCheckin(true)">
-
-        💌 Sí, enviar
-
-      </button>
-
-    </div>
-
     `
-
+      )
+      .join("")}
+    <div class="alert alert-warn">
+      <b>Importante</b><br><br>
+      Vas a compartir tu resumen de check-in con estas personas.<br><br>
+      Puedes cancelar ahora si cambias de opinión.
+    </div>
+    <div class="actions">
+      <button type="button" class="btn light" onclick="close()">Cancelar</button>
+      <button type="button" class="btn primary" onclick="close();saveCheckin(true)">💌 Sí, enviar</button>
+    </div>
+    `
   );
-
 }
 
-function shareCheckin(answers){
+function shareCheckin(answers) {
+  if (!S.sharing.checkin) return;
 
-  if(!S.sharing.checkin){
-    return;
-  }
+  const contacts = S.contacts.filter((c) => c.linked);
+  const summary = Object.entries(answers || {})
+    .map(([key, value]) => questionName(key) + ": " + value)
+    .join(" · ");
 
-  const contacts=
-    S.contacts.filter(c=>c.linked);
-
-  const summary=
-    Object.entries(answers||{})
-      .map(
-        ([key,value])=>
-          questionName(key)+": "+value
-      )
-      .join(" · ");
-
-  contacts.forEach(c=>{
-
-    /*
-      IMPORTANTE:
-      Aquí se crea un aviso DESTINADO a esa persona.
-      Sigue siendo local en esta versión.
-    */
-
+  contacts.forEach((c) => {
     addNotification(
-      `💚 Nuevo check-in de ${S.profile.name}: ${summary}`,
+      `💚 Nuevo check-in de ${S.profile.name || "SerCerca"}: ${summary}`,
       "checkin",
       c.id
     );
-
   });
 
-  addHistory(
-    "Check-in compartido",
-    contacts.map(c=>c.name).join(", ")
-  );
-
+  if (contacts.length) {
+    addHistory(
+      "Check-in compartido",
+      contacts.map((c) => c.name).join(", ")
+    );
+  }
 }
-
 
 /* =========================================================
    AYUDA
 ========================================================= */
 
-function help(){
+function help() {
+  const contacts = S.contacts.filter((c) => c.linked);
 
-  const contacts=
-    S.contacts.filter(c=>c.linked);
-
-  if(!contacts.length){
-
+  if (!contacts.length) {
     modal(
       "🆘 Necesito ayuda",
-
       `
-
       <div class="alert alert-warn">
-
-        Primero necesitas vincular
-        al menos una persona de confianza.
-
+        Primero necesitas vincular al menos una persona de confianza.
       </div>
-
-      <button
-        type="button"
-        class="btn primary block"
-        onclick="close();go('people')">
-
+      <button type="button" class="btn primary block" onclick="close();go('people')">
         ❤️ Gestionar personas
-
       </button>
-
       `
     );
-
     return;
-
   }
 
   modal(
     "🆘 Confirmar aviso",
-
     `
-
-    <p>
-      Vas a enviar un aviso de ayuda a:
-    </p>
-
-    ${contacts.map(c=>`
-
+    <p>Vas a enviar un aviso de ayuda a:</p>
+    ${contacts
+      .map(
+        (c) => `
       <div class="item">
-
         <div class="row">
-
-          <div class="avatar">
-            ${initials(c.name)}
-          </div>
-
+          <div class="avatar">${initials(c.name)}</div>
           <div>
-
-            <b>${esc(c.name)}</b>
-
-            <br>
-
-            <span class="muted">
-              ${esc(c.relation)}
-            </span>
-
+            <b>${esc(c.name)}</b><br>
+            <span class="muted">${esc(c.relation)}</span>
           </div>
-
         </div>
-
         ❤️
-
       </div>
-
-    `).join("")}
-
+    `
+      )
+      .join("")}
     <div class="alert alert-danger">
-
-      <b>🆘 Aviso de ayuda</b>
-
-      <br><br>
-
-      Tus personas vinculadas recibirán
-      un aviso dentro de SerCerca.
-
+      <b>🆘 Aviso de ayuda</b><br><br>
+      Tus personas vinculadas recibirán un aviso dentro de SerCerca.
     </div>
-
     <div class="actions">
-
-      <button
-        type="button"
-        class="btn light"
-        onclick="close()">
-
-        Cancelar
-
-      </button>
-
-      <button
-        type="button"
-        class="btn danger"
-        onclick="sendHelp()">
-
-        🆘 Enviar aviso
-
-      </button>
-
+      <button type="button" class="btn light" onclick="close()">Cancelar</button>
+      <button type="button" class="btn danger" onclick="sendHelp()">🆘 Enviar aviso</button>
     </div>
-
     `
   );
-
 }
-function sendHelp(){
+function sendHelp() {
+  const contacts = S.contacts.filter((c) => c.linked);
 
-  const contacts=
-    S.contacts.filter(c=>c.linked);
-
-  contacts.forEach(c=>{
-
+  contacts.forEach((c) => {
     addNotification(
-      `🆘 ${S.profile.name} ha solicitado ayuda.`,
+      `🆘 ${S.profile.name || "Una persona"} ha solicitado ayuda.`,
       "help",
       c.id
     );
-
   });
 
   addHistory(
     "Ayuda solicitada",
-    contacts.map(c=>c.name).join(", ")
+    contacts.map((c) => c.name).join(", ")
   );
 
   close();
-
   save();
-
   go("notifications");
-
   toast("🆘 Aviso preparado para tus personas de confianza.");
-
 }
-
 
 /* =========================================================
    PERSONAS
 ========================================================= */
 
-function people(){
-
+function people() {
   return `
-
     <div class="row between wrap">
-
       <div>
-
-        <h1>
-          ❤️ Personas de confianza
-        </h1>
-
-        <p class="muted">
-          Personas que has elegido para estar cerca.
-        </p>
-
+        <h1>❤️ Personas de confianza</h1>
+        <p class="muted">Personas que has elegido para estar cerca.</p>
       </div>
-
-      <button
-        type="button"
-        class="btn primary"
-        onclick="addContactModal()">
-
+      <button type="button" class="btn primary" onclick="addContactModal()">
         ＋ Añadir persona
-
       </button>
-
     </div>
-
     <div class="card">
-
       ${
         S.contacts.length
-        ?
-        S.contacts.map(c=>`
-
+          ? S.contacts
+              .map(
+                (c) => `
           <div class="item">
-
             <div class="row">
-
-              <div class="avatar">
-                ${initials(c.name)}
-              </div>
-
+              <div class="avatar">${initials(c.name)}</div>
               <div>
-
-                <b>${esc(c.name)}</b>
-
-                <br>
-
-                <span class="muted">
-                  ${esc(c.relation)}
-                </span>
-
-                <br>
-
-                <span class="small muted">
-                  ${esc(c.email||"Sin correo")}
-                </span>
-
-                <br>
-
-                <span class="pill">
-                  ${
-                    c.linked
-                    ?"🔗 Vinculada"
-                    :"No vinculada"
-                  }
-                </span>
-
+                <b>${esc(c.name)}</b><br>
+                <span class="muted">${esc(c.relation)}</span><br>
+                <span class="small muted">${esc(c.email || "Sin correo")}</span><br>
+                <span class="pill">${c.linked ? "🔗 Vinculada" : "No vinculada"}</span>
               </div>
-
             </div>
-
             <div class="actions">
-
-              <button
-                type="button"
-                class="btn secondary"
-                onclick="linkContact(${c.id})">
-
-                ${
-                  c.linked
-                  ?"Desvincular"
-                  :"Vincular"
-                }
-
+              <button type="button" class="btn secondary" onclick="linkContact(${JSON.stringify(c.id)})">
+                ${c.linked ? "Desvincular" : "Vincular"}
               </button>
-
-              <button
-                type="button"
-                class="btn light"
-                onclick="removeContact(${c.id})">
-
+              <button type="button" class="btn light" onclick="removeContact(${JSON.stringify(c.id)})">
                 🗑️
-
               </button>
-
             </div>
-
           </div>
-
-        `).join("")
-        :
         `
+              )
+              .join("")
+          : `
         <div class="empty">
-
           ❤️
-
-          <h3>
-            No tienes personas todavía.
-          </h3>
-
-          <p>
-            Añade una persona de confianza
-            para poder vincularla.
-          </p>
-
+          <h3>No tienes personas todavía.</h3>
+          <p>Añade una persona de confianza para poder vincularla.</p>
         </div>
         `
       }
-
     </div>
-
   `;
-
 }
 
-function addContactModal(){
-
+function addContactModal() {
   modal(
     "❤️ Añadir persona",
-
     `
-
     <form onsubmit="addContact(event)">
-
       <div class="fg">
-
-        <label for="newcname">
-          Nombre
-        </label>
-
-        <input
-          id="newcname"
-          required>
-
+        <label for="newcname">Nombre</label>
+        <input id="newcname" required>
       </div>
-
       <div class="fg">
-
-        <label for="newcemail">
-          Correo
-        </label>
-
-        <input
-          id="newcemail"
-          type="email">
-
+        <label for="newcemail">Correo</label>
+        <input id="newcemail" type="email">
       </div>
-
       <div class="fg">
-
-        <label for="newcrelation">
-          Relación
-        </label>
-
+        <label for="newcrelation">Relación</label>
         <select id="newcrelation">
-
           <option>Hija/o</option>
           <option>Nieta/o</option>
           <option>Pareja</option>
           <option>Hermana/o</option>
           <option>Otro familiar</option>
-
         </select>
-
       </div>
-
-      <button
-        type="submit"
-        class="btn primary block">
-
-        ❤️ Añadir
-
-      </button>
-
+      <button type="submit" class="btn primary block">❤️ Añadir</button>
     </form>
-
     `
   );
-
 }
 
-function addContact(event){
-
+function addContact(event) {
   event.preventDefault();
 
-  const name=
-    document.getElementById("newcname")
-    ?.value.trim();
+  const name = document.getElementById("newcname")?.value.trim() || "";
+  const email = document.getElementById("newcemail")?.value.trim() || "";
+  const relation = document.getElementById("newcrelation")?.value || "Otro familiar";
 
-  const email=
-    document.getElementById("newcemail")
-    ?.value.trim();
-
-  const relation=
-    document.getElementById("newcrelation")
-    ?.value;
-
-  if(!name){
-
+  if (!name) {
     toast("Escribe el nombre.");
-
     return;
-
   }
 
-  const exists=S.contacts.some(
-    c=>
-      c.name.toLowerCase()===name.toLowerCase()
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    toast("El correo no parece válido.");
+    return;
+  }
+
+  const exists = S.contacts.some(
+    (c) => String(c.name).toLowerCase() === name.toLowerCase()
   );
 
-  if(exists){
-
+  if (exists) {
     toast("Esa persona ya está añadida.");
-
     return;
-
   }
 
-  const contact={
-
-    id:Date.now()+Math.random(),
-
+  const contact = {
+    id: Date.now() + Math.random(),
     name,
-
     email,
-
     relation,
-
-    linked:false
-
+    linked: false
   };
 
   S.contacts.push(contact);
-
-  addHistory(
-    "Persona añadida",
-    contact.name
-  );
-
+  addHistory("Persona añadida", contact.name);
   close();
-
   save();
-
   render();
-
   toast("❤️ Persona añadida.");
-
 }
 
-function linkContact(id){
+function linkContact(id) {
+  const c = S.contacts.find((x) => String(x.id) === String(id));
+  if (!c) return;
 
-  const c=
-    S.contacts.find(x=>x.id===id);
-
-  if(!c)return;
-
-  c.linked=!c.linked;
-
-  addHistory(
-    c.linked
-      ?"Persona vinculada"
-      :"Persona desvinculada",
-    c.name
-  );
-
+  c.linked = !c.linked;
+  addHistory(c.linked ? "Persona vinculada" : "Persona desvinculada", c.name);
   save();
-
   render();
-
-  toast(
-    c.linked
-      ?"🔗 Persona vinculada."
-      :"🔗 Persona desvinculada."
-  );
-
+  toast(c.linked ? "🔗 Persona vinculada." : "🔗 Persona desvinculada.");
 }
 
-function removeContact(id){
-
-  const c=
-    S.contacts.find(x=>x.id===id);
-
-  if(!c)return;
+function removeContact(id) {
+  const c = S.contacts.find((x) => String(x.id) === String(id));
+  if (!c) return;
 
   modal(
     "Eliminar persona",
-
     `
-
-    <p>
-      ¿Seguro que quieres eliminar a
-      <b>${esc(c.name)}</b>?
-    </p>
-
+    <p>¿Seguro que quieres eliminar a <b>${esc(c.name)}</b>?</p>
     <div class="actions">
-
-      <button
-        type="button"
-        class="btn light"
-        onclick="close()">
-
-        Cancelar
-
-      </button>
-
-      <button
-        type="button"
-        class="btn danger"
-        onclick="confirmRemoveContact(${id})">
-
+      <button type="button" class="btn light" onclick="close()">Cancelar</button>
+      <button type="button" class="btn danger" onclick="confirmRemoveContact(${JSON.stringify(id)})">
         🗑️ Eliminar
-
       </button>
-
     </div>
-
     `
   );
-
 }
 
-function confirmRemoveContact(id){
+function confirmRemoveContact(id) {
+  const c = S.contacts.find((x) => String(x.id) === String(id));
+  S.contacts = S.contacts.filter((x) => String(x.id) !== String(id));
 
-  const c=
-    S.contacts.find(x=>x.id===id);
-
-  S.contacts=
-    S.contacts.filter(x=>x.id!==id);
-
-  if(c){
-
-    addHistory(
-      "Persona eliminada",
-      c.name
-    );
-
+  if (c) {
+    addHistory("Persona eliminada", c.name);
   }
 
   close();
-
   save();
-
   render();
-
   toast("Persona eliminada.");
-
 }
-
 
 /* =========================================================
    MENSAJES
 ========================================================= */
 
-function messages(){
-
-  const contacts=
-    S.contacts.filter(c=>c.linked);
+function messages() {
+  const contacts = S.contacts.filter((c) => c.linked);
 
   return `
-
     <div class="card">
-
       <h1>💌 Mensajes</h1>
-
-      <p class="muted">
-        Mensajes de prueba dentro de SerCerca.
-      </p>
-
+      <p class="muted">Mensajes de prueba dentro de SerCerca.</p>
       ${
         contacts.length
-        ?
-        `
-
-        <button
-          type="button"
-          class="btn primary"
-          onclick="messageModal()">
-
-          ＋ Nuevo mensaje
-
-        </button>
-
+          ? `
+        <button type="button" class="btn primary" onclick="messageModal()">＋ Nuevo mensaje</button>
         <div class="chat">
-
           ${
             S.messages.length
-            ?
-            S.messages.map(m=>`
-
-              <div class="msg ${m.me?"me":"them"}">
-
+              ? S.messages
+                  .map(
+                    (m) => `
+              <div class="msg ${m.me ? "me" : "them"}">
                 ${esc(m.text)}
-
                 <div class="small">
-
-                  ${m.me?"Para":"De"}:
-                  ${esc(m.to)}
-
-                  ·
-
-                  ${esc(m.date)}
-
+                  ${m.me ? "Para" : "De"}: ${esc(m.to || "")} · ${esc(m.date || "")}
                 </div>
-
               </div>
-
-            `).join("")
-            :
             `
-            <div class="empty">
-              No hay mensajes todavía.
-            </div>
-            `
+                  )
+                  .join("")
+              : `<div class="empty">No hay mensajes todavía.</div>`
           }
-
         </div>
-
         `
-        :
-        `
-
-        <div class="alert alert-warn">
-
-          Primero vincula una persona
-          de confianza.
-
-        </div>
-
-        <button
-          type="button"
-          class="btn primary"
-          onclick="go('people')">
-
-          ❤️ Gestionar personas
-
-        </button>
-
+          : `
+        <div class="alert alert-warn">Primero vincula una persona de confianza.</div>
+        <button type="button" class="btn primary" onclick="go('people')">❤️ Gestionar personas</button>
         `
       }
-
     </div>
-
   `;
-
 }
-function messageModal(){
 
-  const contacts=
-    S.contacts.filter(c=>c.linked);
+function messageModal() {
+  const contacts = S.contacts.filter((c) => c.linked);
 
-  if(!contacts.length){
-
+  if (!contacts.length) {
     toast("Primero vincula una persona.");
-
     return;
-
   }
 
   modal(
     "💌 Nuevo mensaje",
-
     `
-
     <form onsubmit="sendMessage(event)">
-
       <div class="fg">
-
-        <label for="mto">
-          Enviar a
-        </label>
-
+        <label for="mto">Enviar a</label>
         <select id="mto">
-
-          ${contacts.map(c=>`
-
-            <option value="${c.id}">
-              ${esc(c.name)}
-            </option>
-
-          `).join("")}
-
+          ${contacts
+            .map(
+              (c) => `<option value="${esc(c.id)}">${esc(c.name)}</option>`
+            )
+            .join("")}
         </select>
-
       </div>
-
       <div class="fg">
-
-        <label for="mtext">
-          Mensaje
-        </label>
-
-        <textarea
-          id="mtext"
-          required
-          maxlength="500"
-          placeholder="Escribe tu mensaje..."></textarea>
-
+        <label for="mtext">Mensaje</label>
+        <textarea id="mtext" required maxlength="500" placeholder="Escribe tu mensaje..."></textarea>
       </div>
-
-      <button
-        type="submit"
-        class="btn primary block">
-
-        💌 Enviar mensaje
-
-      </button>
-
+      <button type="submit" class="btn primary block">💌 Enviar mensaje</button>
     </form>
-
     `
   );
-
 }
 
-function sendMessage(event){
-
+function sendMessage(event) {
   event.preventDefault();
 
-  const contactId=
-    document.getElementById("mto")
-    ?.value;
+  const contactId = document.getElementById("mto")?.value;
+  const text = document.getElementById("mtext")?.value.trim() || "";
+  const contact = S.contacts.find((c) => String(c.id) === String(contactId));
 
-  const text=
-    document.getElementById("mtext")
-    ?.value.trim();
-
-  const contact=
-    S.contacts.find(
-      c=>String(c.id)===String(contactId)
-    );
-
-  if(!contact){
-
+  if (!contact) {
     toast("Selecciona una persona.");
-
     return;
-
   }
 
-  if(!text){
-
+  if (!text) {
     toast("Escribe un mensaje.");
-
     return;
-
   }
 
-  const message={
-
-    id:Date.now()+Math.random(),
-
-    me:true,
-
-    to:contact.name,
-
-    contactId:contact.id,
-
+  const message = {
+    id: Date.now() + Math.random(),
+    me: true,
+    to: contact.name,
+    contactId: contact.id,
     text,
-
-    date:time()
-
+    date: time()
   };
 
   S.messages.push(message);
 
-  addNotification(
-    `💌 Has enviado un mensaje a ${contact.name}.`,
-    "message",
-    contact.id
-  );
+  if (S.sharing.messages) {
+    addNotification(
+      `💌 Has enviado un mensaje a ${contact.name}.`,
+      "message",
+      contact.id
+    );
+  }
 
-  addHistory(
-    "Mensaje enviado",
-    contact.name
-  );
-
+  addHistory("Mensaje enviado", contact.name);
   close();
-
   save();
-
   render();
-
   toast("💌 Mensaje preparado.");
-
 }
-
 
 /* =========================================================
    AVISOS
 ========================================================= */
 
-function notificationsPage(){
-
-  const list=S.notifications;
+function notificationsPage() {
+  const list = Array.isArray(S.notifications) ? S.notifications : [];
 
   return `
-
     <div class="row between wrap">
-
       <div>
-
         <h1>🔔 Avisos</h1>
-
-        <p class="muted">
-          Aquí aparecen los avisos de SerCerca.
-        </p>
-
+        <p class="muted">Aquí aparecen los avisos de SerCerca.</p>
       </div>
-
       ${
         list.length
-        ?
-        `
-        <button
-          type="button"
-          class="btn light"
-          onclick="markNotificationsRead();render()">
-
-          ✓ Marcar como leídos
-
-        </button>
-        `
-        :""
+          ? `<button type="button" class="btn light" onclick="markNotificationsRead();render()">✓ Marcar como leídos</button>`
+          : ""
       }
-
     </div>
-
     <div class="card">
-
       ${
         list.length
-        ?
-        list.map(n=>`
-
-          <div class="item ${
-            n.read?"":"unread"
-          }">
-
+          ? list
+              .map(
+                (n) => `
+          <div class="item ${n.read ? "" : "unread"}">
             <div>
-
-              <b>
-                ${esc(n.text)}
-              </b>
-
-              <br>
-
+              <b>${esc(n.text)}</b><br>
               ${
                 n.target
-                ?
-                `
-                <span class="small muted">
-                  Para una persona vinculada
-                </span>
-                <br>
-                `
-                :""
+                  ? `<span class="small muted">Destinado a una persona vinculada.</span><br>`
+                  : ""
               }
-
-              <span class="small muted">
-                ${esc(n.date)}
-              </span>
-
+              <span class="small muted">${esc(n.date)}</span>
             </div>
-
             <span>
-
               ${
-                n.type==="help"
-                ?"🆘"
-                :
-                n.type==="checkin"
-                ?"💚"
-                :
-                n.type==="message"
-                ?"💌"
-                :
-                "🔔"
+                n.type === "help"
+                  ? "🆘"
+                  : n.type === "checkin"
+                  ? "💚"
+                  : n.type === "message"
+                  ? "💌"
+                  : n.type === "invitation"
+                  ? "🌷"
+                  : "🔔"
               }
-
             </span>
-
           </div>
-
-        `).join("")
-        :
         `
+              )
+              .join("")
+          : `
         <div class="empty">
-
           🔔
-
-          <h3>
-            No tienes avisos.
-          </h3>
-
+          <h3>No tienes avisos.</h3>
         </div>
         `
       }
-
     </div>
-
   `;
-
 }
-
 
 /* =========================================================
    FAMILIA
 ========================================================= */
 
-function family(){
-
-  const linked=
-    S.contacts.filter(c=>c.linked);
+function family() {
+  const linked = S.contacts.filter((c) => c.linked);
 
   return `
-
-    <h1>
-      👨‍👩‍👧 Zona de familiares
-    </h1>
-
-    <p class="muted">
-      Información autorizada dentro de esta cuenta.
-    </p>
-
+    <h1>👨‍👩‍👧 Zona de familiares</h1>
+    <p class="muted">Información autorizada dentro de esta cuenta.</p>
     <div class="grid g3">
-
       <div class="stat">
-
         ❤️
-
-        <b>
-          ${linked.length}
-        </b>
-
-        <span>
-          Personas vinculadas
-        </span>
-
+        <b>${linked.length}</b>
+        <span>Personas vinculadas</span>
       </div>
-
       <div class="stat">
-
         💚
-
-        <b>
-          ${esc(
-            S.wellness.status||"Sin registrar"
-          )}
-        </b>
-
-        <span>
-          Estado
-        </span>
-
+        <b>${esc(S.wellness.status || "Sin registrar")}</b>
+        <span>Estado</span>
       </div>
-
       <div class="stat">
-
         📋
-
-        <b>
-          ${S.history.length}
-        </b>
-
-        <span>
-          Actividad
-        </span>
-
+        <b>${S.history.length}</b>
+        <span>Actividad</span>
       </div>
-
     </div>
-
     <div class="card">
-
-      <h2>
-        👥 Personas vinculadas
-      </h2>
-
+      <h2>👥 Personas vinculadas</h2>
       ${
         linked.length
-        ?
-        linked.map(c=>`
-
+          ? linked
+              .map(
+                (c) => `
           <div class="item">
-
             <div class="row">
-
-              <div class="avatar">
-                ${initials(c.name)}
-              </div>
-
+              <div class="avatar">${initials(c.name)}</div>
               <div>
-
-                <b>
-                  ${esc(c.name)}
-                </b>
-
-                <br>
-
-                <span class="muted">
-                  ${esc(c.relation)}
-                </span>
-
+                <b>${esc(c.name)}</b><br>
+                <span class="muted">${esc(c.relation)}</span>
               </div>
-
             </div>
-
-            <span class="pill">
-              Vinculada
-            </span>
-
+            <span class="pill">Vinculada</span>
           </div>
-
-        `).join("")
-        :
-        `<p class="muted">
-          No hay personas vinculadas.
-        </p>`
+        `
+              )
+              .join("")
+          : `<p class="muted">No hay personas vinculadas.</p>`
       }
-
     </div>
-
     <div class="card">
-
-      <h2>
-        📋 Actividad reciente
-      </h2>
-
+      <h2>📋 Actividad reciente</h2>
       ${
-        S.history.slice(0,8).map(h=>`
-
+        S.history
+          .slice(0, 8)
+          .map(
+            (h) => `
           <div class="item">
-
             <div>
-
-              <b>
-                ${esc(h.action)}
-              </b>
-
-              <br>
-
-              <span class="muted">
-                ${esc(h.detail)}
-              </span>
-
+              <b>${esc(h.action)}</b><br>
+              <span class="muted">${esc(h.detail)}</span>
             </div>
-
-            <span class="small">
-              ${esc(h.date)}
-            </span>
-
+            <span class="small">${esc(h.date)}</span>
           </div>
-
-        `).join("")
-        ||
-        `<p class="muted">
-          No hay actividad.
-        </p>`
+        `
+          )
+          .join("") || `<p class="muted">No hay actividad.</p>`
       }
-
     </div>
-
   `;
-
 }
-
 
 /* =========================================================
    HISTORIAL
 ========================================================= */
 
-function historyPage(){
-
+function historyPage() {
   return `
-
-    <h1>
-      📋 Historial
-    </h1>
-
-    <p class="muted">
-      Check-ins y actividad guardada.
-    </p>
-
+    <h1>📋 Historial</h1>
+    <p class="muted">Check-ins y actividad guardada.</p>
     <div class="card">
-
       ${
         S.history.length
-        ?
-        S.history.map(h=>`
-
+          ? S.history
+              .map(
+                (h) => `
           <div class="item">
-
             <div>
-
-              <b>
-                ${esc(h.action)}
-              </b>
-
-              <br>
-
-              <span class="muted">
-                ${esc(h.detail)}
-              </span>
-
+              <b>${esc(h.action)}</b><br>
+              <span class="muted">${esc(h.detail)}</span>
             </div>
-
-            <span class="small">
-              ${esc(h.date)}
-            </span>
-
+            <span class="small">${esc(h.date)}</span>
           </div>
-
-        `).join("")
-        :
         `
+              )
+              .join("")
+          : `
         <div class="empty">
-
           📋
-
-          <h3>
-            No hay actividad todavía.
-          </h3>
-
+          <h3>No hay actividad todavía.</h3>
         </div>
         `
       }
-
     </div>
-
   `;
-
 }
+
 /* =========================================================
    PLANES
 ========================================================= */
 
-function plans(){
-
-  const plans=[
-
+function plans() {
+  const plansList = [
     {
-      name:"Básico",
-      price:"2,99 €",
-      description:"Para empezar a estar cerca.",
-      features:[
+      name: "Básico",
+      price: "2,99 €",
+      description: "Para empezar a estar cerca.",
+      features: [
         "Perfil personal",
         "Personas de confianza",
         "Check-in diario",
@@ -4064,12 +3323,11 @@ function plans(){
         "Historial básico"
       ]
     },
-
     {
-      name:"Familia",
-      price:"6,99 €",
-      description:"Más herramientas para estar conectados.",
-      features:[
+      name: "Familia",
+      price: "6,99 €",
+      description: "Más herramientas para estar conectados.",
+      features: [
         "Todo lo del plan Básico",
         "Mensajes",
         "Recordatorios",
@@ -4079,12 +3337,11 @@ function plans(){
         "Más opciones de privacidad"
       ]
     },
-
     {
-      name:"Cerca",
-      price:"12,99 €",
-      description:"La experiencia más completa.",
-      features:[
+      name: "Cerca",
+      price: "12,99 €",
+      description: "La experiencia más completa.",
+      features: [
         "Todo lo del plan Familia",
         "Funciones avanzadas",
         "Privacidad avanzada",
@@ -4094,786 +3351,423 @@ function plans(){
         "Prioridad en nuevas funciones"
       ]
     }
-
   ];
 
   return `
-
-    <h1>
-      💳 Planes
-    </h1>
-
-    <p class="muted">
-      Elige el plan que mejor se adapte a ti.
-    </p>
-
+    <h1>💳 Planes</h1>
+    <p class="muted">Elige el plan que mejor se adapte a ti.</p>
     <div class="alert alert-ok">
-
-      <b>
-        ℹ️ Pagos todavía no activos
-      </b>
-
-      <br><br>
-
-      En esta versión puedes elegir un plan
-      para probar cómo funcionará la aplicación.
-
-      <br><br>
-
-      <b>
-        No se realiza ningún cobro real.
-      </b>
-
+      <b>ℹ️ Pagos todavía no activos</b><br><br>
+      En esta versión puedes elegir un plan para probar cómo funcionará la aplicación.<br><br>
+      <b>No se realiza ningún cobro real.</b>
     </div>
-
     <div class="grid g3">
-
-      ${plans.map(p=>`
-
-        <div class="card ${
-          S.plan===p.name
-          ?"plan current"
-          :"plan"
-        }">
-
-          ${
-            S.plan===p.name
-            ?
-            `
-            <span class="pill">
-              ACTUAL
-            </span>
-            `
-            :""
-          }
-
-          <h2>
-            ${p.name}
-          </h2>
-
-          <p class="muted">
-            ${p.description}
-          </p>
-
+      ${plansList
+        .map(
+          (p) => `
+        <div class="card ${S.plan === p.name ? "plan current" : "plan"}">
+          ${S.plan === p.name ? `<span class="pill">ACTUAL</span>` : ""}
+          <h2>${esc(p.name)}</h2>
+          <p class="muted">${esc(p.description)}</p>
           <div class="price">
-
-            ${p.price}
-
-            <span class="small muted">
-              /mes
-            </span>
-
+            ${esc(p.price)} <span class="small muted">/mes</span>
           </div>
-
           <hr>
-
-          ${p.features.map(f=>`
-
-            <p>
-
-              <span class="check">
-                ✓
-              </span>
-
-              ${esc(f)}
-
-            </p>
-
-          `).join("")}
-
+          ${p.features
+            .map((f) => `<p><span class="check">✓</span> ${esc(f)}</p>`)
+            .join("")}
           <button
             type="button"
-            class="btn ${
-              S.plan===p.name
-              ?"light"
-              :"primary"
-            } block"
+            class="btn ${S.plan === p.name ? "light" : "primary"} block"
             onclick="choosePlan(${JSON.stringify(p.name)})">
-
-            ${
-              S.plan===p.name
-              ?"Plan actual"
-              :"Elegir plan"
-            }
-
+            ${S.plan === p.name ? "Plan actual" : "Elegir plan"}
           </button>
-
         </div>
-
-      `).join("")}
-
+      `
+        )
+        .join("")}
     </div>
-
   `;
-
 }
 
-function choosePlan(plan){
-
-  if(plan===S.plan){
-
+function choosePlan(plan) {
+  if (plan === S.plan) {
     toast("Este ya es tu plan.");
-
     return;
-
   }
 
   modal(
     "💳 Confirmar plan",
-
     `
-
-    <p>
-      Has elegido el plan
-      <b>${esc(plan)}</b>.
-    </p>
-
+    <p>Has elegido el plan <b>${esc(plan)}</b>.</p>
     <div class="alert alert-ok">
-
-      En esta versión de prueba
-      <b>no se realizará ningún pago</b>.
-
+      En esta versión de prueba <b>no se realizará ningún pago</b>.
     </div>
-
     <div class="actions">
-
-      <button
-        type="button"
-        class="btn light"
-        onclick="close()">
-
-        Cancelar
-
-      </button>
-
-      <button
-        type="button"
-        class="btn primary"
-        onclick="activatePlan(${JSON.stringify(plan)})">
-
+      <button type="button" class="btn light" onclick="close()">Cancelar</button>
+      <button type="button" class="btn primary" onclick="activatePlan(${JSON.stringify(plan)})">
         ✓ Activar
-
       </button>
-
     </div>
-
     `
   );
-
 }
 
-function activatePlan(plan){
-
-  S.plan=plan;
-
-  addHistory(
-    "Plan cambiado",
-    plan
-  );
-
+function activatePlan(plan) {
+  S.plan = plan;
+  addHistory("Plan cambiado", plan);
   close();
-
   save();
-
   render();
-
-  toast(
-    "💳 Plan "+plan+" activado. Sin cobro real."
-  );
-
+  toast("💳 Plan " + plan + " activado. Sin cobro real.");
 }
-
 
 /* =========================================================
    CONFIGURACIÓN
 ========================================================= */
 
-function settings(){
-
+function settings() {
   return `
-
-    <h1>
-      ⚙️ Configuración
-    </h1>
-
+    <h1>⚙️ Configuración</h1>
     <div class="grid g2">
-
       <div class="card">
-
-        <h2>
-          👤 Perfil
-        </h2>
-
+        <h2>👤 Perfil</h2>
         <div class="fg">
-
-          <label for="sname">
-            Nombre
-          </label>
-
-          <input
-            id="sname"
-            value="${esc(S.profile.name)}">
-
+          <label for="sname">Nombre</label>
+          <input id="sname" autocomplete="name" value="${esc(S.profile.name)}">
         </div>
-
         <div class="fg">
-
-          <label for="semail">
-            Correo
-          </label>
-
-          <input
-            id="semail"
-            type="email"
-            value="${esc(S.profile.email)}">
-
+          <label for="semail">Correo</label>
+          <input id="semail" type="email" autocomplete="email" value="${esc(S.profile.email)}">
         </div>
-
         <div class="fg">
-
-          <label for="sphone">
-            Teléfono
-          </label>
-
-          <input
-            id="sphone"
-            type="tel"
-            value="${esc(S.profile.phone)}">
-
+          <label for="sphone">Teléfono</label>
+          <input id="sphone" type="tel" autocomplete="tel" value="${esc(S.profile.phone)}">
         </div>
-
         <div class="fg">
-
-          <label for="scity">
-            Ciudad
-          </label>
-
-          <input
-            id="scity"
-            value="${esc(S.profile.city)}">
-
+          <label for="scity">Ciudad</label>
+          <input id="scity" value="${esc(S.profile.city)}">
         </div>
-
         <div class="fg">
-
-          <label for="snotes">
-            Notas
-          </label>
-
+          <label for="snotes">Notas</label>
           <textarea id="snotes">${esc(S.profile.notes)}</textarea>
-
         </div>
-
-        <button
-          type="button"
-          class="btn primary"
-          onclick="saveProfile()">
-
+        <button type="button" class="btn primary" onclick="saveProfile()">
           💾 Guardar perfil
-
         </button>
-
       </div>
 
       <div class="card">
-
-        <h2>
-          🔐 Privacidad
-        </h2>
-
-        ${privacySwitch(
-          "checkin",
-          "💚 Check-in",
-          "Compartir check-ins"
-        )}
-
-        ${privacySwitch(
-          "wellness",
-          "🌷 Bienestar",
-          "Compartir estado"
-        )}
-
-        ${privacySwitch(
-          "activity",
-          "🚶 Actividades",
-          "Compartir actividades"
-        )}
-
-        ${privacySwitch(
-          "messages",
-          "💌 Mensajes",
-          "Permitir funciones de mensajes"
-        )}
-
+        <h2>🔐 Privacidad</h2>
+        ${privacySwitch("checkin", "💚 Check-in", "Compartir check-ins")}
+        ${privacySwitch("wellness", "🌷 Bienestar", "Compartir estado")}
+        ${privacySwitch("activity", "🚶 Actividades", "Compartir actividades")}
+        ${privacySwitch("messages", "💌 Mensajes", "Permitir funciones de mensajes")}
         <hr>
-
-        ${generalSwitch(
-          "notifications",
-          "🔔 Avisos",
-          "Mostrar avisos dentro de SerCerca"
-        )}
-
-        ${generalSwitch(
-          "activity",
-          "📋 Actividad",
-          "Guardar actividad"
-        )}
-
+        ${generalSwitch("notifications", "🔔 Avisos", "Mostrar avisos dentro de SerCerca")}
+        ${generalSwitch("activity", "📋 Actividad", "Guardar actividad")}
+        ${generalSwitch("location", "📍 Ubicación", "Permitir funciones futuras de ubicación")}
       </div>
-
     </div>
 
     <div class="card">
-
-      <h2>
-        🔐 Información importante
-      </h2>
-
-      <p class="muted">
-        En esta versión los datos se guardan
-        localmente en este navegador.
-      </p>
-
-      <p class="muted">
-        Para que los avisos y mensajes lleguen
-        realmente al móvil de otra persona,
-        habrá que conectar SerCerca a un servidor.
-      </p>
-
+      <h2>🔐 Información importante</h2>
+      <p class="muted">En esta versión los datos se guardan localmente en este navegador.</p>
+      <p class="muted">Para que los avisos y mensajes lleguen realmente al móvil de otra persona, habrá que conectar SerCerca a un servidor.</p>
+      <hr>
+      <button type="button" class="btn danger" onclick="resetAccount()">
+        🗑️ Reiniciar cuenta
+      </button>
     </div>
-
   `;
-
 }
-function privacySwitch(key,title,text){
 
+function privacySwitch(key, title, text) {
   return `
-
     <div class="item">
-
       <div>
-
-        <b>
-          ${title}
-        </b>
-
-        <br>
-
-        <span class="muted small">
-          ${text}
-        </span>
-
+        <b>${title}</b><br>
+        <span class="muted small">${text}</span>
       </div>
-
       <button
         type="button"
-        class="switch ${
-          S.sharing[key]?"on":""
-        }"
+        class="switch ${S.sharing[key] ? "on" : ""}"
         aria-label="${esc(title)}"
+        aria-pressed="${S.sharing[key] ? "true" : "false"}"
         onclick="toggleShare('${key}')">
       </button>
-
     </div>
-
   `;
-
 }
 
-function setting(key,title,text){
-
-  return privacySwitch(
-    key,
-    title,
-    text
-  );
-
+function setting(key, title, text) {
+  return privacySwitch(key, title, text);
 }
 
-function generalSwitch(key,title,text){
-
+function generalSwitch(key, title, text) {
   return `
-
     <div class="item">
-
       <div>
-
-        <b>
-          ${title}
-        </b>
-
-        <br>
-
-        <span class="muted small">
-          ${text}
-        </span>
-
+        <b>${title}</b><br>
+        <span class="muted small">${text}</span>
       </div>
-
       <button
         type="button"
-        class="switch ${
-          S.settings[key]?"on":""
-        }"
+        class="switch ${S.settings[key] ? "on" : ""}"
+        aria-label="${esc(title)}"
+        aria-pressed="${S.settings[key] ? "true" : "false"}"
         onclick="toggleSetting('${key}')">
       </button>
-
     </div>
-
   `;
-
 }
 
-function toggleShare(key){
-
-  if(!(key in S.sharing)){
-    return;
-  }
-
-  S.sharing[key]=
-    !S.sharing[key];
-
+function toggleShare(key) {
+  if (!(key in S.sharing)) return;
+  S.sharing[key] = !S.sharing[key];
   save();
-
   render();
-
 }
 
-function toggleSetting(key){
-
-  if(!(key in S.settings)){
-    return;
-  }
-
-  S.settings[key]=
-    !S.settings[key];
-
+function toggleSetting(key) {
+  if (!(key in S.settings)) return;
+  S.settings[key] = !S.settings[key];
   save();
-
   render();
-
 }
 
-function saveProfile(){
+function saveProfile() {
+  const name = document.getElementById("sname")?.value.trim() || "";
+  const email = document.getElementById("semail")?.value.trim().toLowerCase() || "";
+  const phone = document.getElementById("sphone")?.value.trim() || "";
+  const city = document.getElementById("scity")?.value.trim() || "";
+  const notes = document.getElementById("snotes")?.value.trim() || "";
 
-  const name=
-    document.getElementById("sname")
-    ?.value.trim();
-
-  const email=
-    document.getElementById("semail")
-    ?.value.trim()
-    .toLowerCase();
-
-  const phone=
-    document.getElementById("sphone")
-    ?.value.trim();
-
-  const city=
-    document.getElementById("scity")
-    ?.value.trim();
-
-  const notes=
-    document.getElementById("snotes")
-    ?.value.trim();
-
-  if(!name){
-
+  if (!name) {
     toast("El nombre no puede estar vacío.");
-
     return;
-
   }
 
-  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     toast("El correo no parece válido.");
-
     return;
-
   }
 
-  S.profile.name=name;
-  S.profile.email=email;
-  S.profile.phone=phone;
-  S.profile.city=city;
-  S.profile.notes=notes;
+  S.profile.name = name;
+  S.profile.email = email;
+  S.profile.phone = phone;
+  S.profile.city = city;
+  S.profile.notes = notes;
+  S.user.name = name;
+  S.user.email = email;
 
-  S.user.name=name;
-
-  if(email){
-    S.user.email=email;
-  }
-
-  addHistory(
-    "Perfil actualizado",
-    name
-  );
-
+  addHistory("Perfil actualizado", name);
   save();
-
   render();
-
   toast("💾 Perfil guardado correctamente.");
-
 }
-
 
 /* =========================================================
    PRUEBA GRATUITA
 ========================================================= */
 
-function trial(){
+function trial() {
+  const start = new Date();
+  const end = new Date(start.getTime() + 14 * 24 * 60 * 60 * 1000);
 
-  const start=new Date();
-
-  const end=
-    new Date(
-      start.getTime()+
-      14*24*60*60*1000
-    );
-
-  S.trial={
-    active:true,
-    start:start.toISOString(),
-    end:end.toISOString()
+  S.trial = {
+    active: true,
+    start: start.toISOString(),
+    end: end.toISOString()
   };
 
-  addHistory(
-    "Prueba gratuita",
-    "14 días"
-  );
-
+  addHistory("Prueba gratuita", "14 días");
   save();
-
-  toast(
-    "🎁 Prueba de 14 días activada."
-  );
-
+  render();
+  toast("🎁 Prueba de 14 días activada.");
 }
-
 
 /* =========================================================
    INVITACIONES
 ========================================================= */
 
-function inviteFromRecommendation(){
+function inviteFromRecommendation() {
+  const contacts = S.contacts.filter((c) => c.linked);
 
-  const contacts=
-    S.contacts.filter(c=>c.linked);
-
-  if(!contacts.length){
-
+  if (!contacts.length) {
     modal(
       "❤️ Personas de confianza",
-
       `
-
       <div class="alert alert-warn">
-
-        Primero vincula una persona
-        de confianza.
-
+        Primero vincula una persona de confianza.
       </div>
-
-      <button
-        type="button"
-        class="btn primary block"
-        onclick="close();go('people')">
-
+      <button type="button" class="btn primary block" onclick="close();go('people')">
         Añadir persona
-
       </button>
-
       `
     );
-
     return;
-
   }
 
   modal(
     "💌 Invitar a alguien",
-
     `
-
-    <p>
-      ¿A quién quieres invitar?
-    </p>
-
-    ${contacts.map(c=>`
-
-      <button
-        type="button"
-        class="choice"
-        onclick="sendInvitation(${c.id})">
-
-        <span class="emoji">
-          ❤️
-        </span>
-
-        <b>
-          ${esc(c.name)}
-        </b>
-
-        <br>
-
-        <span class="muted">
-          ${esc(c.relation)}
-        </span>
-
+    <p>¿A quién quieres invitar?</p>
+    ${contacts
+      .map(
+        (c) => `
+      <button type="button" class="choice" onclick="sendInvitation(${JSON.stringify(c.id)})">
+        <span class="emoji">❤️</span>
+        <b>${esc(c.name)}</b><br>
+        <span class="muted">${esc(c.relation)}</span>
       </button>
-
-    `).join("")}
-
+    `
+      )
+      .join("")}
     `
   );
-
 }
 
-function sendInvitation(id){
-
-  const c=
-    S.contacts.find(x=>x.id===id);
-
-  if(!c){
-    return;
-  }
+function sendInvitation(id) {
+  const c = S.contacts.find((x) => String(x.id) === String(id));
+  if (!c) return;
 
   addNotification(
-    `🌷 ${S.profile.name} te ha enviado una invitación.`,
+    `🌷 ${S.profile.name || "SerCerca"} te ha enviado una invitación.`,
     "invitation",
     c.id
   );
 
-  addHistory(
-    "Invitación enviada",
-    c.name
-  );
-
+  addHistory("Invitación enviada", c.name);
   close();
-
   save();
-
-  toast(
-    "💌 Invitación preparada para "+c.name+"."
-  );
-
+  toast("💌 Invitación preparada para " + c.name + ".");
 }
-
 
 /* =========================================================
    LOGOUT
 ========================================================= */
 
-function logout(){
-
-  S.logged=false;
-
+function logout() {
+  S.logged = false;
   save();
-
   render();
-
   toast("Has cerrado sesión.");
-
 }
 
-
 /* =========================================================
-   REINICIO DE CUENTA
+   REINICIO
 ========================================================= */
 
-function resetAccount(){
-
+function resetAccount() {
   modal(
     "⚠️ Reiniciar SerCerca",
-
     `
-
-    <p>
-      Esto borrará los datos guardados
-      en este navegador.
-    </p>
-
-    <div class="alert alert-danger">
-
-      Esta acción no se puede deshacer.
-
-    </div>
-
+    <p>Esto borrará los datos guardados en este navegador.</p>
+    <div class="alert alert-danger">Esta acción no se puede deshacer.</div>
     <div class="actions">
-
-      <button
-        type="button"
-        class="btn light"
-        onclick="close()">
-
-        Cancelar
-
-      </button>
-
-      <button
-        type="button"
-        class="btn danger"
-        onclick="reallyReset()">
-
-        🗑️ Borrar todo
-
-      </button>
-
+      <button type="button" class="btn light" onclick="close()">Cancelar</button>
+      <button type="button" class="btn danger" onclick="reallyReset()">🗑️ Borrar todo</button>
     </div>
-
     `
   );
-
 }
 
-function reallyReset(){
+function reallyReset() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch (error) {
+    console.warn(error);
+  }
 
-  localStorage.removeItem(KEY);
-
-  S=copy(DEFAULT);
-
+  S = copy(DEFAULT);
   close();
-
   render();
-
   toast("SerCerca se ha reiniciado.");
-
 }
-
 
 /* =========================================================
-   RENDER
+   RENDER SEGURO
 ========================================================= */
 
-function render(){
+function render() {
+  const root = document.getElementById("app");
+  if (!root) return;
 
-  let html;
-
-  if(!S.logged){
-
-    html=welcome();
-
-  }else if(S.onboarding){
-
-    html=onboarding();
-
-  }else{
-
-    html=app();
-
+  try {
+    let html;
+    if (!S.logged) {
+      html = welcome();
+    } else if (S.onboarding) {
+      html = onboarding();
+    } else {
+      html = app();
+    }
+    root.innerHTML = html;
+  } catch (error) {
+    console.error("Error de renderizado:", error);
+    showError(error);
   }
-
-  const root=
-    document.getElementById("app");
-
-  if(root){
-    root.innerHTML=html;
-  }
-
 }
 
+/* =========================================================
+   PANTALLA DE ERROR
+========================================================= */
+
+function showError(error) {
+  const root = document.getElementById("app");
+  if (!root) return;
+
+  root.innerHTML = `
+    <main>
+      <div class="card error-box">
+        <div class="alert alert-danger">
+          <h2>⚠️ No se ha podido cargar SerCerca</h2>
+          <p>Ha ocurrido un problema inesperado al mostrar la aplicación.</p>
+        </div>
+        <button type="button" class="btn primary block" onclick="safeRecovery()">
+          🔄 Intentar recuperar
+        </button>
+        <button type="button" class="btn light block" style="margin-top:10px" onclick="reallyReset()">
+          🗑️ Reiniciar SerCerca
+        </button>
+        <details style="margin-top:15px">
+          <summary>Información técnica</summary>
+          <pre style="white-space:pre-wrap">${esc(error?.message || String(error))}</pre>
+        </details>
+      </div>
+    </main>
+  `;
+}
+
+/* =========================================================
+   RECUPERACIÓN
+========================================================= */
+
+function safeRecovery() {
+  try {
+    S = normalize(S);
+    if (!S.logged) {
+      S.onboarding = true;
+    }
+    save();
+    render();
+  } catch (error) {
+    showError(error);
+  }
+}
+
+/* =========================================================
+   ERRORES GLOBALES
+========================================================= */
+
+window.addEventListener("error", function (event) {
+  console.error("Error global:", event.error || event.message);
+});
+
+window.addEventListener("unhandledrejection", function (event) {
+  console.error("Promesa rechazada:", event.reason);
+});
 
 /* =========================================================
    INICIO
@@ -4881,7 +3775,3 @@ function render(){
 
 render();
 
-</script>
-
-</body>
-</html>
