@@ -4301,48 +4301,19 @@ document.addEventListener("click", function(event) {
     }
   }
 });
-// Arreglo global para los botones de selección de planes
-document.addEventListener("click", function(event) {
-  // Comprueba si el botón pertenece a una tarjeta de plan
-  const planCard = event.target.closest(".card.plan");
-  if (planCard && (event.target.tagName === "BUTTON" || event.target.closest("button"))) {
-    const titleEl = planCard.querySelector("h3");
-    if (titleEl) {
-      const planName = titleEl.textContent.trim();
-      // Si existe la función selectPlan original, la llama; si no, actualiza el plan directamente
-      if (typeof selectPlan === "function") {
-        selectPlan(planName);
-      } else {
-        S.plan = planName;
-        if (typeof save === "function") save();
-        if (typeof toast === "function") toast("¡Has cambiado al Plan " + planName + " con éxito!");
-        if (typeof render === "function") render();
-      }
-    }
-  }
-});
-// Arreglo especial para el botón "Ver y Elegir"
-document.addEventListener("click", function(event) {
-  const target = event.target;
-  // Comprobamos si el texto del botón contiene "Ver y Elegir"
-  if (target.textContent.includes("Ver y Elegir")) {
-    event.preventDefault(); // Evitamos que el botón haga algo raro
-    event.stopPropagation(); // Evitamos que otros elementos bloqueen el click
-    
-    // Aquí intentamos buscar el nombre del plan asociado a esta tarjeta
-    const card = target.closest(".card");
-    const planName = card ? card.querySelector("h3").textContent : "Plan Familiar";
-    
-    // Forzamos la selección del plan
-    if (typeof selectPlan === "function") {
-      selectPlan(planName);
+// Solución definitiva para el botón de planes
+document.body.addEventListener('click', function(e) {
+  const target = e.target;
+  if (target && target.textContent && target.textContent.includes('Ver y probar')) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (typeof selectPlan === 'function') {
+      selectPlan('Familiar');
     } else {
-      console.log("Cambiando a: " + planName);
-      // Fallback simple si la función selectPlan estuviera oculta
-      alert("Seleccionado: " + planName);
+      alert('Plan Familiar seleccionado');
     }
   }
-}, true); // El 'true' hace que este capturador sea el primero en actuar
+}, true);
 
 </script>
 
