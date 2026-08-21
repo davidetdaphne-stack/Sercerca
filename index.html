@@ -4307,31 +4307,64 @@ document.addEventListener("click", function(event) {
     }
   }
 });
-  // Arreglo definitivo para todos los botones "Ver y elegir"
+/* =========================================================
+   ARREGLO INTELIGENTE: PANTALLA DE BENEFICIOS Y PLANES
+========================================================= */
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('button, a');
   
-  // Verificamos si el botón existe y tiene el texto "Ver y elegir"
   if (btn && btn.textContent && btn.textContent.includes('Ver y elegir')) {
     e.preventDefault();
     e.stopPropagation();
     
-    // Buscamos el nombre del plan dentro de la tarjeta (el <h3> o el título del plan)
-    const card = btn.closest('.card') || btn.closest('.plan-card') || btn.parentElement;
-    const titleElement = card.querySelector('h3') || card.querySelector('.title') || card.querySelector('h2');
-    const planName = titleElement ? titleElement.textContent.trim() : "";
+    const card = btn.closest('.card, .plan-card') || btn.parentElement;
+    const titleElement = card ? (card.querySelector('h3') || card.querySelector('.title') || card.querySelector('h2')) : null;
+    const planName = titleElement ? titleElement.textContent.trim() : "Básico";
 
-    if (planName) {
-      // Intentamos ejecutar la función original de la web
+    // Creamos la ventanita con los beneficios del plan que has elegido
+    const modalHtml = `
+      <div id="modal" class="modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999;">
+        <div style="background:white; padding:25px; border-radius:15px; width:90%; max-width:400px; text-align:center;">
+          <h2>Plan ${planName}</h2>
+          <p style="margin: 15px 0;">Beneficios incluidos:</p>
+          <ul style="text-align:left; margin-bottom: 20px; padding-left: 20px;">
+            <li>Acceso a funciones de ${planName}</li>
+            ${planName.toLowerCase().includes('familiar') ? '<li>Incluye sección de mensajes</li>' : '<li>Sección de mensajes no disponible</li>'}
+          </ul>
+          <button id="btnConfirmarPlan" style="padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Entrar al ${planName}</button>
+          <br><br>
+          <button id="btnCerrarModal" style="padding:5px 10px; background:#ccc; border:none; border-radius:5px; cursor:pointer;">Cancelar</button>
+        </div>
+      </div>
+    `;
+    
+    // Lo añadimos a la pantalla
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Acción al pulsar el botón de entrar dentro de la ventanita
+    document.getElementById('btnConfirmarPlan').addEventListener('click', function() {
       if (typeof selectPlan === 'function') {
         selectPlan(planName);
       } else if (typeof S !== 'undefined') {
-        // Fallback: Si no existe la función, lo hacemos manualmente
         S.plan = planName;
+        // Si el plan es Básico u otro sin mensajes, intentamos ocultar los mensajes si existen
+        if (!planName.toLowerCase().includes('familiar')) {
+          const mensajesEl = document.querySelector('.mensajes, #mensajes');
+          if (mensajesEl) mensajesEl.style.display = 'none';
+        }
         if (typeof save === 'function') save();
         if (typeof render === 'function') render();
       }
-    }
+      // Quitamos la ventanita
+      const modal = document.getElementById('modal');
+      if (modal) modal.remove();
+    });
+
+    // Acción para el botón de cancelar
+    document.getElementById('btnCerrarModal').addEventListener('click', function() {
+      const modal = document.getElementById('modal');
+      if (modal) modal.remove();
+    });
   }
 }, true);
 
