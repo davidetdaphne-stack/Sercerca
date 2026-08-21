@@ -4301,19 +4301,24 @@ document.addEventListener("click", function(event) {
     }
   }
 });
-// Solución definitiva para el botón de planes
-document.body.addEventListener('click', function(e) {
-  const target = e.target;
-  if (target && target.textContent && target.textContent.includes('Ver y probar')) {
+// Arreglo definitivo para el botón "Ver y probar"
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('button, a');
+  if (btn && btn.textContent && btn.textContent.includes('Ver y probar')) {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Intentamos cambiar al Plan Familiar
     if (typeof selectPlan === 'function') {
       selectPlan('Familiar');
-    } else {
-      alert('Plan Familiar seleccionado');
+    } else if (typeof S !== 'undefined') {
+      S.plan = 'Familiar';
+      if (typeof save === 'function') save();
+      if (typeof render === 'function') render();
     }
   }
 }, true);
+
 
 </script>
 
