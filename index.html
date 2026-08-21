@@ -4292,7 +4292,7 @@ window.addEventListener(
 ========================================================= */
 
 render();
-// Arreglo global para todas las cruces de los modales
+    // Arreglo global para todas las cruces de los modales
 document.addEventListener("click", function(event) {
   // Si el elemento clicado es la cruz de cierre o tiene la clase para cerrar
   if (event.target.matches("button.btn.light") && event.target.textContent.includes("✕")) {
@@ -4303,7 +4303,7 @@ document.addEventListener("click", function(event) {
   }
 });
 /* =========================================================
-   ARREGLO FINAL: PANTALLA DE BENEFICIOS Y PERMISOS DE MENSAJES
+   ARREGLO DEFINITIVO: PLANES Y PERMISOS DE MENSAJES CORREGIDOS
 ========================================================= */
 
 // 1. Pantalla gigante que extrae y muestra todos los detalles de la tarjeta al pulsar "Ver y elegir"
@@ -4388,24 +4388,25 @@ document.addEventListener('click', function(e) {
 }, true);
 
 
-// 2. Control inteligente de Mensajes según el plan activo
+// 2. Control inteligente: Los mensajes solo se bloquean en el Plan Básico
 document.addEventListener('click', function(e) {
   const target = e.target.closest('button, a, .nav-item, [role="button"]');
   
   if (target && target.textContent && target.textContent.toLowerCase().includes('mensajes')) {
     const currentPlan = (typeof S !== 'undefined' && S.plan) ? S.plan.toLowerCase() : '';
     
-    // Si estás estrictamente en el Plan Básico (y NO en Familiar ni en Cerca), bloqueamos y avisamos
+    // Solo bloqueamos si es estrictamente el plan básico y NO tiene el familiar ni el cerca
     const esBasico = currentPlan.includes('básico') || currentPlan.includes('basico');
-    const esFamiliarO Cerca = currentPlan.includes('familiar') || currentPlan.includes('cerca');
+    const esSuperior = currentPlan.includes('familiar') || currentPlan.includes('cerca');
 
-    if (esBasico && !esFamiliarOCerca) {
+    if (esBasico && !esSuperior) {
       e.preventDefault();
       e.stopPropagation();
       alert('Esto solamente lo puedes tener con el Plan Familiar.');
     }
   }
 }, true);
+
 
 
 
