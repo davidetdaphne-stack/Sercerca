@@ -4301,6 +4301,26 @@ document.addEventListener("click", function(event) {
     }
   }
 });
+// Arreglo global para los botones de selección de planes
+document.addEventListener("click", function(event) {
+  // Comprueba si el botón pertenece a una tarjeta de plan
+  const planCard = event.target.closest(".card.plan");
+  if (planCard && (event.target.tagName === "BUTTON" || event.target.closest("button"))) {
+    const titleEl = planCard.querySelector("h3");
+    if (titleEl) {
+      const planName = titleEl.textContent.trim();
+      // Si existe la función selectPlan original, la llama; si no, actualiza el plan directamente
+      if (typeof selectPlan === "function") {
+        selectPlan(planName);
+      } else {
+        S.plan = planName;
+        if (typeof save === "function") save();
+        if (typeof toast === "function") toast("¡Has cambiado al Plan " + planName + " con éxito!");
+        if (typeof render === "function") render();
+      }
+    }
+  }
+});
 
 </script>
 
