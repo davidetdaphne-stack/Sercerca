@@ -4307,13 +4307,24 @@ document.addEventListener("click", function(event) {
     }
   }
 });
-  // Prueba de diagnóstico para el botón
+// Arreglo definitivo para el botón "Ver y elegir"
 document.addEventListener('click', function(e) {
-  if (e.target.textContent && e.target.textContent.includes('Ver y probar')) {
-    alert('¡Click detectado en Ver y probar!');
+  const btn = e.target.closest('button, a');
+  // Ahora buscamos el texto correcto: "Ver y elegir"
+  if (btn && btn.textContent && btn.textContent.includes('Ver y elegir')) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Intentamos activar el plan, ajustado al nombre "Familiar"
+    if (typeof selectPlan === 'function') {
+      selectPlan('Familiar');
+    } else if (typeof S !== 'undefined') {
+      S.plan = 'Familiar';
+      if (typeof save === 'function') save();
+      if (typeof render === 'function') render();
+    }
   }
 }, true);
-
 
 
 </script>
