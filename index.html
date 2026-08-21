@@ -4307,21 +4307,30 @@ document.addEventListener("click", function(event) {
     }
   }
 });
-// Arreglo definitivo para el botón "Ver y elegir"
+  // Arreglo definitivo para todos los botones "Ver y elegir"
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('button, a');
-  // Ahora buscamos el texto correcto: "Ver y elegir"
+  
+  // Verificamos si el botón existe y tiene el texto "Ver y elegir"
   if (btn && btn.textContent && btn.textContent.includes('Ver y elegir')) {
     e.preventDefault();
     e.stopPropagation();
     
-    // Intentamos activar el plan, ajustado al nombre "Familiar"
-    if (typeof selectPlan === 'function') {
-      selectPlan('Familiar');
-    } else if (typeof S !== 'undefined') {
-      S.plan = 'Familiar';
-      if (typeof save === 'function') save();
-      if (typeof render === 'function') render();
+    // Buscamos el nombre del plan dentro de la tarjeta (el <h3> o el título del plan)
+    const card = btn.closest('.card') || btn.closest('.plan-card') || btn.parentElement;
+    const titleElement = card.querySelector('h3') || card.querySelector('.title') || card.querySelector('h2');
+    const planName = titleElement ? titleElement.textContent.trim() : "";
+
+    if (planName) {
+      // Intentamos ejecutar la función original de la web
+      if (typeof selectPlan === 'function') {
+        selectPlan(planName);
+      } else if (typeof S !== 'undefined') {
+        // Fallback: Si no existe la función, lo hacemos manualmente
+        S.plan = planName;
+        if (typeof save === 'function') save();
+        if (typeof render === 'function') render();
+      }
     }
   }
 }, true);
