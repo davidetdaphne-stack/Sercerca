@@ -4321,6 +4321,28 @@ document.addEventListener("click", function(event) {
     }
   }
 });
+// Arreglo especial para el botón "Ver y Elegir"
+document.addEventListener("click", function(event) {
+  const target = event.target;
+  // Comprobamos si el texto del botón contiene "Ver y Elegir"
+  if (target.textContent.includes("Ver y Elegir")) {
+    event.preventDefault(); // Evitamos que el botón haga algo raro
+    event.stopPropagation(); // Evitamos que otros elementos bloqueen el click
+    
+    // Aquí intentamos buscar el nombre del plan asociado a esta tarjeta
+    const card = target.closest(".card");
+    const planName = card ? card.querySelector("h3").textContent : "Plan Familiar";
+    
+    // Forzamos la selección del plan
+    if (typeof selectPlan === "function") {
+      selectPlan(planName);
+    } else {
+      console.log("Cambiando a: " + planName);
+      // Fallback simple si la función selectPlan estuviera oculta
+      alert("Seleccionado: " + planName);
+    }
+  }
+}, true); // El 'true' hace que este capturador sea el primero en actuar
 
 </script>
 
