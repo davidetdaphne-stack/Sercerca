@@ -4411,7 +4411,596 @@ document.addEventListener('click', function(e) {
 
 
 </script>
+/* =========================================================
+   SERCERCA — CHECK-INS PARA LA ZONA FAMILIAR
+   Añadir este código justo antes de </body>
+   ========================================================= */
 
+(function () {
+
+  const STORAGE_KEY = "sercerca_checkins";
+
+  /* ---------- DATOS ---------- */
+
+  function obtenerCheckins() {
+    try {
+      const datos = localStorage.getItem(STORAGE_KEY);
+      return datos ? JSON.parse(datos) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function guardarCheckins(datos) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
+  }
+
+  /*
+   * Esta función puede utilizarse desde cualquier parte
+   * de tu aplicación cuando una persona haga check-in.
+   *
+   * Ejemplo:
+   * registrarCheckin("Charo", "Bien");
+   */
+  window.registrarCheckin = function (nombre, estado) {
+
+    const checkins = obtenerCheckins();
+
+    const nuevo = {
+      id: Date.now(),
+      nombre: nombre || "Persona vinculada",
+      estado: estado || "Bien",
+      fecha: new Date().toLocaleDateString("es-ES"),
+      hora: new Date().toLocaleTimeString("es-ES", {
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+    };
+
+    checkins.unshift(nuevo);
+
+    /* Guardamos solamente los últimos 50 */
+    guardarCheckins(checkins.slice(0, 50));
+
+    actualizarCheckins();
+
+    return nuevo;
+  };
+
+
+  /* ---------- ESTILOS ---------- */
+
+  const estilos = document.createElement("style");
+
+  estilos.textContent = `
+  
+  .sc-checkins-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 24px;
+    margin: 22px 0;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    border: 1px solid #eeeeee;
+  }
+
+  .sc-checkins-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #222;
+  }
+
+  .sc-checkins-subtitle {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .sc-checkin-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 0;
+    border-top: 1px solid #eeeeee;
+  }
+
+  .sc-checkin-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .sc-checkin-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #eeeaff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .sc-checkin-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .sc-checkin-time {
+    font-size: 13px;
+    color: #777;
+    margin-top: 3px;
+  }
+
+  .sc-checkin-status {
+    background: #e8f8ef;
+    color: #16834b;
+    border-radius: 20px;
+    padding: 7px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .sc-checkin-status.warning {
+    background: #fff4dc;
+    color: #a66a00;
+  }
+
+  .sc-checkin-status.bad {
+    background: #ffe7e7;
+    color: #c62828;
+  }
+
+  .sc-checkins-empty {
+    text-align: center;
+    padding: 20px 5px;
+    color: #777;
+    font-size: 15px;
+  }
+
+  .sc-history-button {
+    width: 100%;
+    margin-top: 16px;
+    border: 0;
+    border-radius: 16px;
+    padding: 14px;
+    background: #eeeaff;
+    color: #5548c8;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .sc-history-button:active {
+    transform: scale(.98);
+  }
+
+  .sc-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 999999;
+  }
+
+  .sc-modal.show {
+    display: flex;
+  }
+
+  .sc-modal-content {
+    width: 100%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 28px 28px 0 0;
+    padding: 24px;
+  }
+
+  .sc-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .sc-modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+
+  .sc-close {
+    border: 0;
+    background: #f0f0f0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  `;
+
+  document.head.appendChild(estilos);
+
+
+  /* ---------- CREAR TARJETA ---------- */
+
+  function crearTarjeta() {
+
+    if (document.getElementById("sc-checkins-card")) {
+      return;
+    }
+
+    const tarjeta = document.createElement("section");
+
+    tarjeta.id = "sc-checkins-card";
+    tarjeta.className = "sc-checkins-card";
+
+    tarjeta.innerHTML = `
+      <div class="sc-checkins-title">
+        💚 Check-ins recientes
+      </div>
+
+      <div class="sc-checkins-subtitle">
+        Consulta cómo están las personas vinculadas.
+      </div>
+
+      <div id="sc-checkins-list"></div>
+
+      <button
+        class="sc-history-button"
+        type="button"
+        onclick="scMostrarHistorial()">
+        📋 Ver historial de check-ins
+      </button>
+    `;
+
+    /*
+     * Intentamos colocar la tarjeta después de la zona
+     * de actividad de la familia.
+     */
+
+    const elementos = Array.from(document.querySelectorAll("h1,h2,h3,div"));
+
+    let zonaFamiliar = null;
+
+    elementos.forEach(function (elemento) {
+      const texto = (elemento.textContent || "").trim();
+
+      if (
+        texto === "Zona familiar" ||
+        texto.includes("Zona familiar")
+      ) {
+        if (!zonaFamiliar) {
+          zonaFamiliar = elemento;
+        }
+      }
+    });
+
+    if (zonaFamiliar) {
+
+      let contenedor = zonaFamiliar.parentElement;
+
+      /*
+       * Buscamos un contenedor razonable donde añadir
+       * la tarjeta sin romper la aplicación.
+       */
+
+      if (contenedor) {
+        contenedor.appendChild(tarjeta);
+      } else {
+        document.body.appendChild(tarjeta);
+      }
+
+    } else {
+
+      /*
+       * Si todavía no encuentra Zona familiar,
+       * la añadimos al final del contenido.
+       */
+
+      const main =
+        document.querySelector("main") ||
+        document.querySelector(".content") ||
+        document.body;
+
+      main.appendChild(tarjeta);
+    }
+
+    actualizarCheckins();
+  }
+
+
+  /* ---------- MOSTRAR CHECK-INS ---------- */
+
+  function actualizarCheckins() {
+
+    const lista = document.getElementById("sc-checkins-list");
+
+    if (!lista) {
+      return;
+    }
+
+    const checkins = obtenerCheckins();
+
+    if (checkins.length === 0) {
+
+      lista.innerHTML = `
+        <div class="sc-checkins-empty">
+          💚 Todavía no hay check-ins registrados.
+          <br>
+          Cuando una persona haga check-in,
+          aparecerá aquí.
+        </div>
+      `;
+
+      return;
+    }
+
+    const recientes = checkins.slice(0, 3);
+
+    lista.innerHTML = recientes.map(function (checkin) {
+
+      let estadoClase = "";
+
+      const estadoTexto =
+        String(checkin.estado || "Bien").toLowerCase();
+
+      if (
+        estadoTexto.includes("mal") ||
+        estadoTexto.includes("ayuda") ||
+        estadoTexto.includes("urgente")
+      ) {
+        estadoClase = "bad";
+      }
+
+      else if (
+        estadoTexto.includes("regular") ||
+        estadoTexto.includes("pendiente") ||
+        estadoTexto.includes("preocup")
+      ) {
+        estadoClase = "warning";
+      }
+
+      return `
+        <div class="sc-checkin-item">
+
+          <div class="sc-checkin-left">
+
+            <div class="sc-checkin-avatar">
+              👤
+            </div>
+
+            <div>
+
+              <div class="sc-checkin-name">
+                ${escaparHTML(checkin.nombre)}
+              </div>
+
+              <div class="sc-checkin-time">
+                ${escaparHTML(checkin.fecha)}
+                ·
+                ${escaparHTML(checkin.hora)}
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="sc-checkin-status ${estadoClase}">
+            ${escaparHTML(checkin.estado)}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+  }
+
+
+  /* ---------- HISTORIAL ---------- */
+
+  window.scMostrarHistorial = function () {
+
+    let modal = document.getElementById("sc-checkins-modal");
+
+    if (!modal) {
+
+      modal = document.createElement("div");
+
+      modal.id = "sc-checkins-modal";
+      modal.className = "sc-modal";
+
+      modal.innerHTML = `
+        <div class="sc-modal-content">
+
+          <div class="sc-modal-header">
+
+            <h2>💚 Historial de check-ins</h2>
+
+            <button
+              class="sc-close"
+              type="button"
+              onclick="scCerrarHistorial()">
+              ×
+            </button>
+
+          </div>
+
+          <div id="sc-full-history"></div>
+
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      modal.addEventListener("click", function (event) {
+
+        if (event.target === modal) {
+          scCerrarHistorial();
+        }
+
+      });
+    }
+
+    const historial =
+      document.getElementById("sc-full-history");
+
+    const checkins = obtenerCheckins();
+
+    if (checkins.length === 0) {
+
+      historial.innerHTML = `
+        <div class="sc-checkins-empty">
+          No hay check-ins registrados todavía.
+        </div>
+      `;
+
+    } else {
+
+      historial.innerHTML = checkins.map(function (checkin) {
+
+        let clase = "";
+
+        const estado =
+          String(checkin.estado || "").toLowerCase();
+
+        if (
+          estado.includes("mal") ||
+          estado.includes("ayuda") ||
+          estado.includes("urgente")
+        ) {
+          clase = "bad";
+        }
+
+        else if (
+          estado.includes("regular") ||
+          estado.includes("pendiente")
+        ) {
+          clase = "warning";
+        }
+
+        return `
+          <div class="sc-checkin-item">
+
+            <div class="sc-checkin-left">
+
+              <div class="sc-checkin-avatar">
+                👤
+              </div>
+
+              <div>
+
+                <div class="sc-checkin-name">
+                  ${escaparHTML(checkin.nombre)}
+                </div>
+
+                <div class="sc-checkin-time">
+                  ${escaparHTML(checkin.fecha)}
+                  ·
+                  ${escaparHTML(checkin.hora)}
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="sc-checkin-status ${clase}">
+              ${escaparHTML(checkin.estado)}
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+    }
+
+    modal.classList.add("show");
+  };
+
+
+  window.scCerrarHistorial = function () {
+
+    const modal =
+      document.getElementById("sc-checkins-modal");
+
+    if (modal) {
+      modal.classList.remove("show");
+    }
+
+  };
+
+
+  /* ---------- SEGURIDAD HTML ---------- */
+
+  function escaparHTML(texto) {
+
+    const div = document.createElement("div");
+
+    div.textContent = texto == null ? "" : String(texto);
+
+    return div.innerHTML;
+  }
+
+
+  /* ---------- ACTUALIZACIÓN AUTOMÁTICA ---------- */
+
+  window.addEventListener("storage", function (event) {
+
+    if (event.key === STORAGE_KEY) {
+      actualizarCheckins();
+    }
+
+  });
+
+
+  /* ---------- INICIO ---------- */
+
+  function iniciarSerCercaCheckins() {
+
+    crearTarjeta();
+
+  }
+
+  /*
+   * Como tu aplicación puede cambiar de pantalla sin
+   * recargar la página, intentamos varias veces encontrar
+   * la Zona familiar.
+   */
+
+  iniciarSerCercaCheckins();
+
+  setTimeout(crearTarjeta, 500);
+  setTimeout(crearTarjeta, 1500);
+  setTimeout(crearTarjeta, 3000);
+
+
+  /* ---------- EJEMPLO DE PRUEBA ---------- */
+
+  /*
+   * IMPORTANTE:
+   * Esta línea está desactivada.
+   *
+   * Si quieres probar cómo aparece un check-in,
+   * puedes escribir en la consola:
+   *
+   * registrarCheckin("Charo", "Bien");
+   *
+   */
+
+})();
+</script>
 </body>
 </html>
 
