@@ -4303,10 +4303,10 @@ document.addEventListener("click", function(event) {
   }
 });
 /* =========================================================
-   ARREGLO: PANTALLA GIGANTE DE BENEFICIOS Y BLOQUEO DE MENSAJES
+   ARREGLO DEFINITIVO: MOSTRAR TODOS LOS BENEFICIOS DE LA TARJETA
 ========================================================= */
 
-// 1. Pantalla gigante de beneficios a pantalla completa al pulsar "Ver y elegir"
+// 1. Pantalla gigante que extrae y muestra todos los detalles de la tarjeta al pulsar "Ver y elegir"
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('button, a');
   
@@ -4314,63 +4314,56 @@ document.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
     
-    const card = btn.closest('.card, .plan-card') || btn.parentElement;
-    const titleElement = card ? (card.querySelector('h3') || card.querySelector('.title') || card.querySelector('h2')) : null;
-    const planName = titleElement ? titleElement.textContent.trim() : "Plan";
+    // Buscamos la tarjeta completa donde se ha pulsado el botón
+    const card = btn.closest('.card, .plan-card') || btn.parentElement.parentElement || btn.parentElement;
+    
+    if (!card) return;
 
-    // Textos personalizados según el plan que elijas
-    let descripcionDetallada = "";
-    let listaBeneficios = "";
+    // Extraemos el título del plan (ej: Básico, Familiar, Cerca)
+    const titleEl = card.querySelector('h3, .title, h2, strong');
+    const planName = titleEl ? titleEl.textContent.trim() : "Plan";
 
-    if (planName.toLowerCase().includes('familiar')) {
-      descripcionDetallada = "¡El plan definitivo para estar siempre conectados y aprovechar al máximo todas las herramientas!";
-      listaBeneficios = `
-        <li>Todo lo incluido en el Plan Básico</li>
-        <li><b>Sección completa de Mensajes</b></li>
-        <li>Chats ilimitados y comunicación directa</li>
-        <li>Soporte prioritario y sin restricciones</li>
-      `;
-    } else if (planName.toLowerCase().includes('cerca')) {
-      descripcionDetallada = "Ideal para mantenerte enfocado en tu entorno y funciones locales.";
-      listaBeneficios = `
-        <li>Acceso a funciones geolocalizadas</li>
-        <li>Herramientas esenciales de proximidad</li>
-        <li style="color:#888;">Mensajes (No incluido)</li>
-      `;
-    } else {
-      descripcionDetallada = "Disfruta de las funciones esenciales para tu día a día de forma rápida y sencilla.";
-      listaBeneficios = `
-        <li>Funciones principales de la aplicación</li>
-        <li>Interfaz rápida y ligera</li>
-        <li style="color:#888;">Sección de Mensajes (Solo Plan Familiar)</li>
-      `;
+    // Extraemos todos los elementos de la lista de beneficios que hay dentro de esa tarjeta
+    const items = card.querySelectorAll('li, p');
+    let listaHTML = '';
+    
+    items.forEach(item => {
+      const texto = item.textContent.trim();
+      // Filtramos para coger las características (las que empiezan por ✓ o tienen texto relevante)
+      if (texto && !texto.includes('Ver y elegir') && !texto.includes('PLAN ACTUAL')) {
+        listaHTML += `<li style="margin-bottom:8px; font-size:15px; color:#444;">${texto}</li>`;
+      }
+    });
+
+    // Si no cogió bien la lista por alguna clase distinta, ponemos un texto de seguridad
+    if (!listaHTML) {
+      listaHTML = `<li>Beneficios exclusivos del ${planName}</li>`;
     }
 
-    // Creamos la pantalla gigante que ocupa todo el móvil
+    // Creamos la pantalla grande que ocupa todo el móvil con toda la información
     const modalHtml = `
       <div id="modalPlanGigante" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:99999; padding:15px; box-sizing:border-box;">
-        <div style="background:white; width:100%; max-width:500px; height:85vh; max-height:600px; border-radius:20px; display:flex; flex-direction:column; justify-content:space-between; padding:25px; box-sizing:border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align:left; overflow-y:auto;">
+        <div style="background:white; width:100%; max-width:500px; height:90vh; max-height:650px; border-radius:20px; display:flex; flex-direction:column; justify-content:space-between; padding:25px; box-sizing:border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align:left; overflow-y:auto;">
           
           <div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-              <h2 style="margin:0; font-size:24px; color:#222;">${planName}</h2>
-              <button id="btnCerrarCruz" style="background:none; border:none; font-size:24px; cursor:pointer; color:#666; padding:0 5px;">✕</button>
+              <h2 style="margin:0; font-size:26px; color:#222;">${planName}</h2>
+              <button id="btnCerrarCruz" style="background:none; border:none; font-size:26px; cursor:pointer; color:#666; padding:0 5px;">✕</button>
             </div>
             
-            <p style="color:#555; font-size:16px; line-height:1.5; margin-bottom:20px;">
-              ${descripcionDetallada}
+            <p style="color:#666; font-size:16px; margin-bottom:15px; font-weight:bold;">
+              ¿Quieres coger este plan? Esto es todo lo que incluye:
             </p>
             
-            <div style="background:#f4f6f9; padding:18px; border-radius:12px; margin-bottom:20px;">
-              <p style="margin:0 0 10px 0; font-weight:bold; color:#333; font-size:15px;">¿Qué obtienes con este plan?</p>
-              <ul style="margin:0; padding-left:20px; color:#444; font-size:15px; line-height:1.6;">
-                ${listaBeneficios}
+            <div style="background:#f8f9fa; padding:18px; border-radius:12px; margin-bottom:20px; border:1px solid #e9ecef;">
+              <ul style="margin:0; padding-left:20px; list-style-type: disc;">
+                ${listaHTML}
               </ul>
             </div>
           </div>
 
           <div style="display:flex; flex-direction:column; gap:10px;">
-            <button id="btnConfirmarActivar" style="width:100%; padding:14px; background:#28a745; color:white; border:none; border-radius:10px; font-size:17px; font-weight:bold; cursor:pointer;">¡Quiero este plan y continuar!</button>
+            <button id="btnConfirmarActivar" style="width:100%; padding:15px; background:#28a745; color:white; border:none; border-radius:10px; font-size:17px; font-weight:bold; cursor:pointer;">Sí, ¡quiero este plan!</button>
             <button id="btnCerrarModalPlan" style="width:100%; padding:12px; background:#e9ecef; color:#333; border:none; border-radius:10px; font-size:15px; cursor:pointer; font-weight:bold;">Volver atrás</button>
           </div>
 
@@ -4380,7 +4373,7 @@ document.addEventListener('click', function(e) {
     
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-    // Acciones de los botones
+    // Acciones para cerrar el modal
     const cerrarModal = () => {
       const el = document.getElementById('modalPlanGigante');
       if (el) el.remove();
@@ -4389,6 +4382,7 @@ document.addEventListener('click', function(e) {
     document.getElementById('btnCerrarCruz').addEventListener('click', cerrarModal);
     document.getElementById('btnCerrarModalPlan').addEventListener('click', cerrarModal);
 
+    // Acción al confirmar que quieres el plan
     document.getElementById('btnConfirmarActivar').addEventListener('click', function() {
       if (typeof selectPlan === 'function') {
         selectPlan(planName);
@@ -4410,13 +4404,15 @@ document.addEventListener('click', function(e) {
   if (target && target.textContent && target.textContent.toLowerCase().includes('mensajes')) {
     const currentPlan = (typeof S !== 'undefined' && S.plan) ? S.plan.toLowerCase() : '';
     
-    if (currentPlan.includes('básico') || currentPlan.includes('basico') || currentPlan.includes('cerca')) {
+    // Si estás en básico (o cualquier plan inferior al familiar), bloqueamos y avisamos
+    if (currentPlan.includes('básico') || currentPlan.includes('basico') || currentPlan.includes('cerca') && !currentPlan.includes('familiar')) {
       e.preventDefault();
       e.stopPropagation();
       alert('Esto solamente lo puedes tener con el Plan Familiar.');
     }
   }
 }, true);
+
 
 
 </script>
