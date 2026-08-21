@@ -4291,6 +4291,16 @@ window.addEventListener(
 ========================================================= */
 
 render();
+// Arreglo global para todas las cruces de los modales
+document.addEventListener("click", function(event) {
+  // Si el elemento clicado es la cruz de cierre o tiene la clase para cerrar
+  if (event.target.matches("button.btn.light") && event.target.textContent.includes("✕")) {
+    const modalEl = document.getElementById("modal") || event.target.closest(".modal");
+    if (modalEl) {
+      modalEl.remove();
+    }
+  }
+});
 
 </script>
 
