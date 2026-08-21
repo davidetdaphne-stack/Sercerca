@@ -4303,8 +4303,10 @@ document.addEventListener("click", function(event) {
   }
 });
 /* =========================================================
-   ARREGLO INTELIGENTE: PANTALLA DE BENEFICIOS Y PLANES
+   ARREGLO: PANTALLA GIGANTE DE BENEFICIOS Y BLOQUEO DE MENSAJES
 ========================================================= */
+
+// 1. Pantalla gigante de beneficios a pantalla completa al pulsar "Ver y elegir"
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('button, a');
   
@@ -4314,55 +4316,107 @@ document.addEventListener('click', function(e) {
     
     const card = btn.closest('.card, .plan-card') || btn.parentElement;
     const titleElement = card ? (card.querySelector('h3') || card.querySelector('.title') || card.querySelector('h2')) : null;
-    const planName = titleElement ? titleElement.textContent.trim() : "Básico";
+    const planName = titleElement ? titleElement.textContent.trim() : "Plan";
 
-    // Creamos la ventanita con los beneficios del plan que has elegido
+    // Textos personalizados según el plan que elijas
+    let descripcionDetallada = "";
+    let listaBeneficios = "";
+
+    if (planName.toLowerCase().includes('familiar')) {
+      descripcionDetallada = "¡El plan definitivo para estar siempre conectados y aprovechar al máximo todas las herramientas!";
+      listaBeneficios = `
+        <li>Todo lo incluido en el Plan Básico</li>
+        <li><b>Sección completa de Mensajes</b></li>
+        <li>Chats ilimitados y comunicación directa</li>
+        <li>Soporte prioritario y sin restricciones</li>
+      `;
+    } else if (planName.toLowerCase().includes('cerca')) {
+      descripcionDetallada = "Ideal para mantenerte enfocado en tu entorno y funciones locales.";
+      listaBeneficios = `
+        <li>Acceso a funciones geolocalizadas</li>
+        <li>Herramientas esenciales de proximidad</li>
+        <li style="color:#888;">Mensajes (No incluido)</li>
+      `;
+    } else {
+      descripcionDetallada = "Disfruta de las funciones esenciales para tu día a día de forma rápida y sencilla.";
+      listaBeneficios = `
+        <li>Funciones principales de la aplicación</li>
+        <li>Interfaz rápida y ligera</li>
+        <li style="color:#888;">Sección de Mensajes (Solo Plan Familiar)</li>
+      `;
+    }
+
+    // Creamos la pantalla gigante que ocupa todo el móvil
     const modalHtml = `
-      <div id="modal" class="modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999;">
-        <div style="background:white; padding:25px; border-radius:15px; width:90%; max-width:400px; text-align:center;">
-          <h2>Plan ${planName}</h2>
-          <p style="margin: 15px 0;">Beneficios incluidos:</p>
-          <ul style="text-align:left; margin-bottom: 20px; padding-left: 20px;">
-            <li>Acceso a funciones de ${planName}</li>
-            ${planName.toLowerCase().includes('familiar') ? '<li>Incluye sección de mensajes</li>' : '<li>Sección de mensajes no disponible</li>'}
-          </ul>
-          <button id="btnConfirmarPlan" style="padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Entrar al ${planName}</button>
-          <br><br>
-          <button id="btnCerrarModal" style="padding:5px 10px; background:#ccc; border:none; border-radius:5px; cursor:pointer;">Cancelar</button>
+      <div id="modalPlanGigante" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:99999; padding:15px; box-sizing:border-box;">
+        <div style="background:white; width:100%; max-width:500px; height:85vh; max-height:600px; border-radius:20px; display:flex; flex-direction:column; justify-content:space-between; padding:25px; box-sizing:border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align:left; overflow-y:auto;">
+          
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+              <h2 style="margin:0; font-size:24px; color:#222;">${planName}</h2>
+              <button id="btnCerrarCruz" style="background:none; border:none; font-size:24px; cursor:pointer; color:#666; padding:0 5px;">✕</button>
+            </div>
+            
+            <p style="color:#555; font-size:16px; line-height:1.5; margin-bottom:20px;">
+              ${descripcionDetallada}
+            </p>
+            
+            <div style="background:#f4f6f9; padding:18px; border-radius:12px; margin-bottom:20px;">
+              <p style="margin:0 0 10px 0; font-weight:bold; color:#333; font-size:15px;">¿Qué obtienes con este plan?</p>
+              <ul style="margin:0; padding-left:20px; color:#444; font-size:15px; line-height:1.6;">
+                ${listaBeneficios}
+              </ul>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button id="btnConfirmarActivar" style="width:100%; padding:14px; background:#28a745; color:white; border:none; border-radius:10px; font-size:17px; font-weight:bold; cursor:pointer;">¡Quiero este plan y continuar!</button>
+            <button id="btnCerrarModalPlan" style="width:100%; padding:12px; background:#e9ecef; color:#333; border:none; border-radius:10px; font-size:15px; cursor:pointer; font-weight:bold;">Volver atrás</button>
+          </div>
+
         </div>
       </div>
     `;
     
-    // Lo añadimos a la pantalla
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-    // Acción al pulsar el botón de entrar dentro de la ventanita
-    document.getElementById('btnConfirmarPlan').addEventListener('click', function() {
+    // Acciones de los botones
+    const cerrarModal = () => {
+      const el = document.getElementById('modalPlanGigante');
+      if (el) el.remove();
+    };
+
+    document.getElementById('btnCerrarCruz').addEventListener('click', cerrarModal);
+    document.getElementById('btnCerrarModalPlan').addEventListener('click', cerrarModal);
+
+    document.getElementById('btnConfirmarActivar').addEventListener('click', function() {
       if (typeof selectPlan === 'function') {
         selectPlan(planName);
       } else if (typeof S !== 'undefined') {
         S.plan = planName;
-        // Si el plan es Básico u otro sin mensajes, intentamos ocultar los mensajes si existen
-        if (!planName.toLowerCase().includes('familiar')) {
-          const mensajesEl = document.querySelector('.mensajes, #mensajes');
-          if (mensajesEl) mensajesEl.style.display = 'none';
-        }
         if (typeof save === 'function') save();
         if (typeof render === 'function') render();
       }
-      // Quitamos la ventanita
-      const modal = document.getElementById('modal');
-      if (modal) modal.remove();
-    });
-
-    // Acción para el botón de cancelar
-    document.getElementById('btnCerrarModal').addEventListener('click', function() {
-      const modal = document.getElementById('modal');
-      if (modal) modal.remove();
+      cerrarModal();
     });
   }
 }, true);
 
+
+// 2. Controlar que si estás en Plan Básico y tocas Mensajes, te avise
+document.addEventListener('click', function(e) {
+  const target = e.target.closest('button, a, .nav-item, [role="button"]');
+  
+  if (target && target.textContent && target.textContent.toLowerCase().includes('mensajes')) {
+    const currentPlan = (typeof S !== 'undefined' && S.plan) ? S.plan.toLowerCase() : '';
+    
+    if (currentPlan.includes('básico') || currentPlan.includes('basico') || currentPlan.includes('cerca')) {
+      e.preventDefault();
+      e.stopPropagation();
+      alert('Esto solamente lo puedes tener con el Plan Familiar.');
+    }
+  }
+}, true);
 
 
 </script>
