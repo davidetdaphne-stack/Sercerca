@@ -1,3 +1,9 @@
+// Prueba de diagnóstico para el botón
+document.addEventListener('click', function(e) {
+  if (e.target.textContent && e.target.textContent.includes('Ver y probar')) {
+    alert('¡Click detectado en Ver y probar!');
+  }
+}, true);
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -4301,23 +4307,13 @@ document.addEventListener("click", function(event) {
     }
   }
 });
-// Arreglo definitivo para el botón "Ver y probar"
+  // Prueba de diagnóstico para el botón
 document.addEventListener('click', function(e) {
-  const btn = e.target.closest('button, a');
-  if (btn && btn.textContent && btn.textContent.includes('Ver y probar')) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Intentamos cambiar al Plan Familiar
-    if (typeof selectPlan === 'function') {
-      selectPlan('Familiar');
-    } else if (typeof S !== 'undefined') {
-      S.plan = 'Familiar';
-      if (typeof save === 'function') save();
-      if (typeof render === 'function') render();
-    }
+  if (e.target.textContent && e.target.textContent.includes('Ver y probar')) {
+    alert('¡Click detectado en Ver y probar!');
   }
 }, true);
+
 
 
 </script>
